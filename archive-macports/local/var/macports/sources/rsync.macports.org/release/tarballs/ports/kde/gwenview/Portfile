@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116861 2014-02-09 01:57:09Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                gwenview
+version             4.12.2
+categories          kde kde4
+license             GPL-2+
+maintainers         nicos openmaintainer
+description         Gwenview is an image viewer for KDE.
+long_description    Gwenview can load and save all image formats supported by KDE.
+platforms           darwin
+homepage            http://www.kde.org/applications/graphics/gwenview/
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+distname            gwenview-${version}
+checksums           rmd160  a26d12bf5646139f597a04728f4a166b72fa8b97 \
+                    sha256  fbf2cb7bb48352353d0046e0974e3ae9647a56526f9bbf0efc6d558e56844fd9
+
+#Binaries do not link directly to openssl, nor use the ssl backend of kdelibs4,
+#nor links to libkimap or libmailtransport from kdepimlibs4
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:kde4-baseapps \
+                    port:exiv2 \
+                    port:libkipi \
+                    port:jpeg \
+                    port:libpng \
+                    port:lcms2
+
+patchfiles          patch-fileutils.diff
+
+# kde4-baseapps is not universal
+universal_variant   no
+
+#Temporary patch to allow using the newer jpeg with gwenview 4.9.5 & 4.10.1
+patchfiles-append   patch-CMakeLists-lib.txt.diff
+
+if {![variant_isset docs]} {
+    patchfiles-append   patch-CMakeLists.txt.diff
+}
+
+configure.args-append   -DGWENVIEW_SEMANTICINFO_BACKEND=None
+
+variant kipi description "adds support for KDE Image Plugin Interface" { 
+ depends_lib-append port:kipi-plugins
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

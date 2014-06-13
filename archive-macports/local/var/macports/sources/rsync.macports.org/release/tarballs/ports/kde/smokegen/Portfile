@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116877 2014-02-09 11:45:20Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                smokegen
+version             4.12.2
+categories          kde kde4
+maintainers         nicos
+license             GPL-2+ LGPL-2.1+
+description         Scripting Meta Object Kompiler Engine
+long_description    ${description}
+homepage            http://www.kde.org
+platforms           darwin
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+
+checksums           rmd160  bed02c200af460fe638ace890d47c54b81f85b0f \
+                    sha256  6e07bdba7b416d2cbd190b06a0cb20994d9d050761976b4a2c1a3c04e7845a91
+
+#Binaries do not link to openssl
+license_noconflict  openssl
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

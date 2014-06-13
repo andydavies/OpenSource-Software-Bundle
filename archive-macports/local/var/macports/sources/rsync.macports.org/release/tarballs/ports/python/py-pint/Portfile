@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117083 2014-02-15 12:19:10Z g5pw@macports.org $
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        hgrecco pint 0.4.2
+
+name                py-pint
+categories-append   science
+
+platforms           darwin
+supported_archs     noarch
+license             BSD
+maintainers         g5pw openmaintainer
+description         Pint: a Python units library
+long_description    Pint is Python module/package to define, operate and \
+                    manipulate physical quantities: the product of a numerical \
+                    value and a unit of measurement.  It allows arithmetic \
+                    operations between them and conversions from and to \
+                    different units.
+
+homepage            https://pint.readthedocs.org/
+
+checksums           rmd160  67ae5423102f690e48ad1dc8402a758fcffeee22 \
+                    sha256  ad3ae2b4105044d7fdffbcde4040dfb38b8538c15f63ac4bc030d9d5fa52d1e6
+
+python.versions     27 33 34
+
+if {${name} ne ${subport}} {
+    livecheck.type          none
+}

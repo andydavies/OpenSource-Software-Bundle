@@ -1,0 +1,47 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117362 2014-02-24 11:56:25Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                okular
+version             4.12.2
+revision            1
+categories          kde kde4
+license             GPL-2+ LGPL-2+
+maintainers         nicos openmaintainer
+description         Universal document viewer for KDE4.
+long_description    Okular is a universal document viewer based on KPDF for KDE 4. \
+                    This means Okular works on multiple platforms, including but not \
+                    limited to Linux, Windows, Mac OS X, *BSD, etc.
+platforms           darwin
+homepage            http://okular.kde.org/
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+distname            okular-${version}
+checksums           rmd160  f5fdebbc99dd3da9b7e57ad6970086d8d7892d4c \
+                    sha256  5dd66c243781e8e74103ad6dff421496e30876b494661d1d46df07d42ab3429c
+
+#parttest cannot link to okularpart on Mac, as it is a bundle (.so) file
+patchfiles          patch-OkularPart.diff
+
+#Binaries do not link to openssl, nor use the ssl backend of kdelibs4
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:oxygen-icons \
+                    port:poppler-qt4-mac port:libspectre \
+                    port:djvulibre port:chmlib \
+                    port:ebook-tools port:tiff \
+                    port:qca port:qimageblitz \
+                    port:freetype port:zlib \
+                    port:jpeg
+
+post-destroot {
+    #Okular does not handle *.dylib plugins (ticket #42603)
+    ln -s ${prefix}/lib/kde4/okularpart.dylib \
+        ${destroot}${prefix}/lib/kde4/okularpart.so
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

@@ -1,0 +1,84 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117298 2014-02-21 15:23:39Z cal@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+set realname        pip
+
+name                py-${realname}
+version             1.5.4
+categories-append   www
+license             MIT
+platforms           darwin
+supported_archs     noarch
+
+python.versions     25 26 27 31 32 33
+
+maintainers         stromnov openmaintainer
+
+description         A tool for installing and managing Python packages.
+
+long_description    pip is a replacement for easy_install. It uses mostly the \
+                    same techniques for finding packages, so packages that \
+                    were made easy_installable should be pip-installable as \
+                    well.
+
+homepage            http://www.pip-installer.org/
+master_sites        http://pypi.python.org/packages/source/p/pip/
+
+distname            ${realname}-${version}
+
+checksums           rmd160  515ad1af4f631a201bb6731f826e9b8f8cd8fe3b \
+                    sha256  70208a250bb4afdbbdd74c3ac35d4ab9ba1eb6852d02567a6a87f2f5104e30b9
+
+# Last version (1.3.1) with py25 support
+subport py25-pip {
+    version             1.3.1
+    revision            1
+    distname            ${realname}-${version}
+    checksums           rmd160  0bfbfbc536abcf20f952b444ee872128406e098e \
+                        sha256  145eaa5d1ea1b062663da1f3a97780d7edea4c63c68a37c463b1deedf7bb4957
+    livecheck.type      none
+}
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:py${python.version}-setuptools
+    depends_run         port:pip_select
+
+    if {${subport} eq "py25-${realname}"} {
+        python.link_binaries_suffix
+        python.move_binaries no
+        post-destroot {
+            copy ${worksrcpath}/docs ${destroot}${prefix}/share/doc/${subport}
+            delete ${destroot}${prefix}/bin/pip
+        }
+    } else {
+        post-destroot {
+            eval xinstall -m 644 [glob -types f ${worksrcpath}/docs/*] ${destroot}${prefix}/share/doc/${subport}
+
+            xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}/reference
+            eval xinstall -m 644 [glob -types f ${worksrcpath}/docs/reference/*] ${destroot}${prefix}/share/doc/${subport}/reference
+
+            delete ${destroot}${prefix}/bin/pip[string range ${python.version} 0 end-1]-${python.branch}
+            delete ${destroot}${prefix}/bin/pip${python.branch}-${python.branch}
+        }
+    }
+
+    select.group            ${realname}
+    select.file             ${filespath}/${realname}${python.version}
+
+    notes "
+    To make the Python ${python.branch} version of pip the one that is run\
+    when you execute the commands without a version suffix, e.g. 'pip', run:
+
+    port select --set ${select.group} [file tail ${select.file}]
+    "
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       ${master_sites}
+    livecheck.regex     {pip-(\d+(?:\.\d+)*)\.[tz]}
+}

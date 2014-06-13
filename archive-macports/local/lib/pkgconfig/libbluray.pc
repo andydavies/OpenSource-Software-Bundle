@@ -1,0 +1,11 @@
+prefix=/opt/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libbluray
+Description: library supporting Blu-ray playback
+Version: 0.5.0
+Libs: -L${libdir} -lbluray
+Libs.private:  -L/opt/local/lib -lxml2  -L/opt/local/lib -lfreetype 
+Cflags: -I${includedir}

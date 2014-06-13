@@ -1,0 +1,99 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115644 2014-01-07 19:50:17Z cal@macports.org $
+
+PortSystem      1.0
+
+name            balsa
+version         2.5.1
+license         GPL-3
+description     GNOME e-mail client
+long_description \
+                Balsa is an e-mail client for GNOME, highly \
+                configurable and incorporating all the features \
+                you would expect in a robust mail client.
+maintainers     nomaintainer
+categories      gnome mail
+platforms       darwin
+homepage        http://pawsa.fedorapeople.org/balsa/
+
+use_bzip2       yes
+
+master_sites    ${homepage}
+
+checksums       sha256  52ce445dca86eb42e2e402a5b76616a1a522b89acbb631215079022ef80a7a10 \
+                rmd160  7b6d646ab3f43c0129eb96481ccdb83a7daa73a8
+
+depends_build   port:pkgconfig \
+                port:intltool \
+                port:itstool \
+                port:yelp-tools
+
+depends_lib     port:desktop-file-utils \
+                port:gtk3 \
+                port:gmime \
+                port:gpgme \
+                port:gtksourceview3 \
+                port:gtkspell3 \
+                path:lib/pkgconfig/webkitgtk-3.0.pc:webkit-gtk3 \
+                port:libesmtp \
+                port:libnotify \
+                port:libsecret \
+                port:libxml2 \
+                port:openssl \
+                port:pcre \
+                port:sqlite3 \
+                port:compface \
+                port:enchant
+
+depends_run     port:gnome-settings-daemon \
+                port:yelp
+                
+patchfiles      patch-src-sendmsg-window.c.diff
+
+configure.args  --with-gpgme \
+                --with-gmime=2.6 \
+                --with-gtksourceview \
+                --with-gtkspell \
+                --with-html-widget=webkit \
+                --with-ssl \
+                --with-sqlite \
+                --with-esmtp \
+                --with-libsecret \
+                --with-compface \
+                --with-libnotify \
+                --with-gnome \
+                --without-nm \
+                --enable-pcre \
+                --disable-silent-rules
+
+configure.cflags-append -D_DARWIN_C_SOURCE
+
+# TODO: Check ${configure.cxx_stdlib} directly once MacPorts 2.3 is released
+platform darwin {
+    set cxxstdlib {}
+
+    if {[info exists configure.cxx_stdlib] &&
+        ${configure.cxx_stdlib} ne {} &&
+        [string match *clang* ${configure.cxx}]} {
+        set cxxstdlib ${configure.cxx_stdlib}
+    } elseif {[string match *clang* ${configure.cxx}] &&
+              ${os.major} >= 13} {
+        set cxxstdlib libc++
+    } else {
+        set cxxstdlib libstdc++
+    }
+
+    if {${cxxstdlib} eq "libstdc++"} {
+       depends_lib-delete path:lib/pkgconfig/webkitgtk-3.0.pc:webkit-gtk3
+       depends_lib-append path:lib/pkgconfig/webkitgtk-3.0.pc:webkit-gtk3-2.0
+    }
+}
+
+post-activate {
+    system "${prefix}/bin/update-desktop-database ${prefix}/share/applications"
+    system "${prefix}/bin/gtk-update-icon-cache-3.0 -f -t ${prefix}/share/icons/hicolor"
+}
+
+livecheck.type  regex
+livecheck.url   ${homepage}
+livecheck.regex "${name}-(\\d+(?:\\.\\d+)*)"

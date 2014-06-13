@@ -1,0 +1,59 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117840 2014-03-14 19:52:43Z macsforever2000@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+set _name           future
+set _n              [string index ${_name} 0]
+
+name                py-${_name}
+version             0.11.3
+categories-append   devel
+platforms           darwin
+supported_archs     noarch
+license             MIT
+
+maintainers         bo.ingv.it:Peter.Danecek openmaintainer
+
+description         Provides clean single-source support for Python 3 and 2
+
+long_description    \
+    The Python package future is the missing compatibility layer between \
+    Python 3 and Python 2. It allows you to use a single, clean Python \
+    3.x-compatible codebase to support both Python 3 and Python 2 with \
+    minimal overhead. The futurize script aids in converting code from \
+    either Python 2 or Python 3 to code compatible with both platforms.
+
+homepage            http://python-future.org/
+
+distname            ${_name}-${version}
+master_sites        https://pypi.python.org/packages/source/${_n}/${_name}/
+
+checksums           md5     a5e11b2574ea99a6eb0cf19233a46c60 \
+                    rmd160  ad80f1734d45ecf2b2b5f0b5ee5d1adfb9d92e18 \
+                    sha256  8f4cc0ad30918e01a9ed054d062d1be28419a0c0eb03afd502775fdf07e32000
+
+python.versions     26 27 33 34
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+
+    # Adding documentation
+    post-destroot {
+        set dest_doc ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d  ${dest_doc}
+        xinstall -m 755 -W ${worksrcpath} \
+            README.rst \
+            LICENSE.txt \
+                ${dest_doc}
+        eval copy [ glob ${worksrcpath}/docs/*.py  ] ${dest_doc}
+        eval copy [ glob ${worksrcpath}/docs/*.rst ] ${dest_doc}
+    }
+
+    livecheck.type  none
+} else {
+    livecheck.type  regex
+    livecheck.url   [lindex ${master_sites} 0]
+    livecheck.regex ">${_name}-(\\d+(\\.\\d+)+)\\${extract.suffix}<"
+}

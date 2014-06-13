@@ -1,0 +1,96 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117400 2014-02-25 15:52:45Z rowue@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           wxWidgets 1.0
+
+name                py-pyphant
+version             1.0b3
+categories-append   science
+description         python framework for analysing and managing scientific data
+maintainers         fmf.uni-freiburg.de:servicegruppe.wissinfo \
+                    fmf.uni-freiburg.de:alexander.held rowue
+long_description    The python framework pyphant allows for the creation \
+                    and application of data flow models. The central idea \
+                    of this approach is to encapsulate each data processing \
+                    step in one unit which is called a worker. \
+                    A worker receives input via sockets and provides the \
+                    results of its data processing via plugs. These can be \
+                    inserted into other workers' sockets. The resulting \
+                    directed graph is called a recipe. Classes for these \
+                    objects comprise the Pyphant core. \
+                    To implement actual processing steps, Pyphant relies on \
+                    third party plug-ins, also referred to as toolboxes, \
+                    which extend the basic worker class, e.g. \
+                    py-pyphant-imageprocessing. \
+                    On top of the core, Pyphant offers a data exchange layer \
+                    on basis of numpy arrays which facilitates the \
+                    interoperability of the workers and fully supports \
+                    physical quantities with errors and units. \
+                    The third layer is a graphical user interface \
+                    allowing for the interactive construction of recipes \
+                    as well as the calculation and visualization of data \
+                    from any worker in the recipe.
+
+homepage            http://www.fmf.uni-freiburg.de/service/servicegruppen/sg_wissinfo/projekte/Pyphant
+license             BSD
+
+platforms           darwin
+
+# py26-scipy is not universal
+universal_variant   no
+
+master_sites        sourceforge:pyphant
+# master_sites        http://pyphant.sourceforge.net/nightly-builds/
+distname            pyphant-${version}
+# use_bzip2           yes
+
+checksums           sha256  c873352467f9ecf96fac03082e3cbc4153d13f8103e5339e608897884867db53 \
+                    rmd160  aa56f61a73300651730f867b249264e2ca63d200
+
+use_configure       no
+
+python.versions     26 27
+
+variant carbon description { Install pyphant with carbon support } {
+
+}
+
+if {${name} ne ${subport}} {
+    PortGroup           app 1.0
+    app.name            pyphant-${python.branch}
+    # app.executable      wxPyphant-2.6
+    app.executable      pyphant-${python.branch}
+    app.icon            ${filespath}/Pyphant.icns
+
+    depends_build       port:py${python.version}-setuptools
+    depends_lib         port:py${python.version}-numpy \
+                        port:py${python.version}-scipy \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-tables \
+                        port:py${python.version}-matplotlib \
+                        port:py${python.version}-simplejson \
+                        port:py${python.version}-paste \
+                        port:py${python.version}-mx-base \
+                        port:py${python.version}-configobj \
+                        port:py${python.version}-sogl
+    if {${python.version} == 26} {
+        depends_lib-append    port:py26-wxpython-2.8
+    } else {
+        depends_lib-append    port:py${python.version}-wxpython-3.0
+    }
+
+    pre-destroot {
+        if {[variant_isset carbon]} {
+            file copy ${filespath}/pyphant.quartz ${destroot}${prefix}/bin
+            file rename ${destroot}${prefix}/bin/pyphant.quartz ${destroot}${prefix}/bin/pyphant-${python.branch}
+        } else {
+            file copy ${filespath}/pyphant ${destroot}${prefix}/bin
+            file rename ${destroot}${prefix}/bin/pyphant ${destroot}${prefix}/bin/pyphant-${python.branch}
+            reinplace "s|@APPDIR@|${applications_dir}|" ${destroot}${prefix}/bin/pyphant-${python.branch}
+        }
+        reinplace "s|@PREFIX@|${prefix}|" ${destroot}${prefix}/bin/pyphant-${python.branch}
+        reinplace "s|@PYTHONBRANCH@|${python.branch}|" ${destroot}${prefix}/bin/pyphant-${python.branch}
+    }
+}

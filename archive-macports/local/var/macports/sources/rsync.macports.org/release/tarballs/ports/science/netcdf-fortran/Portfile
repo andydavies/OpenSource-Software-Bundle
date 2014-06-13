@@ -1,0 +1,93 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117882 2014-03-16 05:41:09Z takeshi@macports.org $
+
+PortSystem                  1.0
+PortGroup                   muniversal 1.0
+PortGroup                   mpi 1.0
+
+compilers.choose            f77 f90 fc
+mpi.setup                   require_fortran
+
+# netcdf-fortran does not require the fortran interface of hdf5-18.
+# enforcing hdf5-18 varint does not allow installation of
+# hdf5-18+cxx (w/o a fortran variant) and netcdf-fortran.
+#mpi.enforce_variant         hdf5-18
+
+name                        netcdf-fortran
+version                     4.2
+revision                    12
+maintainers                 takeshi openmaintainer
+platforms                   darwin
+categories                  science
+license                     Permissive
+
+description                 NetCDF Fortran Library
+long_description \
+    NetCDF (network Common Data Form) is a set of software libraries \
+    and machine-independent data formats that support the creation,  \
+    access, and sharing of array-oriented scientific data.
+
+homepage                    http://www.unidata.ucar.edu/software/netcdf/
+
+master_sites                ftp://ftp.unidata.ucar.edu/pub/netcdf/ \
+                            http://www.gfd-dennou.org/arch/netcdf/unidata-mirror/ \
+                            ftp://www.gfd-dennou.org/arch/netcdf/unidata-mirror/
+checksums           md5     cc3bf530223e8f4aff93793b9f197bf3 \
+                    sha1    f1887314455330f4057bc8eab432065f8f6f74ef \
+                    rmd160  e10c342a5d6ab2740cd910122b0164d16730e194
+
+depends_lib         port:netcdf
+
+# Fortran compilers can not cross-compile
+if {${os.arch} eq "i386"} {
+    set universal_archs_supported "i386 x86_64"
+} else {
+    set universal_archs_supported "ppc ppc64"
+}
+
+patchfiles          patch-netcdf-fortran.pc.in.diff \
+                    patch-configure.diff
+post-patch {
+    if {[variant_isset g95]} {
+        reinplace "s|lt_cv_ld_force_load=yes|lt_cv_ld_force_load=no|" ${worksrcpath}/configure
+    }
+}
+
+configure.cppflags-append   -DNDEBUG \
+                            -DpgiFortran
+configure.cflags-append     -fno-common
+if {[variant_isset g95]} {
+    configure.fflags-append     -fno-second-underscore
+    configure.fcflags-append    -fno-second-underscore
+    configure.ldflags-append    -lf95
+}
+
+post-configure {
+    if {[variant_isset g95]} {
+        reinplace -E "s|-arch \[a-z0-9_\]+ -lnetcdf ||g" ${worksrcpath}/nf-config
+    }
+}
+
+post-build {
+    if {[variant_isset universal]} {
+        set dirs {}
+        foreach arch ${universal_archs_to_use} {
+            lappend dirs ${worksrcpath}-${arch}
+        }
+    } else {
+        set dirs ${worksrcpath}
+    }
+    foreach dir ${dirs} {
+        reinplace -E {s/(-arch [a-z0-9_]+|-m32|-m64)//g} ${dir}/nf-config
+    }
+}
+
+test.run                    yes
+test.target                 check
+
+destroot.destdir            prefix=${destroot}${prefix} \
+                            MANDIR=\\\${prefix}/share/man
+
+if {![fortran_variant_isset]} {
+    default_variants-append +gcc48
+}

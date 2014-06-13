@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118170 2014-03-24 16:49:28Z and.damore@macports.org $
+
+PortSystem          1.0
+
+name                bitcoin
+categories          finance crypto
+version             0.9.0
+revision            1
+platforms           darwin
+license             MIT
+maintainers         easieste openmaintainer yopmail.com:sami.laine
+description         client user interface for a peer-to-peer digital currency
+long_description    Bitcoin is a peer-to-peer digital currency. By peer-to-peer,  \
+                    we mean that there is no central authority to issue \
+                    new Bitcoins or keep track of transactions. Instead, these \
+                    tasks are managed collectively by the Bitcoin protocol \
+                    operating through the nodes of the network. 
+homepage            http://www.bitcoin.org/
+
+master_sites        https://github.com/[string repeat "$name/" 2]archive/
+distname            v${version}
+worksrcdir          ${name}-${version}
+checksums           rmd160  aec2cc5f5d035728864577d5575d460e52c0fbf6 \
+                    sha256  229e5e13ff45f6d4302d618859aee9d36791f93bc7357d02bf2fabc683fdf2f4 
+
+depends_lib         port:boost \
+                    port:openssl \
+                    port:db48 \
+                    port:miniupnpc \
+                    port:qt4-mac \
+                    port:protobuf-cpp
+
+configure.cmd       ./autogen.sh && ./configure 
+
+build.args          appbundle
+build.jobs          1
+variant daemon description {Build and install only the bitcoind daemon} {
+    configure.cmd-append    --with-gui=no
+    depends_lib-delete      port:qt4-mac
+    build.args-delete       appbundle
+}
+
+destroot {
+    xinstall -d ${destroot}${prefix}/bin
+    if {![variant_isset daemon]} {
+        set bundle_name Bitcoin-Qt.app
+        xinstall -m 755 -d ${destroot}${applications_dir}
+        copy ${worksrcpath}/${bundle_name} ${destroot}${applications_dir}/${bundle_name}
+    }
+    xinstall -m 755 -W ${worksrcpath} src/bitcoind ${destroot}${prefix}/bin
+    xinstall -m 755 -W ${worksrcpath} src/bitcoin-cli ${destroot}${prefix}/bin
+
+    set docdir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${docdir}
+    eval xinstall -m 444 -W ${worksrcpath} [glob ${worksrcpath}/doc/*.md] ${docdir}
+}
+

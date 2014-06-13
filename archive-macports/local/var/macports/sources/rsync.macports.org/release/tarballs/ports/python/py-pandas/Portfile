@@ -1,0 +1,52 @@
+# -*- coding: utf-8; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116940 2014-02-10 21:31:29Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-pandas
+version             0.13.1
+revision            0
+categories-append   science
+license             BSD
+platforms           darwin
+
+python.versions     26 27 32 33
+
+maintainers         stromnov openmaintainer
+
+description         Powerful data structures for data analysis and statistics
+
+long_description    ${description}
+
+homepage            http://pandas.sourceforge.net/
+master_sites        http://pypi.python.org/packages/source/p/pandas/
+
+distname            pandas-${version}
+
+checksums           rmd160  ae0cb34eb3565a0caf5b96a1bea941f4c01d0cfe \
+                    sha256  6813746caa796550969ed98069f16627f070f6d8d60686cfb3fa0e66c2e0312b
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools \
+                        port:py${python.version}-cython
+
+    depends_lib-append  port:py${python.version}-numpy \
+                        port:py${python.version}-dateutil \
+                        port:py${python.version}-scipy \
+                        port:py${python.version}-bottleneck \
+                        port:py${python.version}-numexpr \
+                        port:py${python.version}-tz
+
+    if {${subport} eq "py26-pandas" || ${subport} eq "py27-pandas" } {
+        depends_lib-append  port:py${python.version}-tables \
+                            port:py${python.version}-matplotlib
+    }
+
+    livecheck.type  none
+} else {
+    livecheck.type  regex
+    livecheck.url   ${master_sites}
+    livecheck.regex {pandas-(\d+(?:\.\d+)*)\.[tz]}
+}

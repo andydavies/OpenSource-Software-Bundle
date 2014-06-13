@@ -1,0 +1,36 @@
+# $Id: Portfile 117012 2014-02-12 20:46:04Z jberry@macports.org $
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        jdberry tag 0.7.5 v
+
+categories          sysutils
+platforms           darwin
+license             MIT
+maintainers         jberry openmaintainer
+
+description         A command line tool to manipulate and query tags on files.
+long_description    tag is a tool to manipulate tags on files starting with Mac OS 10.9 \
+	                Mavericks, and to query for files with those tags. tag can use the \
+	                file system's built-in metadata search functionality to rapidly find \
+	                all files that have been tagged with a given set of tags.
+
+checksums           rmd160  4faddbbddbd03f91c6f12a74f8b60ce27513ecfa \
+                    sha256  32e1570068dd5488b78c3487631d90cb32693284e9243ba7720a9aca33259b94
+
+use_configure       no
+
+variant universal {}
+
+build.env           CC="${configure.cc}" \
+                    CFLAGS="${configure.cflags} [get_canonical_archflags cc]"
+
+destroot.args       prefix=${prefix}
+
+pre-fetch {
+    if { ${os.major} < 13 } {
+        ui_error "${name} requires OS X 10.9/Mavericks or newer"
+        return -code error "Unsupported OS X version"
+    }
+}

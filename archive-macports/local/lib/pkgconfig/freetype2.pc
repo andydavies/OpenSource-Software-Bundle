@@ -1,0 +1,14 @@
+prefix="/opt/local"
+exec_prefix="/opt/local"
+libdir="/opt/local/lib"
+includedir="/opt/local/include/freetype2"
+
+Name: FreeType 2
+URL: http://freetype.org
+Description: A free, high-quality, and portable font engine.
+Version: 17.2.11
+Requires:
+Requires.private: 
+Libs: -L${libdir} -lfreetype
+Libs.private: -lz -lbz2 -L/opt/local/lib -lpng16 -lz
+Cflags: -I${includedir}

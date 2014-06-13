@@ -1,0 +1,65 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117306 2014-02-21 18:01:25Z g5pw@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+set _name           BitVector
+
+name                py-${_name}
+version             3.3.1
+categories-append   math
+platforms           darwin
+
+maintainers         bo.ingv.it:Peter.Danecek openmaintainer
+
+license             PSF
+
+description         A memory-efficient packed representation for bit arrays
+
+long_description    The BitVector class is for a memory-efficient packed \
+                    representation of bit arrays and for logical operations \
+                    on such arrays. It is written in pure Python.
+
+homepage            https://engineering.purdue.edu/kak/dist/${_name}-${version}.html
+
+distname            ${_name}-${version}
+master_sites        https://engineering.purdue.edu/kak/dist
+
+checksums           md5     08cde7d782b7a5a721a94225a1488985 \
+                    rmd160  9b1cae21dc0852f826625770da8cede6878f3271 \
+                    sha256  798ace69f4f845722ee67648ff13ac29aba966f7ebd56f7ae0d1035054a0c6b4
+
+python.versions     26 27 31 32 33 34
+
+if {${name} ne ${subport}} {
+    depends_build-append     port:py${python.version}-setuptools
+
+    test.run            yes
+    test.cmd            ${python.bin} TestBitVector/Test.py
+    test.target         {}
+
+    # delete redundant files & avoid testing different version
+    pre-patch {
+        eval delete [ glob ${worksrcpath}/*/BitVector.py ]
+
+        # create link for testing
+        ln -s ../BitVector.py ${worksrcpath}/TestBitVector/BitVector.py
+    }
+
+    # Adding documentation & examples
+    post-destroot {
+        set dest_doc ${destroot}${prefix}/share/doc/${subport}
+        copy ${worksrcpath}/${distname}.html ${dest_doc}
+
+        # Avoid creation of example directory
+        delete ${dest_doc}/examples
+        copy ${worksrcpath}/Examples ${dest_doc}/examples
+    }
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       [lindex ${master_sites} 0]
+    livecheck.regex     "${_name}-(\\d+(\\.\\d+)+)\\${extract.suffix}"
+}

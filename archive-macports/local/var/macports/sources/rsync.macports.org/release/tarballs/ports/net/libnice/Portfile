@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117679 2014-03-07 23:48:27Z devans@macports.org $
+
+PortSystem 1.0
+
+name            libnice
+version         0.1.5
+license         MPL-1.1 LGPL-2.1
+description     Libnice is an implementation of the IETF's draft Interactice \
+                Connectivity Establishment standard (ICE).
+long_description \
+                Libnice is an implementation of the IETF's draft Interactice \
+                Connectivity Establishment standard (ICE). It provides a GLib-based \
+                library, libnice and GStreamer elements.
+maintainers     devans openmaintainer
+categories      net comms
+platforms       darwin
+homepage        http://nice.freedesktop.org/wiki/
+master_sites    http://nice.freedesktop.org/releases/
+
+checksums       rmd160  06c9fa901f3c793a5c1ecf4823fe6e82a1c77363 \
+                sha256  0a2743b69c8f50b8ca85243abe81b8d884b210430f413ca94b55bcff62fdf097
+
+depends_build   port:pkgconfig
+
+depends_lib     path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                port:gstreamer1-gst-plugins-base \
+                port:gstreamer010-gst-plugins-base \
+                port:gupnp-igd
+
+configure.args  --enable-gupnp \
+                --with-gstreamer-0.10 \
+                --with-gstreamer \
+                --enable-compile-warnings=minimum
+
+livecheck.type  regex
+livecheck.url   ${master_sites}
+livecheck.regex "${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}"

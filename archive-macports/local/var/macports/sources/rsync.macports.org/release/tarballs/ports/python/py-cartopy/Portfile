@@ -1,0 +1,57 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117865 2014-03-15 12:33:22Z ryandesign@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           github 1.0
+
+github.setup        SciTools cartopy 0.10.0 v
+
+name                py-${github.project}
+categories-append   science gis graphics
+platforms           darwin
+license             LGPL-3
+
+maintainers         bo.ingv.it:peter.danecek openmaintainer
+
+description         A library providing cartographic tools for python.
+
+long_description    \
+    Cartopy is a Python package designed to make drawing maps for data \
+    analysis and visualisation as easy as possible. It makes use of the \
+    powerful PROJ.4, numpy and shapely libraries and has a simple and \
+    intuitive drawing interface to matplotlib for creating publication \
+    quality maps.
+
+homepage            http://scitools.org.uk/cartopy/
+
+checksums           md5     85efc6a5b1542a2b6a52c8ca67ada127 \
+                    rmd160  899002e614241acb51a9b1ac8040eee4ab821b07 \
+                    sha256  c10dd63d3eed31f54cd3c48ce52d02a210a05357fc36c208bd067dbe65363b20
+
+python.versions     27
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools \
+                            port:py${python.version}-cython \
+                            port:py${python.version}-numpy
+
+    depends_lib-append      port:proj \
+                            port:geos
+
+    depends_run-append      port:py${python.version}-numpy \
+                            port:py${python.version}-scipy \
+                            port:py${python.version}-matplotlib \
+                            port:py${python.version}-shapely \
+                            port:py${python.version}-pyshp
+
+    # Required for post-installation testing only.
+    depends_run-append      port:py${python.version}-nose \
+                            port:py${python.version}-pep8 \
+                            port:py${python.version}-mock
+
+    # PIL dependency: allow both PIL and Pillow to satisfy it.
+    depends_run-append      path:${python.pkgd}/PIL:py${python.version}-Pillow
+
+    livecheck.type  none
+}

@@ -1,0 +1,180 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116572 2014-01-29 00:08:10Z sean@macports.org $
+
+PortSystem          1.0
+PortGroup           bitbucket 1.0
+PortGroup           mpi 1.0
+
+mpi.setup
+
+bitbucket.setup     petsc petsc 3.4.3 v
+revision            1
+categories          math science
+maintainers         sean
+description         Portable, Extensible Toolkit for Scientific Computation
+long_description    PETSc, pronounced PET-see (the S is silent), is a suite \
+                    of data structures and routines for the scalable (parallel) solution \
+                    of scientific applications modeled by partial differential equations. \
+                    It employs the MPI standard for all message-passing communication.
+
+platforms           darwin
+universal_variant   no
+
+checksums           rmd160  4956e7161431759efd924b5e897715c63c5343d2 \
+                    sha256  60e2ae4d11bd6481cc8182bada23a7a0c9b9b849a986e33c12d6850147cf50a6
+
+use_parallel_build  no
+
+depends_build       port:cmake
+
+pre-configure {
+    configure.args-append \
+        --CC="${configure.cc}" \
+        --CXX="${configure.cxx}" \
+        --FC="${configure.fc}" \
+        --COPTFLAGS="${configure.optflags}" \
+        --CXXOPTFLAGS="${configure.optflags}" \
+        --FOPTFLAGS="${configure.optflags}" \
+        --LDFLAGS="${configure.ldflags}" \
+        --CFLAGS="${configure.cflags}" \
+        --CXXFLAGS="${configure.cxxflags}"
+
+    if {[mpi_variant_isset]} {
+        configure.args-delete --with-mpi=0 \
+                              --with-fc=0
+        configure.args-append --with-mpiexec=${mpi.exec}
+    } elseif {[fortran_variant_isset]} {
+        configure.args-delete --with-fc=0
+    }
+
+}
+
+subport petsc-devel {
+    bitbucket.setup     petsc petsc 06283fd4323c
+    version             3.4.99
+    name                petsc-devel
+
+    checksums           rmd160  69b0d37f0ec1ecb324f9f38f31fdfbcf801275d1 \
+                        sha256  0d95e3df912803ad28bed74336fcb193d493657683ba4d21cec4fcdc12ed129b
+
+    # until bitbucket can livecheck a specific branch, manually check
+    livecheck.type      none
+}
+
+notes               "Add the following line to your .bash_profile if you plan to use\
+                    the PETSC makefile rules in $prefix/lib/petsc/conf: \n\
+                    \texport PETSC_DIR=${prefix}/lib/${name}"
+
+configure.args      --prefix=${prefix}/lib/${name} \
+                    --with-valgrind=0 \
+                    --with-mpi=0 \
+                    --with-fc=0 \
+                    --with-shared-libraries
+
+variant accelerate description {Use Accelerate framework for LAPACK} conflicts atlas {
+    configure.args-append --with-blas-lapack-lib=/System/Library/Frameworks/Accelerate.framework/Versions/Current/Accelerate
+}
+
+variant atlas description {Use Atlas for LAPACK} conflicts accelerate {
+    configure.args-append --with-blas-lapack-lib=${prefix}/lib/libtatlas.dylib
+}
+
+variant complex description {Build with support for complex numbers} conflicts sundials {
+    configure.args-append --with-scalar-type=complex
+    configure.args-append --with-clanguage=C++
+}
+
+variant suitesparse description {Build with CHOLDMOD and UMFPACK} {
+    depends_lib-append    port:SuiteSparse
+    configure.args-append --with-cholmod-dir=${prefix} \
+                          --with-umfpack-dir=${prefix}
+}
+
+variant sundials description {Build with CVODE interface for TS} {
+    depends_lib-append    port:sundials
+    configure.args-append --with-sundials-dir=${prefix}
+    mpi.enforce_variant   sundials
+}
+
+variant superlu description {Build with SuperLU interface for a serial direct solver} {
+    depends_lib-append    port:superlu
+    configure.args-append --with-superlu-dir=${prefix}
+}
+
+variant mumps description {Build with MUMPS interface for a parallel direct solver} {
+    depends_lib-append    port:mumps
+    configure.args-append --with-scalapack-dir=${prefix} \
+                          --with-mumps-dir=${prefix}
+    mpi.enforce_variant   mumps
+}
+
+variant superlu_dist description {Build with SuperLU_DIST interface for a parallel direct solver} requires parmetis {
+    depends_lib-append    port:superlu_dist
+    configure.args-append --with-superlu_dist-dir=${prefix}
+    mpi.enforce_variant   superlu_dist
+}
+
+variant ml description {Build with ML interface for a sparse parallel solver} {
+    depends_lib-append    port:ml
+    configure.args-append --with-ml-dir=${prefix}
+    mpi.enforce_variant   ml
+}
+
+variant hypre description {Build with HYPRE interface for a sparse parallel solver} {
+    depends_lib-append    port:hypre
+    configure.args-append --with-hypre-dir=${prefix}
+    mpi.enforce_variant   hypre
+}
+
+variant parmetis description {Build with ParMetis interface for parallel graph partitioning} {
+    depends_lib-append    port:metis \
+                          port:parmetis
+    configure.args-append --with-metis-dir=${prefix} \
+                          --with-parmetis-dir=${prefix}
+    mpi.enforce_variant   parmetis
+}
+
+variant hdf5 description {Build with HDF5 interface for parallel file io} {
+    depends_lib-append    port:hdf5-18
+    configure.args-append --with-hdf5-dir=${prefix}
+
+    mpi.enforce_variant   hdf5-18
+}
+
+variant netcdf description {Build with NetCDF interface for parallel file io} {
+    depends_lib-append    port:netcdf
+    configure.args-append --with-netcdf-dir=${prefix}
+    mpi.enforce_variant   netcdf
+}
+
+variant fftw description {Build with FFTW interface (requires MPI)} {
+    depends_lib-append    port:fftw-3
+    configure.args-append --with-fftw-dir=${prefix}
+    mpi.enforce_variant   fftw-3
+}
+
+variant yaml description {Build with YAML interface for option reading} {
+    depends_lib-append    port:libyaml
+    configure.args-append --with-yaml-dir=${prefix}
+}
+
+variant valgrind description {Build with valgrind support} {
+    depends_lib-append    port:valgrind
+    configure.args-delete --with-valgrind=0
+    configure.args-append --with-valgrind-dir=${prefix}
+}
+
+variant debug description {Build with debug support} {
+    configure.args-delete --with-debugging=0
+    configure.args-append --with-debugging=1
+}
+
+if {![mpi_variant_isset]} {
+    default_variants +mpich
+}
+
+if {![variant_isset atlas]} {
+    default_variants +accelerate
+}
+
+destroot.destdir    DESTDIR=${destroot}${prefix}/lib/${name}

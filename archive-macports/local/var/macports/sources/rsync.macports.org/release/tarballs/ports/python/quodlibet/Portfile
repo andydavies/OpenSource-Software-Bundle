@@ -1,0 +1,94 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117361 2014-02-24 04:57:48Z rmstonecipher@macports.org $
+
+PortSystem          1.0
+PortGroup           python27 1.0
+PortGroup           app 1.0
+
+name                quodlibet
+version             3.0.2
+categories-append   audio gnome
+maintainers         elelay rmstonecipher openmaintainer
+license             GPL-2
+platforms           darwin
+description         audio library manager and player for GTK+
+
+long_description \
+Quod Libet is a GTK+-based audio player written in Python, \
+using the Mutagen tagging library and GStreamer for playback.\
+It provides several different ways to view your audio library, \
+as well as support for Internet radio and audio feeds.\
+It has extremely flexible metadata tag editing and searching capabilities.
+
+homepage            http://code.google.com/p/quodlibet/
+master_sites        googlecode
+
+distfiles-append    ${name}-plugins-${version}${extract.suffix}
+
+checksums           ${name}-${version}.tar.gz \
+                    rmd160  fec79a9952905cf31681d25550304a6ab008c923 \
+                    sha256  116e37a3ba82e07d6d40739205c32643e4f4b608c1ac7fdf89446a7eb7e8a032 \
+                    ${name}-plugins-${version}.tar.gz \
+                    rmd160  1fec39a567a51917138f25295c2b9d128d8830ef \
+                    sha256  8b6bdf10189c20a1a202615376b3ac89e40d28f7d6b796c6da107258bac5a2f4
+
+depends_build       port:intltool \
+                    port:librsvg
+depends_lib         port:dbus-python27 \
+                    port:gstreamer1-gst-plugins-good \
+                    port:py27-mutagen \
+                    port:py27-feedparser \
+                    port:python-musicbrainz2
+
+# when run as an application, the argument -psn_x_xxxxx is passed to the program
+# but quodlibet is not prepared to handle it...
+patchfiles          patch-ignore_psn.diff
+
+variant quartz description {use the native OSX toolkit} {
+    # to keep the icon in the doc when not x11 (see post-destroot)
+}
+
+post-patch {
+    foreach file { quodlibet.py exfalso.py operon.py } {
+        reinplace "s|/usr/bin/env python|${frameworks_dir}/Python.framework/Versions/2.7/bin/python2.7|g" \
+            ${worksrcpath}/${file}
+    }
+}
+
+
+post-destroot {
+    system "cd ${workpath}/${name}-plugins-${version}/ && cp -vR * ${destroot}/${python.pkgd}/${name}/plugins/"
+
+    # icon keeps bouncing in the dock otherwise
+    # if {![variant_isset quartz]} {
+        # reinplace -E {s|(<string>APPL</string>)|\1 <key>LSUIElement</key><string>1</string>|} \
+                 # "${destroot}${applications_dir}/Quodlibet.app/Contents/Info.plist"
+    # }
+    # 
+    # # generate nicer icon (no png scaling)
+    # set makeicnsargs {}
+    # foreach w {16 32 128 256 512} {
+        # lappend makeicnsargs -$w ${worksrcpath}/${w}.png
+        # 
+        # if {[catch {exec ${prefix}/bin/rsvg-convert -w $w -h $w ${worksrcpath}/${app.icon} > ${worksrcpath}/$w.png }]} {
+            # return -code error "${app.icon} could not be converted to png: $::errorInfo"
+        # }
+    # }
+    # if {[catch {eval exec ${prefix}/bin/makeicns $makeicnsargs -out ${destroot}${applications_dir}/${app.name}.app/Contents/Resources/${app.name}.icns 2>@1}]} {
+        # return -code error "app.icns could not be created: $::errorInfo"
+    # }
+}
+
+# makeicns doesn't know how to generate icns out of svg (rasterizing + making icns)
+# still the app.icon is provided so that makeicns is added as dependency and maybe one day
+# app portgroup will itself rasterize if svg file is given...
+app.icon       quodlibet/images/hicolor/scalable/apps/quodlibet.svg
+
+app.executable "${frameworks_dir}/Python.framework/Versions/2.7/bin/quodlibet"
+
+
+notes "If you want to play mp3 files, don't forget to install gstreamer1-gst-plugins-ugly"
+
+livecheck.type      regex
+livecheck.url       ${homepage}downloads/list
+livecheck.regex     "${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}"

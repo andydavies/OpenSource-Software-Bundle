@@ -1,0 +1,80 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117495 2014-03-01 09:58:25Z hum@macports.org $
+
+PortSystem          1.0
+PortGroup           github 1.0
+PortGroup           waf 1.0 
+
+github.setup        jubatus jubatus 0.5.2
+
+categories          devel math textproc
+maintainers         hum openmaintainer
+
+description         Distributed Online Machine Learning Framework
+
+long_description    The Jubatus library is a online machine learning framework \
+                    which runs in distributed environment. Jubatus library includes \
+                    these functions: multi-class/binary classification, pre-proccessing \
+                    data (for natural language), and process management.
+
+homepage            http://jubat.us/
+platforms           darwin
+license             LGPL-2.1
+
+checksums           rmd160  c936785c6271125997368466a5edac80938c60dc \
+                    sha256  49d7b3f525e85382c7e405589691cdb9d881bf85f340303099e48e9b13a13873
+
+depends_build-append port:pkgconfig
+
+depends_lib         port:msgpack \
+                    port:jubatus-mpio \
+                    port:jubatus-msgpack-rpc \
+                    port:google-glog \
+                    port:oniguruma5 \
+                    port:mecab-utf8 \
+                    port:ux-trie \
+                    port:libzookeeper
+
+platform darwin {
+    if {${os.major} <= 10} {
+        pre-fetch {
+            ui_error "$name does not build on Snow Leopard or earlier."
+            error "unsupported platform"
+        }
+    } elseif {${os.major} >= 13} {
+        pre-fetch {
+            ui_error "$name does not build on Mavericks or later."
+            error "unsupported platform"
+        }
+    }
+}
+
+configure.args-append    --enable-mecab --enable-ux --enable-zookeeper
+
+post-destroot {
+    set libdir      ${destroot}${prefix}/lib
+    set plugin_dir  ${libdir}/jubatus/plugin
+    foreach libname [glob -tails -directory ${libdir} *.dylib] {
+        system "install_name_tool -id ${prefix}/lib/${libname} ${libdir}/${libname}"
+    }
+    foreach libname [glob -tails -directory ${plugin_dir} *.dylib] {
+        system "install_name_tool -id ${prefix}/lib/jubatus/plugin/${libname} ${plugin_dir}/${libname}"
+    }
+    # fix to install_name for installed libraries.
+    set bindir   ${destroot}${prefix}/bin
+    set builddir ${worksrcpath}/build/src
+    foreach path [concat [glob ${libdir}/*.dylib] [glob ${libdir}/jubatus/plugin/*.dylib] [glob ${bindir}/*]] {
+        set libpathes1 [regexp -all -inline {\S+\/libjuba\S+dylib \(}           [exec otool -L ${path}]]
+        set libpathes2 [regexp -all -inline {\S+\/fv_converter\/lib\S+dylib \(} [exec otool -L ${path}]]
+        foreach libpath [concat ${libpathes1} ${libpathes2}] {
+            regexp {\S+\/(lib[^\/]+dylib)} ${libpath} srcpath libname
+            system "install_name_tool -change ${srcpath} ${prefix}/lib/${libname} ${path}"
+        }
+    }
+    # install an additional document.
+    set doc_dir ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${doc_dir}
+    xinstall -m 644 -W ${worksrcpath} \
+        LICENSE README.rst \
+        ${doc_dir}
+}

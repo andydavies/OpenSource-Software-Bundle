@@ -1,0 +1,82 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117352 2014-02-23 15:31:27Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           select 1.0
+
+name                py-sympy
+version             0.7.5
+revision            0
+categories-append   science math
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     25 26 27 32 33
+
+maintainers         stromnov openmaintainer
+
+description         Python module for symbolic mathematics.
+
+long_description \
+    SymPy is a Python library for symbolic mathematics. It aims to \
+    become a full-featured computer algebra system (CAS) while keeping \
+    the code as simple as possible in order to be comprehensible \
+    and easily extensible. SymPy is written entirely in Python and does \
+    not require any external libraries.
+
+homepage            http://sympy.org/
+master_sites        https://github.com/sympy/sympy/releases/download/sympy-${version}
+
+distname            sympy-${version}
+
+checksums           rmd160  e14678d7becc5d48277d5fdb24966cad10856e5a \
+                    sha256  2ef97048baf91169fb5987da3dc4d52854072cac69507d8668a475ff4dd5d4a6
+
+# Last release compatible with Python 2.5
+if {${subport} eq "py25-sympy"} {
+    version             0.7.4.1
+    revision            0
+    distname            sympy-${version}
+    checksums           rmd160  087661c59a8f75bee74241ff952dc3ca5f9a84e1 \
+                        sha256  51a8c2377c240a2cdb418bc59dac9ab106258196d04ce131d06806dbea2af456
+}
+
+if {${name} ne ${subport}} {
+
+    post-destroot {
+        set gzip [findBinary gzip ${portutil::autoconf::gzip_path}]
+        if {${subport} eq "py25-sympy"} {
+            move ${destroot}${prefix}/share/man/man1/isympy.1 \
+                 ${destroot}${prefix}/share/man/man1/isympy-${python.branch}.1
+            system "$gzip -9vf ${destroot}${prefix}/share/man/man1/isympy-${python.branch}.1"
+            file attributes ${destroot}${prefix}/share/man/man1/isympy-${python.branch}.1.gz \
+                -permissions 00444
+        } else {
+            system "$gzip -9vf ${destroot}${python.prefix}/share/man/man1/isympy.1"
+            file attributes ${destroot}${python.prefix}/share/man/man1/isympy.1.gz -permissions 00444
+            ln -s ${python.prefix}/share/man/man1/isympy.1.gz \
+                ${destroot}${prefix}/share/man/man1/isympy-${python.branch}.1.gz
+        }
+    }
+
+    depends_build       port:gzip
+    depends_run         port:py-sympy_select
+
+    select.group        py-sympy
+    select.file         ${filespath}/py${python.version}-sympy
+
+    notes "
+To make the Python ${python.branch} version of py-sympy the one that is run\
+when you execute the commands without a version suffix, e.g. 'isympy', run:
+
+port select --set ${select.group} [file tail ${select.file}]
+"
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       https://pypi.python.org/packages/source/s/sympy/
+    livecheck.regex     {sympy-(\d+(?:\.\d+)*)\.[tz]}
+}

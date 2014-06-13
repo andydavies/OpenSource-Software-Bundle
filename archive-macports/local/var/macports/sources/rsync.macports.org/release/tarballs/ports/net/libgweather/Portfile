@@ -1,0 +1,67 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116718 2014-02-04 19:03:15Z devans@macports.org $
+
+PortSystem      1.0
+
+name            libgweather
+version         3.10.2
+set branch      [join [lrange [split ${version} .] 0 1] .]
+maintainers     devans openmaintainer
+categories      net gnome
+license         GPL-2+ LGPL-2.1+
+platforms       darwin
+description     Library to accessing online weather informations.
+
+long_description \
+                libgweather is a library to access weather \
+                information from online services for numerous \
+                locations.
+
+homepage        https://wiki.gnome.org/Projects/LibGWeather
+master_sites    gnome:sources/${name}/${branch}/
+
+use_xz          yes
+
+checksums       rmd160  d0139d2e198e4ec65b044a6fbea6f75199de2a30 \
+                sha256  454d8d681114f7f9522df2710b63f33198d0d7ca6f0726eef7fcf72e1b580005
+
+depends_build   port:pkgconfig \
+                port:intltool \
+                port:autoconf \
+                port:automake \
+                port:libtool \
+                port:gnome-common \
+                port:gtk-doc
+
+depends_lib     port:gtk3 \
+                port:libxml2 \
+                port:libsoup \
+                port:gobject-introspection \
+                port:vala
+
+patchfiles      patch-libgweather-gweather-location.c.diff \
+                patch-libgweather-weather.c.diff
+
+# use autogen.sh from upstream git to update m4/intltool.m4 using intltoolize and autoreconf
+
+post-patch {
+    xinstall -m 755 ${filespath}/autogen.sh ${worksrcpath}
+    file delete -force ${worksrcpath}/m4
+}
+
+configure.cmd   ./autogen.sh
+
+configure.cflags-append \
+                -Wno-format-nonliteral
+
+configure.args  --enable-introspection=yes \
+                --enable-vala=yes \
+                --disable-schemas-compile \
+                --disable-silent-rules \
+                --disable-glibtest
+
+post-activate {
+    system "${prefix}/bin/glib-compile-schemas ${prefix}/share/glib-2.0/schemas"
+}
+
+livecheck.type  gnome

@@ -1,0 +1,44 @@
+# $Id: Portfile 117488 2014-03-01 01:06:22Z toby@macports.org $
+
+PortSystem 1.0
+name             epic5
+version          1.1.7
+categories       irc
+maintainers      toby
+description      (E)nhanced (P)rogrammable (I)RC-II (C)lient 5
+homepage         http://www.epicsol.org/
+platforms        darwin
+long_description \
+	EPIC5 is the new development branch of EPIC, which is a \
+	new direction in ircII development. No longer is EPIC 100% \
+	backwards compatable with ircII, but instead we have chosen \
+	to find those things where compatability is undesirable, \
+	and fix them. No gratuitous incompatabilities have been \
+	added, but lots of new code has been added to make EPIC the \
+	best ircII client we could make.
+license          BSD
+
+master_sites     ftp://ftp.epicsol.org/pub/epic/EPIC5-PRODUCTION/
+use_bzip2        yes
+
+checksums        rmd160 7ce8eabe90240a43daedf8b5deaaaafd179c828a \
+                 sha256 bc6d897efc531a08ca15a18eefc7889a06e8be14019fa7676ac6886f61c7be45
+
+patchfiles       patch-configure
+
+configure.cflags-append  -I${prefix}/include
+configure.args   --mandir=${prefix}/share/man \
+                 --with-iconv \
+                 --without-socks \
+                 --without-socks5 \
+                 --without-perl \
+                 --without-tcl \
+                 --without-ruby
+
+destroot.destdir IP=${destroot}
+
+depends_lib      port:libarchive port:ncurses port:openssl port:libiconv
+
+livecheck.type   regex
+livecheck.url    ${master_sites}
+livecheck.regex  ${name}-(\[0-9\\.\]+)\\.tar

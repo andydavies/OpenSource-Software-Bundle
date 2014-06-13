@@ -1,0 +1,49 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116843 2014-02-08 13:57:49Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kde4-baseapps
+version             4.12.2
+categories          kde kde4
+maintainers         nicos
+license             GPL-2+ LGPL-2+ GFDL-1.2
+description         KDE4 applications and libraries from the base package
+long_description    Core desktop applications and libraries for the KDE4 desktop. \
+                    This port installs the file manager dolphin file manager.
+platforms           darwin
+homepage            http://www.kde.org
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+distname            kde-baseapps-${version}
+
+#Binaries do not link directly to openssl, nor use the ssl backend of kdelibs4,
+#nor links to libkimap or libmailtransport from kdepimlibs4
+license_noconflict  openssl
+
+checksums           rmd160  548fa64f58bd07250dc5e748e481487675690c5f \
+                    sha256  2f13feb927bfdc7bf9a5e27df135c4336954205ccc33f3bc301457d5964a7585
+
+depends_lib-append  port:kdelibs4 \
+                    port:qimageblitz \
+                    port:kdepimlibs4 \
+                    port:kde4-runtime \
+                    port:nepomuk-widgets
+
+configure.args-append   -DWITH_XKB=OFF
+
+#Blacklist gcc42 and llvm-gcc-42
+compiler.blacklist  gcc-4.2 apple-gcc-4.2 llvm-gcc-4.2 macports-llvm-gcc-4.2
+
+universal_variant   no
+
+pre-build {
+    # Add missing object files manually. Issue similar to ticket #37574.
+    #(Should be in libkdeinit4_konqueror, but do not link)
+    reinplace "s|-o|CMakeFiles/kdeinit_konqueror.dir/konqmisc.o -o|g" \
+        ${workpath}/build/konqueror/src/CMakeFiles/konqueror.dir/link.txt
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

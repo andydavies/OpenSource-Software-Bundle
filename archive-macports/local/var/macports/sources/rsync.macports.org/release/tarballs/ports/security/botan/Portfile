@@ -1,0 +1,63 @@
+# $Id: Portfile 115306 2013-12-30 23:58:50Z mww@macports.org $
+
+PortSystem 1.0
+
+name                botan
+version             1.10.7
+categories          security devel
+platforms           darwin
+maintainers         mww
+license             BSD
+description         cryptographic algorithms and formats library in C++
+long_description    Botan is a C++ library implementing a variety of \
+                    cryptographic algorithms and formats. At this time, it is \
+                    quite stable, and is suitable for use in a wide variety of \
+                    programs.
+
+homepage            http://botan.randombit.net/
+master_sites        http://files.randombit.net/botan/
+distfiles           Botan-${version}.tbz
+worksrcdir          Botan-${version}
+checksums           rmd160  a9ce762249a9f08c8bd7b841786e479aca8a4a9c \
+                    sha256  19f79ae670cb2ea7c290244ff6ff564ce74b45d8845af52787a30c646e16324d
+use_bzip2           yes
+
+depends_lib         port:openssl port:zlib port:bzip2
+
+worksrcdir          Botan-${version}
+
+configure.cmd       ./configure.py
+configure.args      --docdir=share/doc --with-openssl --with-zlib --with-bzip2
+
+if {[string match *clang* ${configure.compiler}]} {
+  configure.args-append --cc=clang
+} elseif {[string match *gcc* ${configure.compiler}]} {
+  configure.args-append --cc=gcc
+}
+
+destroot.destdir    DESTDIR=${destroot}${prefix}
+
+platform darwin { configure.args-append --os=darwin }
+
+if {[info exists build_arch] && ${os.platform} eq "darwin"} {
+    if {(${build_arch} eq "i386")} {
+        configure.args-append --cpu=ia32
+        build.args CXX="${configure.cxx} -m32"
+    } elseif {(${build_arch} eq "x86_64")} {
+        configure.args-append --cpu=amd64
+        build.args CXX="${configure.cxx} -m64"
+    } elseif {(${build_arch} eq "ppc")} {
+        configure.args-append --cpu=ppc
+        build.args CXX="${configure.cxx} -m32"
+    } elseif {(${build_arch} eq "ppc64")} {
+        configure.args-append --cpu=ppc64
+        build.args CXX="${configure.cxx} -m64"
+    }
+} else {
+    build.args CXX="${configure.cxx}"
+}
+
+universal_variant   no
+
+livecheck.regex     "Botan-(1.10.\[0-9\]+).tbz"
+livecheck.url       http://botan.randombit.net/download.html

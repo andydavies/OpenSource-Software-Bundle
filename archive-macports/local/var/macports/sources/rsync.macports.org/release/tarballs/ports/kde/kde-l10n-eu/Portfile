@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116889 2014-02-09 15:33:43Z nicos@macports.org $
+
+PortSystem      1.0
+PortGroup       kde4 1.1
+
+name            kde-l10n-eu
+version         4.12.2
+categories      kde kde4
+maintainers     nicos
+license         {LGPL-2.1 LGPL-3+ GPL-2+ MIT BSD}
+description     KDE basque language files.
+long_description \
+                ${description}
+platforms       darwin
+homepage        http://www.kde.org/
+
+master_sites    kde:stable/${version}/src/kde-l10n/
+use_xz          yes
+
+supported_archs noarch
+depends_lib     port:kdelibs4
+
+checksums           rmd160  a39ae9b2a8fc1e576b9629c671297d9e31bfc148 \
+                    sha256  6616efc4e86fb680518c11ab9dd3b2e163dea9de09ccb4d698c6b4bb8d5d7669
+
+if {![variant_isset docs]} {
+    patchfiles-append   patch-CMakeLists.txt.diff
+}
+
+post-destroot {
+    xinstall -d -m 755 ${destroot}${prefix}/share/doc/kde-installed-packages
+    system "touch ${destroot}${prefix}/share/doc/kde-installed-packages/kde-l10n-basque"
+}
+
+livecheck.type  none

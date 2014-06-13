@@ -1,0 +1,51 @@
+# $Id: Portfile 116702 2014-02-04 03:14:12Z ram@macports.org $
+
+PortSystem    1.0
+
+name          ldas-tools
+version       1.19.38
+categories    science
+platforms     darwin
+maintainers   ram
+
+description   Suite of LDAS tools
+long_description ${description}
+
+homepage      http://www.ldas-sw.ligo.caltech.edu
+master_sites  http://www.ldas-sw.ligo.caltech.edu/packages
+
+checksums     rmd160 4a3f8d583f0a27e3af89ff97abf9787d52a5de59 \
+              sha256 797414660ff767b3532e51741628f6c130d8fa443e3c76c9cbb73722a46d6c74
+
+configure.args --disable-silent-rules \
+               --disable-auto-ldcg-inclusion \
+               --without-ospace \
+               --without-stlport \
+               --with-optimization=high \
+               --enable-inlining \
+               --without-obdc \
+               --disable-metadata-api \
+               --disable-tcl \
+               --disable-python \
+               --without-doxygen \
+               --without-dot \
+               --disable-perl \
+               --disable-latex \
+               --disable-ldas-documentation
+
+depends_lib    port:openssl \
+               port:zlib \
+               port:bzip2 \
+               port:flex
+
+use_parallel_build yes
+
+#variant docs description {build documentation} {
+#  configure.args-delete --disable-latex \
+#                        --disable-ldas-documentation
+#  configure.args-append --docdir=${prefix}/share/doc/ldas-tools
+#}
+
+livecheck.type   regex
+livecheck.url    ${master_sites}
+livecheck.regex  {ldas-tools-(\d+(?:\.\d+)*).tar.gz}

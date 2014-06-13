@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116889 2014-02-09 15:33:43Z nicos@macports.org $
+
+PortSystem      1.0
+PortGroup       kde4 1.1
+
+name            kde-l10n-et
+version         4.12.2
+
+categories      kde kde4
+maintainers     nicos
+license         {LGPL-2.1 LGPL-3+ GPL-2+ MIT BSD}
+description     KDE estonian language files.
+long_description \
+                ${description}
+platforms       darwin
+homepage        http://www.kde.org/
+
+master_sites    kde:stable/${version}/src/kde-l10n/
+use_xz          yes
+
+supported_archs noarch
+depends_lib     port:kdelibs4
+
+checksums           rmd160  edba10fee6ec05bd1107fe2146a690d4d377483f \
+                    sha256  0876144b5bbf8558cbb924b97ea4aa2359b4d6e2e3dcf59a038663d35a84ed8d
+
+if {![variant_isset docs]} {
+    patchfiles-append   patch-CMakeLists.txt.diff
+}
+
+post-destroot {
+    xinstall -d -m 755 ${destroot}${prefix}/share/doc/kde-installed-packages
+    system "touch ${destroot}${prefix}/share/doc/kde-installed-packages/kde-l10n-estonian"
+}
+
+livecheck.type  none

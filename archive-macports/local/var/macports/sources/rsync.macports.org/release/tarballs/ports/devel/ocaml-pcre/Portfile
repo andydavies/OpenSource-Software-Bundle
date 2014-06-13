@@ -1,0 +1,42 @@
+# $Id: Portfile 115327 2013-12-31 09:06:14Z mww@macports.org $
+
+PortSystem 1.0
+PortGroup           ocaml 1.0
+
+name                ocaml-pcre
+version             7.0.4
+categories          devel ml
+maintainers         landonf openmaintainer
+license             LGPL-2.1
+description         Perl compatibility regular expressions for OCaml
+long_description    This OCaml-library interfaces the PCRE (Perl-compatibility regular \
+                    expressions) library which is written in C. it can be used for matching \
+                    regular expressions which are written in PERL-style. Searching for, replacing \
+                    or splitting text should become much easier with this library.
+
+homepage            https://bitbucket.org/mmottl/pcre-ocaml
+platforms           darwin
+master_sites        https://bitbucket.org/mmottl/pcre-ocaml/downloads/
+
+checksums           rmd160  bee2b4a8ca06acb2242611701c6d907823e82590 \
+                    sha256  fc56b0e0f7ab5d159af77d1a51f67d0dd0b86ef30eccc0e9cbef4f79d4a75840
+
+distname            pcre-ocaml-${version}
+
+livecheck.type      regex
+livecheck.regex     {>pcre-ocaml-release-(.*)\.tar\.bz2}
+
+depends_lib         port:ocaml port:ocaml-findlib port:pcre
+
+use_oasis           yes
+use_oasis_doc       yes
+
+configure.args-append "--override docdir ${destroot}${prefix}/share/doc/${name}"
+
+post-destroot {
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -m 644 -W ${worksrcpath} AUTHORS.txt CHANGES.txt COPYING.txt INSTALL.txt \
+         ${destroot}${prefix}/share/doc/${name}
+    file copy ${worksrcpath}/examples ${destroot}${prefix}/share/doc/${name}
+}
+

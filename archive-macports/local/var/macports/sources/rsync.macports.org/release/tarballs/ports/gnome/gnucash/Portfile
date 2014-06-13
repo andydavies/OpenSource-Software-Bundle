@@ -1,0 +1,125 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116990 2014-02-12 01:48:51Z dports@macports.org $
+
+PortSystem        1.0
+
+name              gnucash
+version           2.6.1
+categories        gnome x11
+license           GPL-2+
+maintainers       dports openmaintainer
+platforms         darwin
+
+description       a personal and small-business financial-accounting software
+long_description  GnuCash is a personal and small-business \
+                  financial-accounting software, freely licensed under the \
+                  GNU GPL.  Designed to be easy to use, yet powerful and \
+                  flexible, GnuCash allows you to track bank accounts, \
+                  stocks, income and expenses. As quick and intuitive to \
+                  use as a checkbook register, it is based on professional \
+                  accounting principles to ensure balanced books and \
+                  accurate reports.
+
+homepage          http://www.gnucash.org/
+master_sites      sourceforge \
+                  http://www.gnucash.org/pub/gnucash/sources/stable/
+
+use_bzip2         yes
+
+checksums         rmd160  e9c8e6bace9a41195d2fdfc323dcd089d5cc09f5 \
+                  sha256  c9e66f84c7706e3c8e7a1c88dcd58c5c3d102e285012b51f5af25052502cd8a4
+
+post-patch {
+    # gnc-fq-dump needs to be patched to use MacPorts perl.
+    # (autoconf takes care of the other perl scripts.)
+    reinplace "s|^#!/usr/bin/perl|#!${prefix}/bin/perl5.16|" ${worksrcpath}/src/quotes/gnc-fq-dump
+}
+
+depends_build     port:pkgconfig \
+                  port:intltool \
+                  port:libtool
+
+depends_lib       port:guile \
+                  port:libgnomeui \
+                  path:lib/pkgconfig/webkit-1.0.pc:webkit-gtk \
+                  port:goffice08 \
+                  port:p5.16-finance-quote   
+
+depends_run       port:yelp
+
+# TODO: Check ${configure.cxx_stdlib} directly once MacPorts 2.3 is released
+platform darwin {
+    set cxxstdlib {}
+
+    if {[info exists configure.cxx_stdlib] &&
+        ${configure.cxx_stdlib} ne {} &&
+        [string match *clang* ${configure.cxx}]} {
+        set cxxstdlib ${configure.cxx_stdlib}
+    } elseif {[string match *clang* ${configure.cxx}] &&
+              ${os.major} >= 13} {
+        set cxxstdlib libc++
+    } else {
+        set cxxstdlib libstdc++
+    }
+
+    if {${cxxstdlib} eq "libstdc++"} {
+       depends_lib-delete path:lib/pkgconfig/webkit-1.0.pc:webkit-gtk
+       depends_lib-append path:lib/pkgconfig/webkit-1.0.pc:webkit-gtk-2.0
+    }
+}
+
+# aqbanking and libgtkhtml3 are not universal
+universal_variant no
+
+configure.args    --disable-glibtest \
+                  --disable-dependency-tracking \
+                  --disable-aqbanking \
+                  --disable-ofx \
+                  --disable-dbi \
+                  --with-html-engine=webkit
+configure.perl    ${prefix}/bin/perl5.16
+
+variant gtkhtml description {Use gtkhtml instead of webkit-gtk for html rendering} {
+    configure.args-delete --with-html-engine=webkit
+    depends_lib-delete    path:lib/pkgconfig/webkit-1.0.pc:webkit-gtk
+    depends_lib-append    port:libgtkhtml3
+}
+
+variant hbci description {AqBanking/HBCI support} {
+    depends_lib-append  port:aqbanking5-gtk
+    configure.args-delete   --disable-aqbanking
+    configure.args-append   --enable-aqbanking
+}
+
+variant ofx description {OFX support} {
+    depends_lib-append  port:libofx
+    configure.args-delete   --disable-ofx
+    configure.args-append   --enable-ofx
+}
+
+variant dbi description {Adds dbi backend support} {
+    depends_lib-append  port:libdbi \
+                        port:libdbi-drivers 
+    configure.args-delete --disable-dbi 
+    configure.args-append --enable-dbi
+    notes-append "gnucash DBI backend support requires the libdbi-drivers port to be built with support for the desired databases. sqlite3 is available by default; for MySQL or PostgreSQL support, ensure that the corresponding variant is selected for libdbi-drivers."
+}
+
+default_variants +ofx +hbci
+
+# XXX This is currently broken; patch needs to be updated to fix
+# configure's python ldflags detection.
+# 
+# variant python27 description {Install Python bindings for Python 2.7} {
+#     patchfiles-append patch-configure-python.diff
+#     depends_lib-append port:python27
+#     configure.args-append --enable-python
+#     configure.python ${prefix}/bin/python2.7
+# }
+
+post-activate {
+    system "${prefix}/bin/gtk-update-icon-cache -f -t ${prefix}/share/icons/hicolor"
+    system "${prefix}/bin/glib-compile-schemas ${prefix}/share/glib-2.0/schemas"
+}
+
+livecheck.regex "/${name} .*/(\[0-9\]+\\.\[0-9\]*\[02468\]\\.\[0-9\]+)/"

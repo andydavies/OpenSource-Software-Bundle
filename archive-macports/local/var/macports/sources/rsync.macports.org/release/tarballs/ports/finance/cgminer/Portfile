@@ -1,0 +1,99 @@
+# $Id: Portfile 118140 2014-03-23 15:30:02Z ram@macports.org $
+
+PortSystem       1.0
+PortGroup        github 1.0
+
+github.setup     ckolivas cgminer 4.2.0 v
+categories       finance
+platforms        darwin
+maintainers      ram openmaintainer
+license          GPL-3
+
+description      ASIC/FPGA miner in c for bitcoin
+long_description \
+  This is a multi-threaded multi-pool FPGA and ASIC miner for bitcoin.
+
+checksums        rmd160 40e0b57f063737783dacdd6ebd77db1b92d2ec29 \
+                 sha256 6dca53575e8426e2b2a548e9c8aaabec21b67cfb0933345bab70afdfacc06417
+
+depends_build-append port:pkgconfig \
+                 port:gawk
+
+depends_lib      port:ncurses \
+                 port:curl
+
+use_autoreconf   yes
+
+post-destroot {
+  delete ${destroot}${prefix}/include
+  delete ${destroot}${prefix}/lib
+  xinstall -d ${destroot}${prefix}/share/doc/${name}
+  xinstall -m 644 -W $worksrcpath API-README ASIC-README FPGA-README \
+    LICENSE NEWS README ${destroot}${prefix}/share/doc/${name}
+}
+
+variant ants1 description {Add support for Antminer S1} {
+    configure.args-append --enable-ants1
+}
+
+variant avalon description {Add support for Avalon} {
+    configure.args-append --enable-avalon
+}
+
+variant bab description {Add support for BlackArrow Bitfury} {
+    configure.args-append --enable-bab
+}
+
+variant bflsc description {Add support for BFL ASICs} {
+    configure.args-append --enable-bflsc
+}
+
+variant bitforce description {Add support for BitForce FPGAs} {
+    configure.args-append --enable-bitforce
+}
+
+variant bitfury description {Add support for BitFury ASICs} {
+    configure.args-append --enable-bitfury
+}
+
+variant cointerra description {Add support for Cointerra ASICs} {
+    configure.args-append --enable-cointerra
+}
+
+variant bitmine_a1 description {Add support for Bitmine.ch A1 ASICs} {
+    configure.args-append --enable-bitmine_A1
+}
+
+variant drillbit description {Add support for Drillbit BitFury ASICs} {
+    configure.args-append --enable-drillbit
+}
+
+variant hashfast description {Add support for Hashfast} {
+    configure.args-append --enable-hashfast
+}
+
+variant icarus description {Add support for Icarus} {
+    configure.args-append --enable-icarus
+}
+
+variant klondike description {Add support for Klondike} {
+    configure.args-append --enable-klondike
+}
+
+variant knc description {Add support for KnC miners} {
+    configure.args-append --enable-knc
+}
+
+variant avalon2 description {Add support for Avalon2} {
+    configure.args-append --enable-avalon2
+}
+
+variant minion description {Add support for Minion BlackArrow ASIC} {
+    configure.args-append --enable-minion
+}
+
+variant modminer description {Add support for ModMiner FPGAs} {
+    configure.args-append --enable-modminer
+}
+
+default_variants +icarus

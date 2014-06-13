@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115740 2014-01-10 12:47:39Z ciserlohn@macports.org $
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        github hub 1.11.1 v
+description         git-wrapper for GitHub specific functionality
+long_description    hub is a command line utility which adds GitHub knowledge to git.\
+                    It can be used on its own or as a git wrapper.
+maintainers         phw openmaintainer
+categories          devel
+license             MIT
+platforms           darwin
+supported_archs     noarch
+
+homepage            http://defunkt.io/hub/
+
+checksums           rmd160  2b07f4243eb0f0dc3d50fe5bf379c03e9d4dd909 \
+                    sha256  b36a36b959472bf81466db7cb563147497d27216adfcafb5e24f370ff4c17764
+
+depends_build       bin:rake:rb-rake
+
+depends_lib         port:git-core
+
+use_configure       no
+
+# Stealth update; remove this with the next version update
+dist_subdir         ${name}/${version}_1
+
+build {}
+
+destroot.cmd        rake
+destroot.args       prefix=${destroot}${prefix}
+post-destroot {
+    set bash-completions ${destroot}${prefix}/share/bash-completion/completions
+    xinstall -d ${bash-completions}
+    xinstall ${worksrcpath}/etc/hub.bash_completion.sh ${bash-completions}/hub
+    set site-functions ${destroot}${prefix}/share/zsh/site-functions
+    xinstall -d ${site-functions}
+    xinstall ${worksrcpath}/etc/hub.zsh_completion ${site-functions}/
+}
+
+notes "
+To use 'hub' as a true git wrapper add the following line to your .bashrc
+
+alias git=hub
+
+or use 'hub' as standalone command
+"

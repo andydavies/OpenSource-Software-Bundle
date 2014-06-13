@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118013 2014-03-19 12:56:22Z michaelld@macports.org $
+
+PortSystem          1.0
+PortGroup           cmake 1.0
+PortGroup           github 1.0
+
+github.setup        Nuand bladeRF c43ea368b74647ab15af0fa400d217dbc2737c7a
+version             20140318
+checksums           rmd160 e4bfa9d3474ccb132474f20b65deea4b46ff6622 \
+                    sha256 fec10a8a036b3b2d8e0e38ca69b673b10d0d71cb9f77736de35226eafae03110
+
+categories          science comms
+maintainers         michaelld openmaintainer
+description         bladeRF is an open-source hardware and software software-defined radio (SDR) platform.
+long_description    ${description} This port provides all the source code required to program and interact with a bladeRF platform, including firmware for the Cypress FX3 USB controller, HDL for the Altera Cyclone IV FPGA, and C code for the host side libraries, drivers, and utilities.
+license             mit lgpl-2 gpl-2
+platforms           darwin
+
+depends_build-append port:pkgconfig
+depends_lib-append	port:libusb
+
+# do VPATH build
+
+post-extract        { file mkdir ${workpath}/build }
+configure.dir       ${workpath}/build
+build.dir           ${workpath}/build
+
+# remove top-level include path, such that internal headers are used
+# instead of any already-installed ones.
+
+configure.cppflags-delete -I${prefix}/include
+
+# remove top-level library path, such that internal libraries are used
+# instead of any already-installed ones.
+
+configure.ldflags-delete -L${prefix}/lib
+
+# set last configure argument to the reletive path
+# to the top-level cmake source
+
+configure.post_args ../${worksrcdir}
+
+# be verbose when building, for debugging purposes
+
+build.post_args VERBOSE=1
+
+# default to building all variants
+
+default_variants +tecla
+
+variant tecla description "Build with support for the tecla interactive command line" {
+
+    depends_lib-append \
+        port:tecla
+
+    configure.args-append \
+        -DENABLE_LIBTECLA=ON
+
+}
+
+if {![variant_isset tecla]} {
+
+    configure.args-append \
+        -DENABLE_LIBTECLA=OFF
+
+}
+
+# documentation does not work as of 20140126
+
+configure.args-append \
+    -DBUILD_DOCUMENTATION=OFF

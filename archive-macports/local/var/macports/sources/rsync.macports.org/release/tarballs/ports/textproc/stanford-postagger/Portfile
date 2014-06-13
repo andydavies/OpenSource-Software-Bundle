@@ -1,0 +1,68 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115703 2014-01-09 13:08:02Z hum@macports.org $
+
+PortSystem          1.0
+
+name                stanford-postagger
+version             3.3.1
+categories          textproc java
+maintainers         hum openmaintainer
+
+description         a Java implementation of the log-linear part-of-speech taggers
+long_description    ${description}
+
+homepage            http://nlp.stanford.edu/downloads/tagger.shtml
+platforms           darwin
+license             GPL-2+
+
+master_sites        http://nlp.stanford.edu/software
+checksums           rmd160  75ea43047da51d0be76af01be25dfa647ca367c3 \
+                    sha256  e5c0f8e24b6659b2d436c674d9963db1969a9be2d05e56e14e3334dbf0dd6617
+
+use_zip             yes
+distname            ${name}-2014-01-04
+
+use_configure       no
+supported_archs     noarch
+
+build {}
+
+destroot {
+    # install jar files and scripts.
+    set java_dir ${prefix}/share/java/${name}
+    set dest_java ${destroot}${java_dir}
+    xinstall -d ${dest_java}
+    xinstall -m 644 -W ${worksrcpath} \
+        stanford-postagger.jar \
+        stanford-postagger-${version}.jar \
+        ${dest_java}
+    xinstall -m 755 -W ${worksrcpath} \
+        stanford-postagger.sh stanford-postagger-gui.sh \
+        ${dest_java}
+    reinplace -W ${dest_java} \
+        "s|stanford-postagger.jar|${java_dir}/stanford-postagger.jar|g" \
+        stanford-postagger.sh stanford-postagger-gui.sh
+    # install models.
+    set dest_models ${dest_java}/models
+    xinstall -d ${dest_models}
+    foreach f [glob ${worksrcpath}/models/*.tagger] {
+        xinstall -m 644 ${f} ${dest_models}
+    }
+    # install examples.
+    set dest_ex ${destroot}${prefix}/share/examples/${name}
+    xinstall -d ${dest_ex}
+    xinstall -m 644 -W ${worksrcpath} \
+        sample-input.txt sample-output.txt \
+        ${dest_ex}
+    # install additional documents.
+    set dest_doc ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${dest_doc}
+    xinstall -m 644 -W ${worksrcpath} \
+        LICENSE.txt README.txt \
+        ${dest_doc}
+    xinstall -m 644 ${worksrcpath}/models/README-Models.txt \
+        ${dest_doc}
+}
+
+livecheck.type      regex
+livecheck.regex     {Tagger version *([0-9.]+) *}

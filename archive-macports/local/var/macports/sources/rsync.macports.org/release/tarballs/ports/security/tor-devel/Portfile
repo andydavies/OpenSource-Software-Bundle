@@ -1,0 +1,46 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115310 2013-12-31 02:18:37Z ryandesign@macports.org $
+
+PortSystem          1.0
+
+name                tor-devel
+conflicts           tor
+version             0.2.5.1-alpha
+categories          security
+platforms           darwin
+maintainers         nomaintainer
+license             BSD
+
+description         anonymizing overlay network for TCP
+
+long_description    Tor provides a distributed network of servers \
+                    (onion routers). Users bounce their TCP streams \
+                    (web traffic, FTP, SSH, etc.) around the \
+                    routers. This makes it hard for recipients, \
+                    observers, and even the onion routers \
+                    themselves to track the source of the stream.
+
+homepage            https://www.torproject.org/
+master_sites        ${homepage}dist/
+dist_subdir         tor
+distname            tor-${version}
+
+checksums           rmd160  60f05df088d302dce50f37c2154cff1971174f4d \
+                    sha256  3100d8f0ccb296e82f1d3602266d4dcde801daace82af74f5f27ee2fca7bb4a8
+
+depends_lib         port:libevent \
+                    port:openssl \
+                    port:zlib
+
+configure.args      --disable-asciidoc \
+                    --disable-silent-rules \
+                    --with-libevent-dir=${prefix} \
+                    --with-openssl-dir=${prefix} \
+                    --with-zlib-dir=${prefix}
+
+test.run            yes
+test.target         check
+
+livecheck.type      regex
+livecheck.url       ${master_sites}?C=M\;O=D
+livecheck.regex     tor-(\\d+\\.\\d+\\.\\d+\\.\\d+(-alpha|-beta|-rc)?)${extract.suffix}

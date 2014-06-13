@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118144 2014-03-23 18:44:22Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-raven
+version             4.1.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+supported_archs     noarch
+
+python.versions     27 33 34
+
+maintainers         stromnov openmaintainer
+
+description         Raven is a client for Sentry
+long_description    ${description}
+
+homepage            http://github.com/getsentry/raven-python
+master_sites        https://pypi.python.org/packages/source/r/raven/
+
+distname            raven-${version}
+
+checksums           rmd160  bcef7c82e5529645669072ca61f848ddd57cfcf3 \
+                    sha256  c981e37255595589361db8c196524e49c3cde301fbaaefce1eba60883767888a
+
+if {${name} ne ${subport}} {
+    depends_build       port:py${python.version}-setuptools
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       ${master_sites}
+    livecheck.regex     {raven-(\d+(?:\.\d+)*)\.[tz]}
+}

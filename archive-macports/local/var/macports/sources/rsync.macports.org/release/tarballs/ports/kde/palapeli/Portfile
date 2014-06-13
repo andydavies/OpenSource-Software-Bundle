@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116878 2014-02-09 12:07:42Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                palapeli
+version             4.12.2
+categories          kde kde4 games
+license             GPL-2+ LGPL-2+
+maintainers         nicos openmaintainer
+description         Palapeli is a single-player jigsaw puzzle game. 
+long_description    ${description} Unlike other games in that genre, you are not \
+                    limited to aligning pieces on imaginary grids. The pieces are \
+                    freely moveable. Also, Palapeli features real persistency, \
+                    i.e. everything you do is saved on your disk immediately.
+platforms           darwin
+homepage            http://www.kde.org/applications/games/palapeli/
+master_sites        kde:stable/${version}/src
+use_xz              yes
+distname            ${name}-${version}
+checksums           rmd160  9348e338d4f6019b7ecb100be27b1e4f37965537 \
+                    sha256  b97b5f71029cc14ef002cd02a97ec8a79530888949f95e8163857094753fe046
+
+#Binaries do not link to openssl, nor use the ssl backend of kdelibs4
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:libkdegames \
+                    port:qhull
+
+if {![variant_isset docs]} {
+    patchfiles      patch-CMakeLists.diff
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

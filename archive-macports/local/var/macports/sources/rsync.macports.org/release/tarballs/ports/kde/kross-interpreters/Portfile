@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116877 2014-02-09 11:45:20Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kross-interpreters
+version             4.12.2
+categories          kde kde4
+maintainers         nicos
+license             LGPL-2.1+
+description         WEB Development package for the K Desktop Environment.
+long_description    KDE ${description}
+homepage            http://www.kde.org
+platforms           darwin
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+
+checksums           rmd160  77cda4a336a3bf159acb1cd6e9e7e7db698cb273 \
+                    sha256  4bd458dbd49fd709c5d2e07d8f4bae8416c25e6ac223f226fe7f8664dad07063
+
+depends_lib-append  port:kdelibs4
+#                    port:falcon
+
+patchfiles          patch-CMakeLists.txt.diff
+
+configure.args-append   -DFALCON_INCLUDE_DIR=${prefix}/include/falcon0.9.6/falcon \
+                        -DFALCON_LIBRARIES=${prefix}/lib/libfalcon_engine.dylib
+
+variant python25 conflicts python26 python27 description {Use python 2.5} {
+    configure.pre_args-append   -DCMAKE_PREFIX_PATH=${prefix}/Library/Frameworks/Python.framework/Versions/2.5/
+    depends_lib-append      port:python25
+}
+
+variant python26 conflicts python25 python27 description {Use python 2.6} {
+    configure.pre_args-append   -DCMAKE_PREFIX_PATH=${prefix}/Library/Frameworks/Python.framework/Versions/2.6/
+    depends_lib-append      port:python26
+}
+
+variant python27 conflicts python25 python26 description {Use python 2.7} {
+    configure.pre_args-append   -DCMAKE_PREFIX_PATH=${prefix}/Library/Frameworks/Python.framework/Versions/2.7/
+    depends_lib-append      port:python27
+}
+
+if {![variant_isset python25] && ![variant_isset python26]} {
+    default_variants +python27
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

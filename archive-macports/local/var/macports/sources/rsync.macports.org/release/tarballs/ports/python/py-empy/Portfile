@@ -1,0 +1,39 @@
+# $Id: Portfile 117249 2014-02-20 18:00:14Z mmoll@macports.org $
+
+PortSystem 1.0
+PortGroup python 1.0
+
+set realname        empy
+name                py-${realname}
+version             3.3.2
+maintainers         openmaintainer mmoll
+license             LGPL
+platforms           darwin freebsd
+description         powerful and robust templating system for python
+long_description    py-empy is a system for embedding Python expressions \
+                    and statements in template text. It takes an EmPy \
+                    source file, processes it, and produces output. This \
+                    is accomplished via expansions, which are special \
+                    signals to the py-empy system and are set off by a \
+                    special prefix.
+
+homepage            http://www.alcyone.com/software/empy/
+master_sites        ${homepage}
+distname            empy-${version}
+checksums           md5     3735af958000e81a5649ca7a9a716230 \
+                    sha1    9d5ef6effd82722ec9365ecf58682acf04eb50f1 \
+                    rmd160  d445b76dd3238dd3f19f9f4d09daeefbe75ebf38
+
+python.versions     24 25 26 27 31 32 33 34
+python.default_version 24
+
+if {${name} eq ${subport}} {
+    livecheck.type      regex
+    livecheck.url       ${homepage}
+    livecheck.regex     The current version of empy is (\[0-9.\]+\[0-9\])
+} else {
+    post-destroot {
+        file copy ${worksrcpath}/doc ${destroot}${prefix}/share/doc/${subport}
+    }
+    livecheck.type      none
+}

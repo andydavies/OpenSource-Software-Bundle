@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117232 2014-02-19 23:23:13Z jeremyhu@macports.org $
+
+PortSystem      1.0
+
+name            totem-pl-parser
+version         3.10.1
+set branch      [join [lrange [split ${version} .] 0 1] .]
+categories      gnome
+license         LGPL-2+
+maintainers     devans openmaintainer
+description     Gnome Playlist parser
+long_description \
+        totem-pl-parser is a simple GObject-based library to parse \
+        a host of playlist formats, as well as save those
+
+homepage        https://wiki.gnome.org/Apps/Videos
+platforms       darwin
+master_sites    gnome:sources/${name}/${branch}/
+
+use_xz          yes
+
+checksums       rmd160  eb1a3a59f1c994c50d8332e716c8cfd98ee53f13 \
+                sha256  13d20222e7230eff1b22acc2b6b54d3c910590782a3ac39b859857407fb5e413
+
+depends_build   port:pkgconfig \
+                port:intltool \
+                port:gnome-common
+
+depends_lib     port:libsoup \
+                port:libarchive \
+                port:libgcrypt \
+                port:libquvi \
+                port:libxml2 \
+                port:gmime \
+                port:gobject-introspection
+
+patchfiles      patch-plparse-plparser.symbols.diff \
+                patch-configure.ac.diff
+
+# update m4/intltool.m4 and autoreconf
+
+pre-configure {
+    copy -force ${prefix}/share/aclocal/intltool.m4 ${worksrcpath}/m4
+}
+
+use_autoreconf  yes
+autoreconf.args -fvi
+
+configure.args  --enable-introspection=yes \
+                --enable-libarchive \
+                --enable-libgcrypt \
+                --enable-quvi \
+                --disable-silent-rules
+
+livecheck.type  gnome

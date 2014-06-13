@@ -1,0 +1,12 @@
+prefix=/opt/local
+exec_prefix=/opt/local
+libdir=/opt/local/lib
+includedir=/opt/local/include
+
+Name: libplist++
+Description: C++ binding of libplist
+Version: 1.10
+Requires: libplist >= 1.10
+Libs: -L/opt/local/lib -lplist++
+Cflags: -I/opt/local/include
+

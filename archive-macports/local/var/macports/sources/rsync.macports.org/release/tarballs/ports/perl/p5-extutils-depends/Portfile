@@ -1,0 +1,21 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116031 2014-01-16 19:56:11Z devans@macports.org $
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+perl5.branches      5.8 5.10 5.12 5.14 5.16
+perl5.setup         ExtUtils-Depends 0.306
+license             {Artistic-1 GPL}
+maintainers         nomaintainer
+description         Easily build XS extensions that depend on XS
+long_description    ${description}
+
+platforms           darwin
+
+homepage            http://gtk2-perl.sourceforge.net/
+
+checksums           rmd160  21a3191880a5d67b51cf09344ee45cca13f31f68 \
+                    sha256  45258bcb83cd130e90a5f8ff19c1b69063f894634b01140f69d550d92b2c2369
+
+supported_archs     noarch

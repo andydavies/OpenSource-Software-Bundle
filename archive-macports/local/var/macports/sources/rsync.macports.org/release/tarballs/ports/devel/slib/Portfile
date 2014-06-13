@@ -1,0 +1,41 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116729 2014-02-05 01:21:22Z ryandesign@macports.org $
+
+PortSystem 1.0
+PortGroup           conflicts_build 1.0
+
+name                slib
+version             3b4
+categories          devel lang
+platforms           darwin
+supported_archs     noarch
+license             Permissive
+maintainers         nomaintainer
+description         A portable scheme library
+long_description    SLIB is a portable library for the programming \
+                    language Scheme.  It provides a platform \
+                    independent framework for using packages of \
+                    Scheme procedures and syntax.  As distributed, \
+                    SLIB contains useful packages for all Scheme \
+                    implementations.  Its catalog can be transparently \
+                    extended to accomodate packages specific to a site, \
+                    implementation, user, or directory.
+homepage            http://www.swiss.ai.mit.edu/~jaffer/SLIB.html
+master_sites        http://groups.csail.mit.edu/mac/ftpdir/scm/ \
+                    http://groups.csail.mit.edu/mac/ftpdir/scm/OLD/
+
+checksums           rmd160  b58af4556b7e7aab99fb2729c964af04d15cb6a6 \
+                    sha256  9f7c50cb07ba996917aa1b15eca6392d0215ccbdfdf84f68486a23adc7f1d7a6
+
+# https://trac.macports.org/ticket/42370
+conflicts_build     texinfo
+
+# The build happens at destroot time; there doesn't seem to be a good way
+# to make it build without also installing at the same time.
+build {}
+
+destroot.args       INSTALL_INFO=install-info
+
+livecheck.type      regex
+livecheck.url       [lindex ${master_sites} 0]
+livecheck.regex     ${name}-(\[0-9a-d.\]+)${extract.suffix}

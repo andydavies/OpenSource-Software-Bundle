@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 114825 2013-12-16 21:00:07Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           cmake 1.0
+
+name                box2d
+version             2.3.0
+categories          devel
+
+maintainers         stromnov openmaintainer
+
+description         Box2D Physics Engine
+
+long_description    ${description}
+
+platforms           darwin
+
+homepage            http://www.box2d.org/
+master_sites        googlecode:box2d
+
+fetch.type          svn
+svn.url             http://box2d.googlecode.com/svn/tags/v${version}
+svn.revision        291
+
+worksrcdir          ${worksrcdir}/../build
+
+post-extract {
+    file mkdir ${worksrcpath}
+}
+
+configure.args-append ../v${version}/Box2D \
+                    -DBOX2D_INSTALL=ON \
+                    -DBOX2D_INSTALL_DOC=ON \
+                    -DBOX2D_BUILD_SHARED=ON \
+                    -DBOX2D_BUILD_STATIC=ON \
+                    -DBOX2D_BUILD_EXAMPLES=OFF

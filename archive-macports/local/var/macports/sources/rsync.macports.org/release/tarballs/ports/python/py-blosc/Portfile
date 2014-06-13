@@ -1,0 +1,50 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118126 2014-03-23 10:47:23Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-blosc
+version             1.2.3
+revision            0
+categories-append   devel
+platforms           darwin
+license             MIT
+
+python.versions     26 27 31 32 33 34
+
+maintainers         stromnov openmaintainer
+
+description         Python package that wraps the Blosc compressor
+
+long_description    Blosc (http://blosc.pytables.org) is a high performance \
+                    compressor optimized for binary data.  It has been \
+                    designed to transmit data to the processor cache faster \
+                    than the traditional, non-compressed, direct memory fetch \
+                    approach via a memcpy() OS call. \
+                    \
+                    Blosc works well for compressing numerical arrays that \
+                    contains data with relatively low entropy, like sparse \
+                    data, time series, grids with regular-spaced values, etc. \
+                    \
+                    This is a Python package that wraps it.
+
+homepage            http://blosc.pytables.org/
+master_sites        http://pypi.python.org/packages/source/b/blosc/
+
+distname            blosc-${version}
+
+checksums           rmd160  f0da5119cd18a0a8cba6a60b222deffb39b26d93 \
+                    sha256  46f796ae1360b3f1580a16dc7f9f2b88b019b4f5f013bec3b84ca9ef6c859da8
+
+if {${name} ne ${subport}} {
+    depends_lib-append  port:blosc
+
+    build.args-append   --blosc=${prefix}
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       ${master_sites}
+    livecheck.regex     "blosc-(\\d+(?:\\.\\d+)*)${extract.suffix}"
+}

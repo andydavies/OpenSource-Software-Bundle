@@ -1,0 +1,67 @@
+# $Id: Portfile 117157 2014-02-18 00:04:12Z ram@macports.org $
+
+PortSystem    1.0
+PortGroup     active_variants 1.1
+PortGroup     conflicts_build 1.0
+
+name          lalinspiral
+version       1.5.3
+categories    science
+platforms     darwin
+maintainers   ram
+license       GPL
+
+description   LSC Algorithm Library - Inspiral
+long_description \
+  LIGO Scientific Collaboration Algorithm Library - Inspiral, containing \
+  routines for compact binary gravitational wave data analysis.
+
+homepage      https://www.lsc-group.phys.uwm.edu/daswg/projects/lalsuite.html
+master_sites  http://www.lsc-group.phys.uwm.edu/daswg/download/software/source/lalsuite
+
+checksums     rmd160 98b4daa9566b9bd6fc53a61759245dbba093122b \
+              sha256 13b87f35d801803cd99d2b3363cb82dc6c76d9c9fe9aed32e9831991d4a00677
+
+depends_build-append port:pkgconfig \
+
+depends_lib   port:python27 \
+              port:lal \
+              port:lalframe \
+              port:lalmetaio \
+              port:lalsimulation \
+              port:gsl \
+              port:metaio
+
+configure.python ${prefix}/bin/python2.7
+configure.args --mandir=${prefix}/share/man \
+               --disable-silent-rules \
+               --disable-gcc-flags \
+               --disable-debug
+
+use_parallel_build yes
+
+set pythondir "${frameworks_dir}/Python.framework/Versions/2.7/lib/python2.7/site-packages"
+destroot.args-append \
+              pythondir="${pythondir}" \
+              pyexecdir="${pythondir}" \
+              pkgpythondir="${pythondir}/${name}" \
+              pkgpyexecdir="${pythondir}/${name}"
+
+# FIXME: fails to build if previous version active
+conflicts_build ${name}
+
+variant swig_python description {Build python SWIG bindings} {
+  require_active_variants lal swig_python
+  require_active_variants lalframe swig_python
+  require_active_variants lalmetaio swig_python
+  require_active_variants lalsimulation swig_python
+  depends_build-append  port:swig-python
+  depends_lib-append    port:py27-numpy
+  configure.args-append --enable-swig-python
+}
+
+default_variants +swig_python
+
+livecheck.type   regex
+livecheck.url    ${master_sites}
+livecheck.regex  {lalinspiral-(\d+(?:\.\d+)*).tar.gz}

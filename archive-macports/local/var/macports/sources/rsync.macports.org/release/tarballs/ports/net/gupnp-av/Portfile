@@ -1,0 +1,38 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116716 2014-02-04 18:41:26Z devans@macports.org $
+
+PortSystem 1.0
+
+name            gupnp-av
+version         0.12.5
+license         LGPL
+set branch      [join [lrange [split ${version} .] 0 1] .]
+description     GUPnP-AV is a collection of helpers for building AV (audio/video) applications using GUPnP.
+
+long_description \
+                ${description}
+
+maintainers     devans openmaintainer
+categories      net gnome
+platforms       darwin
+homepage        https://wiki.gnome.org/Projects/GUPnP
+master_sites    gnome:sources/${name}/${branch}/
+
+use_xz          yes
+
+checksums       rmd160  3d0e791518cadb700f3a5f9a912cbea843b0c4ad \
+                sha256  8375034ccc4a45e90923c26135517aab57a88f5757ce65a1b23378df4c60bff6
+
+depends_build   port:pkgconfig
+
+depends_lib     port:gupnp \
+                port:gobject-introspection \
+                port:vala
+
+# Remove a warning flag that earlier gcc don't know about
+patchfiles-append   patch-test-Makefile.in.diff
+
+configure.args  --disable-silent-rules \
+                --enable-introspection=yes
+
+livecheck.type  gnome

@@ -1,0 +1,26 @@
+# $Id: Portfile 117694 2014-03-08 11:20:08Z g5pw@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+name                py-markdown
+version             2.4
+python.versions     26 27 31 32 33 34
+categories-append   textproc
+maintainers         openmaintainer erickt
+description         Python implementation of Markdown
+long_description    ${description}
+license             BSD
+
+platforms           darwin
+supported_archs     noarch
+
+homepage            http://packages.python.org/Markdown/
+master_sites        http://pypi.python.org/packages/source/M/Markdown/
+distname            Markdown-${version}
+
+checksums           rmd160  60d2edf227fdb0421f37cc317ee6b17815ffb9a9 \
+                    sha256  b8370fce4fbcd6b68b6b36c0fb0f4ec24d6ba37ea22988740f4701536611f1ae
+
+livecheck.type      regex
+livecheck.url       http://pypi.python.org/pypi/Markdown
+livecheck.regex     Markdown-(\[0-9.\]+)${extract.suffix}

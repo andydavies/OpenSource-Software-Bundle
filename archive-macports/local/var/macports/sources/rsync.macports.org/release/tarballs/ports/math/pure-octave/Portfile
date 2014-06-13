@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117828 2014-03-14 08:46:32Z ryandesign@macports.org $
+
+PortSystem                      1.0
+PortGroup                       pure 1.0
+
+pure.setup                      octave 0.5
+categories                      math science
+platforms                       darwin
+maintainers                     ryandesign
+license                         GPL-3
+
+description                     an interface to run Octave commands from Pure
+
+long_description                ${name} is ${description}.
+
+checksums                       rmd160  80bb782216b14ecb51d6becae47bfafddf8f96a1 \
+                                sha256  27b80ce2abfa05b55106a1708b4d69e46ed3ad9381ed7336927642ff0fd52107
+
+depends_lib-append              path:bin/octave:octave

@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116860 2014-02-09 01:42:47Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kcharselect
+version             4.12.2
+categories          kde kde4
+license             GPL-2+
+maintainers         nicos openmaintainer
+description         Select special characters from any font.
+long_description    KCharSelect is a tool to select special characters \
+                    from all installed fonts and copy them into the \
+                    clipboard.
+platforms           darwin
+homepage            http://utils.kde.org/projects/kcharselect/
+master_sites        kde:stable/${version}/src
+use_xz              yes
+distname            ${name}-${version}
+checksums           rmd160  af7db7618429080eba193edb76d8fa306b16abbc \
+                    sha256  444af977b84192aefd2789c54ae99898a9f077cdbc524b96af448f28fc8217d9
+
+#Binaries do not link to openssl, nor use the ssl backend of kdelibs4
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:oxygen-icons
+
+if {![variant_isset docs]} {
+    patchfiles      patch-CMakeLists.txt.diff
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

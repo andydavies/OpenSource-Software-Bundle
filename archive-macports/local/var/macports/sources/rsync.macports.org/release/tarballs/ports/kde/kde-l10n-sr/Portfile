@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116889 2014-02-09 15:33:43Z nicos@macports.org $
+
+PortSystem      1.0
+PortGroup       kde4 1.1
+
+name            kde-l10n-sr
+version         4.12.2
+categories      kde kde4
+maintainers     nicos
+license         {LGPL-2.1 LGPL-3+ GPL-2+ MIT BSD}
+description     KDE Serbian language files.
+long_description \
+                ${description}
+platforms       darwin
+homepage        http://www.kde.org/
+
+master_sites    kde:stable/${version}/src/kde-l10n/
+use_xz          yes
+
+supported_archs noarch
+depends_lib     port:kdelibs4
+
+checksums           rmd160  8c9386c9b9da725ea2e445d6d0bbc39d8b2557e8 \
+                    sha256  7b383bc4d7878322e2c4bb9b80fc00cff6eadc6c512ae5e7b0630622a3018ab1
+
+if {![variant_isset docs]} {
+    patchfiles-append   patch-CMakeLists.txt.diff
+}
+
+post-destroot {
+    xinstall -d -m 755 ${destroot}${prefix}/share/doc/kde-installed-packages
+    system "touch ${destroot}${prefix}/share/doc/kde-installed-packages/kde-l10n-serbian"
+}
+
+livecheck.type  none

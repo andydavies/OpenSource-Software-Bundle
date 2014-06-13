@@ -1,0 +1,207 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117297 2014-02-21 15:17:17Z michaelld@macports.org $
+
+PortSystem          1.0
+PortGroup           cmake 1.0
+PortGroup           github 1.0
+
+name                uhd
+categories          science comms
+maintainers         michaelld openmaintainer
+description         USRP Hardware Driver for Ettus Research Products
+license             GPL-3+
+
+homepage            https://ettus-apps.sourcerepo.com/redmine/ettus/projects/uhd/wiki
+platforms           darwin
+
+dist_subdir         uhd
+set base_version    3.7.0
+
+if {${subport} eq ${name}} {
+
+    long_description ${description}: \
+Provides the release version, which is typically updated every month or so.
+
+    github.setup    EttusResearch uhd release_003_007_000
+    version         ${base_version}
+    conflicts       uhd-devel
+    checksums       rmd160 40c60d1f481ed4459c1dc6a5087fd1a736ed23a6 \
+                    sha256 8309406f92d2ea8b099cdd996fc10119bc4ad17441645a48a75a889f0cef5141
+
+}
+
+subport uhd-devel {
+
+    long_description ${description}: \
+Provides the GIT master version, which is typically updated every few days to week.
+
+    github.setup    EttusResearch uhd a8caec5f93976c081d488118f53a72dca49efdf6
+    version         ${base_version}_20140219
+    name            uhd-devel
+    conflicts       uhd
+    checksums       rmd160 28f1ab13c72133e5bae6655363cfcf4d252442d4 \
+                    sha256 f68be306d1e91166f883928547df5178873924e59852ed292543a3802a7a1bfa
+
+}
+
+depends_lib-append	 port:boost port:ncurses
+
+depends_build-append port:pkgconfig
+
+# do VPATH build
+
+post-extract        { file mkdir ${workpath}/build }
+configure.dir       ${workpath}/build
+build.dir           ${workpath}/build
+
+# remove top-level include path, such that internal headers are used
+# instead of any already-installed ones.
+
+configure.cppflags-delete -I${prefix}/include
+
+# remove top-level library path, such that internal libraries are used
+# instead of any already-installed ones.
+
+configure.ldflags-delete -L${prefix}/lib
+
+# set last configure argument to the reletive path
+# to the top-level cmake source
+
+configure.post_args ../${worksrcdir}/host
+
+# explicitly set configure args -D cmake flags to get MacPorts'
+# curses; these are used by some variants, but they don't hurt.
+
+configure.args-append \
+    -DCURSES_CURSES_H_PATH=${prefix}/include \
+    -DCURSES_CURSES_LIBRARY=${prefix}/lib/libcurses.dylib \
+    -DCURSES_FORM_LIBRARY=${prefix}/lib/libform.dylib \
+    -DCURSES_HAVE_CURSES_H=${prefix}/include/curses.h \
+    -DCURSES_INCLUDE_PATH=${prefix}/include \
+    -DCURSES_LIBRARY=${prefix}/lib/libcurses.dylib \
+    -DCURSES_NCURSES_LIBRARY=${prefix}/lib/libncurses.dylib \
+    -DPKG_LIB_DIR=${prefix}/share/uhd
+
+# be verbose when building, for debugging purposes
+
+build.post_args VERBOSE=1
+
+# after destroot, have uhd fetch its images into the destroot area,
+# so that they are also tracked by MacPorts
+
+post-destroot {
+    system "${destroot}${prefix}/share/uhd/utils/uhd_images_downloader.py --install-location=${destroot}${prefix}/share/uhd/images"
+}
+
+# shortcut to installing all variants except Python
+
+variant full description {Deprecated legacy variant} {}
+default_variants -full
+
+# per user concensus: enable all variants except +debug and +universal
+
+default_variants +docs +examples +libusb +manual +test +orc
+
+# set Python variants
+
+set pythons_suffixes {26 27}
+global chosen_python_suffix
+set chosen_python_suffix ""
+
+set pythons_ports {}
+foreach s ${pythons_suffixes} {
+    lappend pythons_ports python${s}
+}
+
+foreach s ${pythons_suffixes} {
+    set p python${s}
+    set v [join [split ${s} ""] "."]
+    set i [lsearch -exact ${pythons_ports} ${p}]
+    set c [lreplace ${pythons_ports} ${i} ${i}]
+    eval [subst {
+        variant ${p} description "Build UHD for Python ${v}" \
+            conflicts ${c} {
+
+            set chosen_python_suffix ${s}
+            depends_lib-append \
+                port:${p} \
+                port:py${s}-cheetah
+
+            # specify that Python version to use
+            configure.args-append \
+                -DPYTHON_EXECUTABLE=${prefix}/bin/python${v}
+        }
+    }]
+}
+
+# if no python variant is set, default to 2.7
+if {![variant_isset python26] &&
+    ![variant_isset python27]} {
+    default_variants +python27
+}
+
+# make sure -python27 was not used alone
+if {![variant_isset python26] &&
+    ![variant_isset python27]} {
+    return -code error "Exactly one Python variant must be selected."
+}
+
+variant test description {enable tests} {
+    configure.args-append -DENABLE_TESTS=ON
+    test.run yes
+}
+
+if {![variant_isset test]} {
+    configure.args-append -DENABLE_TESTS=OFF
+}
+
+variant examples description {enable examples} {
+    configure.args-append -DENABLE_EXAMPLES=ON
+}
+
+if {![variant_isset examples]} {
+    configure.args-append -DENABLE_EXAMPLES=OFF
+}
+
+variant libusb description {enable USB support via libusb version 1.0} {
+    depends_lib-append port:libusb
+    configure.args-append \
+        -DENABLE_USB=ON \
+        -DLIBUSB_INCLUDE_DIRS=${prefix}/include/libusb-1.0
+}
+
+if {![variant_isset libusb]} {
+    configure.args-append -DENABLE_USB=OFF
+}
+
+variant docs description {build documentation} {
+    depends_lib-append port:doxygen
+    configure.args-append -DENABLE_DOXYGEN=ON
+}
+
+if {![variant_isset docs]} {
+    configure.args-append -DENABLE_DOXYGEN=OFF
+}
+
+variant manual description {build manual} {
+    depends_lib-append \
+        port:py${chosen_python_suffix}-docutils
+    pre-configure {
+        set v [join [split ${chosen_python_suffix} ""] "."]
+        configure.args-append -DENABLE_MANUAL=ON \
+            -DRST2HTML_EXECUTABLE=${prefix}/bin/rst2html-${v}.py
+    }
+}
+
+if {![variant_isset manual]} {
+    configure.args-append -DENABLE_MANUAL=OFF
+}
+
+variant orc description {enable ORC support} {
+    depends_lib-append port:orc
+    configure.args-append -DENABLE_ORC=ON
+}
+
+if {![variant_isset orc]} {
+    configure.args-append -DENABLE_ORC=OFF
+}

@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117990 2014-03-18 15:07:09Z mmoll@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-modulegraph
+version             0.11
+categories-append   devel
+license             MIT
+maintainers         jmr openmaintainer
+description         Python module dependency analysis tool
+long_description \
+    modulegraph determines a dependency graph between Python modules \
+    primarily by bytecode analysis for import statements. \
+    modulegraph uses similar methods to modulefinder from the standard \
+    library, but uses a more flexible internal representation, has more \
+    extensive knowledge of special cases, and is extensible.
+
+platforms           darwin
+supported_archs     noarch
+
+homepage            http://undefined.org/python/#modulegraph
+master_sites        https://pypi.python.org/packages/source/m/modulegraph/
+distname            modulegraph-${version}
+
+checksums           md5 0c1fa5120ff35dd98e0ca7b77c19d928 \
+                    rmd160 4ddead66ffb7444a77c97f5d4478d409825a3eab \
+                    sha256 cbcfd04417dee9f063365a8db80237158b588faa5255fb7dd0f1e0ad494ebc1e
+
+python.versions     24 25 26 27 31 32 33 34
+
+if {${name} ne ${subport}} {
+    depends_lib         port:py${python.version}-altgraph \
+                        port:py${python.version}-setuptools
+    livecheck.type  none
+    if {${python.version} <= 25} {
+        version     0.9.1
+        checksums   md5 4d5e8dbfc35d7a3d1123c4cc2d958125 \
+                    sha1 92f4307ac1d8b4fef7acd12f72a71c63109ff246 \
+                    rmd160 b8912f3e618a735f75e5f4d6ca60f78ffb557537
+        distname    modulegraph-${version}
+    }
+} else {
+    livecheck.type  regex
+    livecheck.url   https://pypi.python.org/pypi/modulegraph
+    livecheck.regex {modulegraph ([0-9.]+)}
+}

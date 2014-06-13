@@ -1,0 +1,39 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116210 2014-01-21 18:25:23Z ryandesign@macports.org $
+
+PortSystem              1.0
+PortGroup               php 1.1
+
+name                    php-opcache
+version                 7.0.3
+platforms               darwin
+maintainers             ryandesign
+license                 PHP-3.01
+
+# As of PHP 5.5 this extension is bundled with PHP.
+php.branches            5.3 5.4
+php.pecl                yes
+php.pecl.name           ZendOpcache
+php.pecl.prerelease     yes
+php.extensions.zend     opcache
+
+description             OPcache improves PHP performance by storing precompiled \
+                        script bytecode in shared memory, thereby removing the \
+                        need for PHP to load and parse scripts on each request.
+
+long_description        ${description}
+
+distname                zendopcache-${version}
+
+checksums               rmd160  7e1a5fec48186bf7e6758667c33dfc981d14569d \
+                        sha256  08d9a6c21dd7b18c1f027a0c3f13a203a9a8362f98b04db0d39672e2dd5cee62
+
+if {${name} ne ${subport}} {
+    configure.args-append --enable-opcache
+    
+    post-destroot {
+        set docdir ${destroot}${prefix}/share/doc/${subport}
+        xinstall -d ${docdir}
+        xinstall -W ${worksrcpath} -m 644 LICENSE README ${docdir}
+    }
+}

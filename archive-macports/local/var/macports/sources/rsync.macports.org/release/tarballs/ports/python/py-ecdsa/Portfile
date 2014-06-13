@@ -1,0 +1,36 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117802 2014-03-13 09:59:52Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-ecdsa
+version             0.11
+revision            0
+categories-append   devel security
+platforms           darwin
+license             MIT
+supported_archs     noarch
+
+python.versions     27 33 34
+
+maintainers         stromnov openmaintainer
+
+description         ECDSA cryptographic signature library
+long_description    ${description}
+
+homepage            http://github.com/warner/python-ecdsa
+master_sites        https://pypi.python.org/packages/source/e/ecdsa/
+
+distname            ecdsa-${version}
+
+checksums           rmd160  4be4b753b4a01e68bf9e5863847e849004de5de3 \
+                    sha256  8e3b6c193f91dc94b2f3b0261e3eabbdc604f78ff99fdad324a56fdd0b5e958c
+
+if {${name} ne ${subport}} {
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       ${master_sites}
+    livecheck.regex     {ecdsa-(\d+(?:\.\d+)*)\.[tz]}
+}

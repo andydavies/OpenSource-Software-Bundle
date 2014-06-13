@@ -1,0 +1,76 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117546 2014-03-03 14:34:27Z snc@macports.org $
+
+PortSystem          1.0
+
+name                lilypond-devel
+set my_name         lilypond
+version             2.19.3
+set branch          [join [lrange [split ${version} .] 0 1] .]
+categories          textproc
+maintainers         snc openmaintainer
+license             GPL-3+
+description         An automated engraving system for typesetting sheet music.
+long_description    Lilypond is a unix-based automated engraving system that \
+                    generates beautiful sheet music from input files. Lilypond \
+                    uses its own input format, .ly, which in many ways is \
+                    similar to LaTeX. Lilypond can export sheet music to PDF, \
+                    EPS, SVG, and PNG formats, and can also create MIDI files.
+
+homepage            http://lilypond.org/
+conflicts           lilypond
+platforms           darwin
+master_sites        http://download.linuxaudio.org/lilypond/sources/v${branch}/
+distname            ${my_name}-${version}
+checksums           rmd160  d0cc50e75f5516c4ca21edaabccd81a51b8442b8 \
+                    sha256  08efddcd3b24675870c6891932205361a2f9d839c49760798d48d6df7b36053e
+
+depends_build       port:t1utils \
+                    port:texi2html \
+                    port:netpbm \
+                    port:pkgconfig
+depends_lib         port:fontconfig \
+                    port:fontforge \
+                    port:freetype \
+                    port:gettext \
+                    path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:ghostscript \
+                    port:gmp \
+                    port:mftrace \
+                    port:guile \
+                    port:texinfo \
+                    path:lib/pkgconfig/pango.pc:pango \
+                    port:flex \
+                    port:t1utils \
+                    port:texlive-lang-cyrillic \
+                    port:texlive-metapost \
+                    port:dblatex \
+                    port:urw-fonts \
+                    port:libtool \
+                    port:python27
+
+configure.python    ${frameworks_dir}/Python.framework/Versions/2.7/bin/python2.7
+
+patchfiles          patch-scripts-build-mf2pt1.pl.diff
+post-patch {
+    reinplace s|__vector|lily_vector|g ${worksrcpath}/flower/include/std-vector.hh
+}
+
+configure.args-append  --with-ncsb-dir=${prefix}/share/fonts/urw-fonts \
+    --enable-documentation
+configure.env       LTDL_LIBRARY_PATH=${prefix}/lib \
+                    PYTHON_CONFIG=${configure.python}-config
+
+build.env           LTDL_LIBRARY_PATH=${prefix}/lib
+
+destroot.env        LTDL_LIBRARY_PATH=${prefix}/lib
+post-destroot {
+    move ${destroot}${prefix}/bin/lilypond \
+        ${destroot}${prefix}/libexec/lilypond-bin
+    xinstall -m 755 ${filespath}/lilypond.in ${destroot}${prefix}/bin/lilypond
+    reinplace "s|@@PREFIX@@|${prefix}|g" ${destroot}${prefix}/bin/lilypond
+}
+
+livecheck.type  regex
+livecheck.url   ${homepage}/development.html
+livecheck.regex ${my_name}-(\\d+(\\.\\d+)+)

@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116877 2014-02-09 11:45:20Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                perlqt
+version             4.12.2
+categories          kde kde4
+license             GPL-2+
+maintainers         nicos openmaintainer
+description         Perl bindings for the Qt4 and KDE4 libraries.
+long_description    ${description} This project supplies a production-ready \
+                    module that is similar in syntax to the PerlQt3 binding.
+platforms           darwin
+homepage            http://code.google.com/p/perlqt4/
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+distname            ${name}-${version}
+checksums           rmd160  05400fc41104921a326838110634095e1ea5e26a \
+                    sha256  e2eda1f8763777a6e44d32a70516e06834e81931d19dac96f689284e52fdaba1
+
+depends_lib-append  port:smokeqt \
+                    path:bin/perl:perl5
+
+patchfiles          patch-CMakeLists.txt.diff
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

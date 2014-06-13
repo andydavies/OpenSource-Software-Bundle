@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116864 2014-02-09 04:59:28Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kalzium
+version             4.12.2
+categories          kde kde4 chemistry
+license             GPL-2+ LGPL-2+
+maintainers         nicos
+description         Periodic Table of Elements
+long_description    KDE ${description}
+homepage            http://www.kde.org
+
+platforms           darwin
+depends_lib-append  port:libkdeedu port:ocaml
+
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+
+checksums           rmd160  cd8f819e13a33bd47670acf51ecbf954eebdf517 \
+                    sha256  9e0eb80fcdbce0097f2b0e00f233c53343288ab916aaea41668f0f660bf8d2be
+
+platform darwin { 
+    #Activating dependencies only under Mavericks
+    if {${os.major} < 13} { 
+        depends_lib-append  port:eigen port:openbabel
+    }
+}
+
+#Binaries do not link to openssl, nor use the ssl backend of kdelibs4
+license_noconflict  openssl
+
+if {![variant_isset docs]} {
+    patchfiles      patch-CMakeLists.txt.diff
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

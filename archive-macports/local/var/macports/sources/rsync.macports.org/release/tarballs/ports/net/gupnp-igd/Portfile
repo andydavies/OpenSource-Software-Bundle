@@ -1,0 +1,61 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116786 2014-02-07 17:01:22Z devans@macports.org $
+
+PortSystem      1.0
+
+name            gupnp-igd
+version         0.2.3
+license         LGPL
+set branch      [join [lrange [split ${version} .] 0 1] .]
+description     GUPnP-IGD is a library to handle UPnP IGD port mapping.
+
+long_description \
+                ${description}
+
+maintainers     devans openmaintainer
+categories      net gnome
+platforms       darwin
+homepage        https://wiki.gnome.org/Projects/GUPnP
+master_sites    gnome:sources/${name}/${branch}/
+
+use_xz          yes
+
+checksums       rmd160  be9b68f7f5916a7e4c8b26f8c2f3c4ac7337dc5d \
+                sha256  ccaf49f9d4f38ac646f1b00341d4db767291e56592286da0e0eb0835811f462d
+
+depends_build   port:pkgconfig
+
+depends_lib     port:gupnp \
+                port:gobject-introspection
+
+patchfiles      patch-configure.diff \
+                patch-python-pygupnp-igd-module.c.diff
+
+configure.args  --disable-silent-rules \
+                --enable-introspection=yes
+
+if {![variant_isset python26]}  {
+    default_variants +python27
+}
+
+variant python26 conflicts python27  description {Enable Python 2.6 bindings} {
+                configure.args-append       --enable-python
+                depends_lib-append          port:py26-gobject
+                configure.python            ${prefix}/bin/python2.6
+                set python_prefix           ${frameworks_dir}/Python.framework/Versions/2.6
+                set python_pkg_config_path  ${python_prefix}/lib/pkgconfig
+                configure.pkg_config_path   ${python_pkg_config_path}
+                build.env-append            PATH=${python_prefix}/bin:$env(PATH)
+}
+
+variant python27 conflicts python26  description {Enable Python 2.7 bindings} {
+                configure.args-append       --enable-python
+                depends_lib-append          port:py27-gobject
+                configure.python            ${prefix}/bin/python2.7
+                set python_prefix           ${frameworks_dir}/Python.framework/Versions/2.7
+                set python_pkg_config_path  ${python_prefix}/lib/pkgconfig
+                configure.pkg_config_path   ${python_pkg_config_path}
+                build.env-append            PATH=${python_prefix}/bin:$env(PATH)
+}
+
+livecheck.type  gnome

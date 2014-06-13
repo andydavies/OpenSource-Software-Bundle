@@ -1,0 +1,90 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117249 2014-02-20 18:00:14Z mmoll@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+PortGroup           mpi 1.0
+
+mpi.setup
+
+set realname        tables
+name                py-${realname}
+version             3.1.0
+revision            1
+categories-append   science
+platforms           darwin
+license             BSD
+
+python.versions     26 27 32 33 34
+
+maintainers         mmoll openmaintainer
+
+description         Package for managing hierarchical datasets
+long_description    PyTables is a package for managing hierarchical datasets \
+                    and designed to efficiently and easily cope with \
+                    extremely large amounts of data
+
+homepage            http://www.pytables.org/
+master_sites        http://sourceforge.net/projects/pytables/files/pytables/${version}
+
+checksums           rmd160  5e3f28de32f9609cc124a4d135a4572245424a02 \
+                    sha256  92bd5052c61fef3d55505dcb1162150ea5e274b76c4e41633e8f78a9ad5f4dc1
+
+distname            ${realname}-${version}
+
+if {${name} ne ${subport}} {
+    build.target        build_ext
+    build.args          --inplace \
+                        --hdf5=${prefix} \
+                        --bzip2=${prefix} \
+                        --lzo=${prefix} \
+                        --blosc=${prefix}
+
+    destroot.args       --hdf5=${prefix} \
+                        --bzip2=${prefix} \
+                        --lzo=${prefix} \
+                        --blosc=${prefix}
+    pre-destroot {
+        # need to wrap this in a pre-destroot phase so that ${mpi.cc} expands to the right value
+        if {[mpi_variant_isset]} {
+            destroot.cmd       env CC=${mpi.cc} ${destroot.cmd}
+        }
+    }
+    depends_build-append \
+                        port:py${python.version}-cython
+
+    depends_lib-append  port:hdf5-18 \
+                        port:py${python.version}-numpy \
+                        port:py${python.version}-numexpr \
+                        port:zlib \
+                        port:bzip2 \
+                        port:lzo2 \
+                        port:blosc
+
+    if {${subport} eq "py26-${realname}" || ${subport} eq "py27-${realname}"} {
+        depends_lib-append  port:py${python.version}-scientific
+    }
+
+    post-extract {
+        file rename ${worksrcpath}/src/utils.h ${worksrcpath}/src/xxx_utils.h
+    }
+
+    post-patch {
+        eval reinplace "s:utils.h:xxx_utils.h:" [glob ${worksrcpath}/{src,tables}/*.c]
+    }
+
+    post-destroot    {
+        xinstall -m 755 -d ${destroot}${prefix}/share/doc/${subport}
+        xinstall -m 644 -W ${worksrcpath} ANNOUNCE.txt LICENSE.txt README.txt \
+            RELEASE_NOTES.txt THANKS VERSION \
+            ${destroot}${prefix}/share/doc/${subport}
+    }
+}
+
+if {${name} eq ${subport}} {
+    livecheck.type      regex
+    livecheck.url       ${homepage}
+    livecheck.regex     {PyTables ([0-9]+\.[0-9]+\.[0-9]+) \(?final\)? released}
+} else {
+    livecheck.type      none
+}

@@ -1,0 +1,34 @@
+# $Id: Portfile 115522 2014-01-04 00:28:28Z mfeiri@macports.org $
+
+PortSystem 1.0
+
+name		nasm
+version		2.11
+categories	lang
+platforms	darwin
+license		BSD
+maintainers	mfeiri openmaintainer
+description	NASM, the Netwide Assembler, is an 80x86 assembler
+long_description \
+	The Netwide Assembler, NASM, is an 80x86 and x86-64 assembler designed \
+	for portability and modularity. It supports a range of object file \
+	formats, including Linux and *BSD a.out, ELF, COFF, Mach-O, Microsoft \
+	16-bit OBJ, Win32 and Win64. It will also output plain binary files. \
+	Its syntax is designed to be simple and easy to understand, similar \
+	to Intel's but less complex. It supports from the upto and including \
+	Pentium, P6, MMX, 3DNow!, SSE, SSE2, SSE3 and x64 opcodes. NASM has a \
+	strong support for macro conventions.
+
+homepage	http://www.nasm.us/
+master_sites	${homepage}pub/nasm/releasebuilds/${version}
+use_bzip2	yes
+
+checksums	rmd160  4de71e1182714bee400a6fe20a38047da8307edf \
+		sha256  1ce7e897c67255a195367a60c739a90a0b33a4a73f058f7cda3253bcf975642b
+
+destroot.target		install install_rdf
+destroot.destdir	prefix=${destroot}${prefix}
+
+livecheck.type	regex
+livecheck.url	${homepage}doc/nasmdocc.html
+livecheck.regex	{Version ([0-9.]+)}

@@ -1,0 +1,58 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117888 2014-03-16 11:46:15Z mojca@macports.org $
+
+PortSystem          1.0
+PortGroup           cmake 1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+name                clhep
+version             2.1.4.1
+categories          science
+maintainers         mojca openmaintainer
+license             LGPL-3
+
+description         A Class Library for High Energy Physics
+long_description    A Class Library for High Energy Physics
+homepage            http://www.cern.ch/clhep
+platforms           darwin
+extract.suffix      .tgz
+master_sites        http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/tarFiles/
+#                   http://git.cern.ch/pubweb/CLHEP.git
+
+checksums           rmd160  cb8a46100b63b857ca8e3e8f275304edb42b3da8 \
+                    sha256  adeb7ad87b810f772b609e77eacc60fd3e1f949e694a434705e6759cdac41fe4
+
+worksrcdir          ${version}/CLHEP
+
+configure.dir       ${workpath}/build
+build.dir           ${configure.dir}
+
+post-extract {
+    file mkdir ${configure.dir}
+}
+
+# https://savannah.cern.ch/bugs/?104110
+# https://trac.macports.org/ticket/42841
+compiler.blacklist  {clang > 503} macports-clang-3.4 macports-clang-3.5
+
+configure.post_args ${worksrcpath}
+
+# TODO
+# the flag could theoretically be replaced by -isystem${prefix}/include,
+# but it's not even needed, so let's simply delete it
+# (the build fails because it finds headers in ${prefix} before those in the build dir)
+# the best way to fix these type of problems would probably be
+# to handle this specific flag differently in the cmake PortGroup
+configure.cppflags-delete -I${prefix}/include
+
+post-build {
+    fs-traverse file ${build.dir} {
+        if {[string match {*-config} ${file}]} {
+            reinplace -E {s|-arch [^ ]+||g} ${file}
+        }
+    }
+}
+
+livecheck.type      regex
+livecheck.url       http://proj-clhep.web.cern.ch/proj-clhep/DISTRIBUTION/
+livecheck.regex     ${name}-(\[0-9.\]+)${extract.suffix}

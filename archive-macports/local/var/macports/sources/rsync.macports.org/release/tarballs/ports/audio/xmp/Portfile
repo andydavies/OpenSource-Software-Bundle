@@ -1,0 +1,83 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117629 2014-03-06 06:59:51Z ryandesign@macports.org $
+
+PortSystem          1.0
+
+name                xmp
+categories          audio
+platforms           darwin
+maintainers         dcarmichael.net:dcarmich
+
+description         Extended Module Player
+homepage            http://xmp.sourceforge.net/
+
+build.type          gnu
+
+# Disable silent rules.
+build.args-append   V=1
+
+# Cannot turn off dependency tracking for libxmp.
+universal_variant   no
+
+if {${subport} eq ${name}} {
+    version             4.0.7
+    revision            0
+    license             GPL-2+
+
+    long_description    The Extended Module Player is a portable \
+                        command-line module player for Unix and \
+                        Unix-like systems. It plays over 90 mainstream \
+                        and obscure module formats from Amiga, Atari, \
+                        Acorn, Apple IIgs and PC, including Protracker \
+                        (MOD), Scream Tracker 3 (S3M), Fast Tracker II \
+                        (XM), and Impulse Tracker (IT).
+
+    master_sites        sourceforge:project/xmp/xmp/${version}
+    checksums           rmd160  26e6bde1b307001a5fa39bc7b5c12cccd795236b \
+                        sha256  9c3d2514c3e1ca773499942873d50771ad3bc8ea09f520f4a1e5430dbbfaff61
+
+    depends_build       port:pkgconfig
+
+    depends_lib         port:libxmp
+
+    set etc_xmp ${prefix}/etc/xmp
+    post-destroot {
+        move ${destroot}${etc_xmp}/modules.conf \
+            ${destroot}${etc_xmp}/modules.conf.default
+        move ${destroot}${etc_xmp}/xmp.conf \
+            ${destroot}${etc_xmp}/xmp.conf.default
+    }
+    post-activate {
+        if {![file exists ${etc_xmp}/modules.conf]} {
+            copy ${etc_xmp}/modules.conf.default ${etc_xmp}/modules.conf
+        }
+        if {![file exists ${etc_xmp}/xmp.conf]} {
+            copy ${etc_xmp}/xmp.conf.default ${etc_xmp}/xmp.conf
+        }
+    }
+} else {
+    livecheck.type      none
+}
+
+subport libxmp {
+    version             4.2.5
+    revision            0
+    license             LGPL-2.1+
+
+    long_description    Libxmp is a library that renders module files to \
+                        PCM data. It supports over 90 mainstream and \
+                        obscure module formats including Protracker \
+                        (MOD), Scream Tracker 3 (S3M), Fast Tracker II \
+                        (XM), and Impulse Tracker (IT).
+
+    master_sites        sourceforge:project/xmp/libxmp/${version}
+    distname            ${subport}-${version}
+    checksums           rmd160  7628d0076e2b2dff9ce5a6247c3a4b344145ebc2 \
+                        sha256  f0e46301d9773b80799d3bb84777187079ea09ff9429ad8dcfc0333dbf09f57c
+
+    test.run            yes
+    test.target         check
+
+    livecheck.type      sourceforge
+    livecheck.distname  ${subport}
+}

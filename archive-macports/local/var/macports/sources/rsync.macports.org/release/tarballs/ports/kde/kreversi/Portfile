@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116878 2014-02-09 12:07:42Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kreversi
+version             4.12.2
+categories          kde kde4 games
+license             GPL-2+
+maintainers         nicos openmaintainer
+description         KReversi is a simple one player strategy game played against \
+                    the computer. 
+long_description    ${description} If a player's piece is captured by an opposing \
+                    player, that piece is turned over to reveal the color of that \
+                    player. A winner is declared when one player has more pieces of \
+                    his own color on the board and there are no more possible moves.
+platforms           darwin
+homepage            http://games.kde.org/game.php?game=kreversi
+master_sites        kde:stable/${version}/src
+use_xz              yes
+distname            ${name}-${version}
+checksums           rmd160  a37255e005e9b5d6c30b3fc5c58697ddbf89b370 \
+                    sha256  798224c6cb6632133c1bc8a44b0669a90f174e913bf6747ba51f9aee346e05be
+
+#Binaries do not link to openssl, nor use the ssl backend of kdelibs4
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:libkdegames
+
+if {![variant_isset docs]} {
+    patchfiles      patch-CMakeLists.diff
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

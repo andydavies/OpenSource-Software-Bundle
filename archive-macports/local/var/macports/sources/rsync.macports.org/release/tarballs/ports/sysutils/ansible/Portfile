@@ -1,0 +1,74 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118046 2014-03-20 13:51:43Z blair@macports.org $
+
+PortSystem      1.0
+PortGroup       python 1.0
+
+name            ansible
+version         1.6
+categories      sysutils
+supported_archs noarch
+
+maintainers     blair
+
+homepage        https://github.com/ansible/ansible
+description     SSH-based configuration management and deployment system
+long_description \
+    Ansible is a radically simple model-driven configuration \
+    management, multi-node deployment, and remote task execution \
+    system.  Ansible works over SSH and does not require any software \
+    or daemons to be installed on remote nodes.  Extension modules can \
+    be written in any language and are transferred to managed machines \
+    automatically.
+
+license         GPL-3+
+
+platforms       darwin
+
+master_sites    http://releases.ansible.com/ansible
+checksums       rmd160 b854aaa3b34e3851c308758ec813fb569caa436c \
+                sha256 358114029b69219526e4ffb802350b2470d6510ace6d68133453874015d0a061
+
+python.default_version  27
+depends_lib-append      port:py${python.version}-httplib2 \
+                        port:py${python.version}-jinja2 \
+                        port:py${python.version}-paramiko \
+                        port:py${python.version}-yaml
+
+patch {
+    fs-traverse f ${worksrcpath} {
+        if {[file isfile ${f}]} {
+            reinplace "s#/etc/ansible#${prefix}/etc/ansible#g" ${f}
+            reinplace "s#/usr/share/ansible#${prefix}/share/ansible#g" ${f}
+        }
+    }
+}
+
+post-destroot {
+    # Documentation and examples.
+    xinstall -m 644 -W ${worksrcpath} README.md COPYING \
+        ${destroot}${prefix}/share/doc/${name}
+
+    xinstall -m 755 -d ${destroot}${prefix}/share/doc/examples
+    xinstall -m 755 ${worksrcpath}/examples/ansible.cfg \
+        ${destroot}${prefix}/share/doc/${name}/examples
+    xinstall -m 755 ${worksrcpath}/examples/hosts \
+        ${destroot}${prefix}/share/doc/${name}/examples
+
+    file copy ${worksrcpath}/examples/playbooks \
+        ${destroot}${prefix}/share/doc/${name}/examples/
+
+    # Man pages.
+    xinstall -d 644 ${destroot}${prefix}/share/man/man1
+    eval xinstall -m 755 [glob ${worksrcpath}/docs/man/man1/*.1] \
+        ${destroot}${prefix}/share/man/man1
+
+    # Install sample config and hosts file.
+    xinstall -m 755 -d ${destroot}${prefix}/etc/ansible
+    xinstall -b -m 755 ${worksrcpath}/examples/ansible.cfg \
+        ${destroot}${prefix}/etc/ansible/ansible.cfg.default
+    xinstall -b -m 755 ${worksrcpath}/examples/hosts \
+        ${destroot}${prefix}/etc/ansible/hosts.default
+}
+
+python.link_binaries_suffix

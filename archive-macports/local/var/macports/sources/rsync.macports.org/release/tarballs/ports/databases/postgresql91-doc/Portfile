@@ -1,0 +1,53 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118049 2014-03-20 14:58:34Z jwa@macports.org $
+
+PortSystem 1.0
+
+name			postgresql91-doc
+conflicts       postgresql84-doc postgresql90-doc postgresql92-doc \
+                postgresql93-doc
+version			9.1.13
+categories		databases
+platforms		darwin
+maintainers		mww jwa
+license			Permissive
+description		Documentation for the postgresql database ALPHA release.
+long_description PostgreSQL is Object-Relational Database Management System. \
+				It supports almost all SQL constructs, including transactions, \
+				subselects, and user-defined types and functions. Write-ahead \
+				logging means increased performance while retaining data \
+				integrity. This is the documentation.
+
+homepage		http://www.postgresql.org/
+master_sites		postgresql:source/v${version}
+distname		postgresql-${version}
+
+checksums           rmd160  1380aead164062393fe758d323e1d9d22118155a \
+                    sha256  20f8aa5dfcb47688ca6b6c41340cac61712d9cf87c34d58b0a75bb2f85d89b7f
+
+use_bzip2		yes
+dist_subdir		postgresql91
+
+set libdir		${prefix}/lib/postgresql91
+configure.args	--mandir=${prefix}/share/man \
+				--with-docdir=${prefix}/share/doc/postgresql91 \
+				--without-openssl \
+				--without-rendezvous \
+				--without-readline \
+				--without-zlib
+
+build.dir		${worksrcpath}/doc
+build.type		gnu
+build.target
+
+destroot.dir	${build.dir}
+
+post-destroot {
+	file rename ${destroot}${prefix}/share/doc/postgresql \
+		${destroot}${prefix}/share/doc/postgresql91
+}
+
+livecheck.type	regex
+livecheck.url	${homepage}
+livecheck.regex	(9\\.1\\.\[.0-9\]+)
+

@@ -1,0 +1,40 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116877 2014-02-09 11:45:20Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                qtruby
+version             4.12.2
+categories          kde kde4 devel
+license             GPL-2+ LGPL-2.1+
+maintainers         nicos openmaintainer
+description         Binding to Ruby for KDE.
+long_description    Very complete bindings to both the KDE API and the Qt APIs. The Korundum \
+                    package includes both a QtRuby Qt-only binding along with the full combined Qt/KDE one. \
+                    The QtRuby package contains just Qt bindings with no dependencies on KDE.
+platforms           darwin
+homepage            http://rubyforge.org/projects/korundum/
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+distname            ${name}-${version}
+checksums           rmd160  2b78cf1f4325d07729285ff3f9b241a801ff9d50 \
+                    sha256  bf568cf8b1d2d04f234c9b15a49e22418109cc1c8b94fea675965d0dfd57e9f8
+
+depends_lib-append  port:smokeqt
+
+variant ruby18 conflicts ruby19 description {Select Ruby 1.8} {
+    depends_lib-append      port:ruby
+    configure.args-append   -DRUBY_EXECUTABLE=${prefix}/bin/ruby1.8
+}
+variant ruby19 conflicts ruby18 description {Select Ruby 1.9} {
+    depends_lib-append      port:ruby19
+    configure.args-append   -DRUBY_EXECUTABLE=${prefix}/bin/ruby1.9
+}
+
+if {![variant_isset ruby18] && ![variant_isset ruby19]} {
+    default_variants +ruby18
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

@@ -1,0 +1,42 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116818 2014-02-07 23:00:35Z macsforever2000@macports.org $
+
+PortSystem          1.0
+PortGroup           compiler_blacklist_versions 1.0
+
+name                vaucanson
+version             2b.3
+categories          devel
+platforms           darwin
+maintainers         lrde.epita.fr:akim
+license             GPL-3+
+
+description         C++ generic automata/transducers platform
+
+long_description    Vaucanson is a finite state machine manipulation platform, \
+                    consisting of a library, Python bindings, and shell tools  \
+                    implemented on top of them.
+
+homepage            http://vaucanson.lrde.epita.fr
+master_sites        http://www.lrde.epita.fr/dload/vaucanson/2.0
+use_xz              yes
+
+checksums           rmd160 02fcd29daf1413dbdc1b91d643e04361090642ec \
+                    sha256 51533d369ccc398e07c3c15ecbe2d0f818f221ad78e91d5f7a0f3f06ffbc8ca0
+
+depends_lib         port:boost
+
+configure.optflags  -O3
+
+test.run            yes
+test.target         check
+
+# We need C++11 support, provided by G++ 4.8+ and Clang++ 3.3+.
+compiler.blacklist  cc \
+                    *dragonegg* \
+                    {clang < 500} \
+                    *clang-2.* \
+                    {*clang-3.[012]} \
+                    *gcc \
+                    *gcc-3.* \
+                    {*gcc-4.[0-7]}

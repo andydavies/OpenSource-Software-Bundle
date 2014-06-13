@@ -1,0 +1,26 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115853 2014-01-13 04:22:22Z rmstonecipher@macports.org $
+
+PortSystem          1.0
+
+name                libmpdclient
+version             2.9
+set branch          [join [lrange [split ${version} .] 0 0] .]
+categories          audio
+maintainers         rmstonecipher openmaintainer
+description         libmpdclient is a stable, documented, asynchronous API library for interfacing MPD in the C, C++ & Objective C languages.
+long_description    ${description}
+license             BSD
+homepage            http://www.musicpd.org/libs/${name}/
+master_sites        http://www.musicpd.org/download/${name}/${branch}/
+platforms           darwin
+use_xz              yes
+checksums           rmd160  d3f3fa04b63e302c243488122b1b543c2feee14d \
+                    sha256  7cc97ba560e91addafe5975f7e7da04b95d6710750e47b3367fa0d8c3b7699ca
+use_autoreconf      yes
+
+depends_lib         port:doxygen
+configure.args      --mandir=${prefix}/share/man
+
+livecheck.url       http://www.musicpd.org/download/${name}/${branch}/
+livecheck.regex     "${name}-(\\d+(?:\\.\\d+)*)"

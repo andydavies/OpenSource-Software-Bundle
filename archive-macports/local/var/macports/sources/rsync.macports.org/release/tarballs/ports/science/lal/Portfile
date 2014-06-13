@@ -1,0 +1,60 @@
+# $Id: Portfile 117149 2014-02-18 00:03:48Z ram@macports.org $
+
+PortSystem    1.0
+PortGroup     conflicts_build 1.0
+
+name          lal
+version       6.12.0
+revision      2
+categories    science
+platforms     darwin
+maintainers   ram
+license       GPL
+
+description   LSC Algorithm Library
+long_description \
+  LIGO Scientific Collaboration Algorithm Library containing core \
+  routines for gravitational wave data analysis.
+
+homepage      https://www.lsc-group.phys.uwm.edu/daswg/projects/lalsuite.html
+master_sites  http://www.lsc-group.phys.uwm.edu/daswg/download/software/source/lalsuite
+
+checksums     rmd160 426102023e57cfb4c4d35369711db728b0ec1e5c \
+              sha256 d7f345cb4a903e6bded4b008b25fee41a9bff3328b98cf0a6157215ec43eeff1
+
+depends_build-append port:pkgconfig
+
+depends_lib   port:python27 \
+              port:gsl \
+              port:fftw-3 \
+              port:fftw-3-single
+
+configure.python ${prefix}/bin/python2.7
+configure.args --mandir=${prefix}/share/man \
+               --disable-silent-rules \
+               --disable-gcc-flags \
+               --disable-debug
+
+use_parallel_build yes
+
+set pythondir "${frameworks_dir}/Python.framework/Versions/2.7/lib/python2.7/site-packages"
+destroot.args-append \
+              pythondir="${pythondir}" \
+              pyexecdir="${pythondir}" \
+              pkgpythondir="${pythondir}/${name}" \
+              pkgpyexecdir="${pythondir}/${name}"
+
+# FIXME: fails to build if previous version active
+conflicts_build ${name}
+
+variant swig_python description {Build python SWIG bindings} {
+  depends_build-append  port:swig-python
+  depends_lib-append    port:py27-numpy
+  configure.args-append --enable-swig-python
+}
+
+default_variants +swig_python
+
+livecheck.type   regex
+livecheck.url    ${master_sites}
+livecheck.regex  {lal-(\d+(?:\.\d+)*).tar.gz}

@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118151 2014-03-23 20:55:18Z larryv@macports.org $
+
+PortSystem          1.0
+PortGroup           github 1.0
+github.setup        arq5x bedtools2 2.19.1 v
+
+name                bedtools
+categories          science
+platforms           darwin
+maintainers         gmail.com:vandervelde.ag openmaintainer
+license             GPL-2
+
+description         Utilities to perform basic operations on BED files
+
+long_description    The BEDTools utilities allow one to address common genomics \
+                    tasks such as finding feature overlaps and computing coverage. \
+                    The utilities are largely based on four widely-used file formats: \
+                    BED, GFF/GTF, VCF, and SAM/BAM.
+
+checksums           sha1    204de60c347b67e6ec7605d86ce26ac9e4f3e8b7 \
+                    rmd160  c52ee963faee87ded88ee8f0e278c07fc98b6db9 \
+                    sha256  7e412f275d32d72b47df8b93dda78fb8489eefb7a432fca0b9f114136bd9d6cc
+
+depends_build       port:py27-sphinx
+
+depends_lib         port:zlib
+
+use_configure       no
+
+variant universal {}
+
+configure.optflags  -O2
+configure.cxxflags-append -Wall -D_FILE_OFFSET_BITS=64 -fPIC
+build.args          CXX=${configure.cxx} \
+                    CXXFLAGS="${configure.cxxflags} [get_canonical_archflags cxx]"
+
+use_parallel_build  no
+
+post-build {
+    system -W ${worksrcpath}/docs "${build.cmd} SPHINXBUILD=${prefix}/bin/sphinx-build-2.7 html man"
+}
+
+destroot {
+    eval xinstall -m 755 [glob ${worksrcpath}/bin/*] ${destroot}${prefix}/bin/
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    xinstall -d ${destroot}${prefix}/share/${name}/genomes
+    xinstall -m 644 -W ${worksrcpath} \
+        LICENSE README.md RELEASE_HISTORY \
+        ${destroot}${prefix}/share/doc/${name}
+    eval xinstall -m 644 [glob ${worksrcpath}/genomes/*] ${destroot}${prefix}/share/${name}/genomes/
+    copy ${worksrcpath}/docs/_build/html ${destroot}${prefix}/share/doc/${name}/html
+    xinstall -m 644 ${worksrcpath}/docs/_build/man/bedtools.1 ${destroot}${prefix}/share/man/man1
+}

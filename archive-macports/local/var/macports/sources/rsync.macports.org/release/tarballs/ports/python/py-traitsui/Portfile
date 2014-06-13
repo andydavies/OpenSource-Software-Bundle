@@ -1,0 +1,29 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115675 2014-01-08 18:29:12Z macsforever2000@macports.org $
+
+PortSystem	        1.0
+PortGroup	        python 1.0
+PortGroup           github 1.0
+
+github.setup        enthought traitsui 4.4.0
+
+name                py-traitsui
+categories-append   devel
+# traitsui/wx/editors_gen.py is GPLv2
+license             BSD GPL-2
+maintainers         gmail.com:jjstickel openmaintainer
+description         The Enthought traitsui package
+long_description    The traitsui project contains a toolkit-independent GUI\
+                    abstraction layer, which is used to support the\
+                    "visualization" features of the Traits package.
+platforms           darwin
+
+checksums           rmd160  d6e327b9f715cb759d33b1485e3c3fed9d6745e7 \
+                    sha256  559b1291a5afd022261a3596de5ba65c88d473d7c05129e1a610624c4fa2e015
+
+python.versions     26 27
+
+if {${name} ne ${subport}} {
+    depends_build-append    port:py${python.version}-setuptools
+    depends_lib-append      port:py${python.version}-pyface
+}

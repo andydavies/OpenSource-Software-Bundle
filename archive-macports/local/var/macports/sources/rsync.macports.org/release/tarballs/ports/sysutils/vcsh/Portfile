@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4; truncate-lines: t -*- vim:fenc=utf-8:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115114 2013-12-25 08:54:13Z ryandesign@macports.org $
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        RichiH vcsh 1.20131214 v
+categories          sysutils
+platforms           darwin
+maintainers         googlemail.com:gjasny openmaintainer
+license             GPL-2+
+
+description         Version Control System for \$HOME - multiple Git repositories in \$HOME
+
+long_description    vcsh allows you to have several git repositories, all maintaining their working \
+                    trees in \$HOME without clobbering each other. That, in turn, means you can have \
+                    one repository per config set (zsh, vim, ssh, etc), picking and choosing which \
+                    configs you want to use on which machine.
+
+checksums           rmd160  564b557a09005c46c988f5cafc16d5db85a09de2 \
+                    sha256  248314c751d703395b626cea5ff416c96b552b805321956ec8a4fd38d4fe9f91
+
+supported_archs     noarch
+
+depends_build       port:rb19-ronn
+depends_lib         port:git-core
+depends_run         port:myrepos
+
+use_configure       no
+
+destroot.post_args-append   RONN=${prefix}/bin/ronn-1.9 \
+                            PREFIX=${prefix}

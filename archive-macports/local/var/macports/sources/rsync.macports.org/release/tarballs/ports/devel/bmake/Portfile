@@ -1,0 +1,37 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116155 2014-01-19 23:05:21Z mfeiri@macports.org $
+
+PortSystem          1.0
+
+name                bmake
+version             20140101
+categories          devel
+platforms           darwin
+license             BSD
+maintainers         mfeiri openmaintainer
+homepage            http://www.crufty.net/help/sjg/bmake.html
+master_sites        http://www.crufty.net/ftp/pub/sjg/
+
+description         Portable NetBSD make
+long_description    bmake is the portable version of NetBSD make.
+
+checksums           rmd160  5fd367448397320597db47e94d14f5e39c0323c4 \
+                    sha256  0f7ecadb6dcd5e4902a03137daba6fd7756f54e82942b524f3b38d7406b6d83e
+
+worksrcdir          ${name}
+
+configure.cmd       ./boot-strap
+configure.args-append \
+                    op=configure \
+
+build.cmd           ./boot-strap
+build.target        op=build
+
+destroot.target     op=install
+destroot.args-append \
+                    --prefix=${prefix}
+
+
+livecheck.type      regex
+livecheck.url       ${master_sites}
+livecheck.regex     "${name}-(\[\\d\]+)${extract.suffix}"

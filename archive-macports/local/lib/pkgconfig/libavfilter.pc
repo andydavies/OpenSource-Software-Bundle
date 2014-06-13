@@ -1,0 +1,14 @@
+prefix=/opt/local
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: libavfilter
+Description: FFmpeg audio/video filtering library
+Version: 3.90.100
+Requires: 
+Requires.private: libpostproc = 52.3.100, libswresample = 0.17.104, libswscale = 2.5.101, libavresample = 1.1.0, libavformat = 55.19.104, libavcodec = 55.39.101, libavutil = 52.48.101
+Conflicts:
+Libs: -L${libdir} -lavfilter 
+Libs.private: -liconv -L/opt/local/lib -lSDLmain -Wl,-framework,AppKit -lSDL -Wl,-framework,Cocoa -lnettle -lhogweed -lgmp -lxvidcore -lx264 -lvpx -lvpx -lvpx -lvpx -lvorbisenc -lvorbis -logg -ltheoraenc -ltheoradec -logg -lspeex -L/opt/local/lib -lschroedinger-1.0 -L/opt/local/lib -lopus -lopenjpeg -lmp3lame -lmodplug -L/opt/local/lib -lfreetype -lbluray -L/opt/local/lib -lass -L/opt/local/lib -lgnutls -L/opt/local/lib -lfontconfig -lfreetype -lm -lbz2 -lz
+Cflags: -I${includedir}

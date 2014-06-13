@@ -1,0 +1,98 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116360 2014-01-23 20:13:32Z sean@macports.org $
+
+PortSystem          1.0
+PortGroup           mpi 1.0
+
+mpi.setup           require_fortran -clang -dragonegg -fortran
+compilers.enforce_fortran libxc fftw-3
+
+name                octopus
+version             4.1.2
+categories          science
+platforms           darwin
+license             GPL-2+
+maintainers         gmail.com:dstrubbe
+
+description         A real-space (time-dependent) density-functional theory code.
+long_description    Octopus is a scientific program aimed at ab initio virtual experimentation \
+                    on a hopefully ever-increasing range of system types. \
+                    Electrons are described quantum-mechanically within density-functional \
+                    theory (DFT), in its time-dependent form (TDDFT) when doing simulations \
+                    in time. Nuclei are described classically as point particles. Electron-nucleus \
+                    interaction is described within the pseudopotential approximation.
+homepage            http://www.tddft.org/programs/octopus
+master_sites        ${homepage}/download/${version}
+
+checksums           rmd160  0ce62e38bed99e436b83489375fe55e53e64a538 \
+                    sha256  c43ac301ff035caee667292841c5d9f166da986634cf2623e3f5a8aa86fe7a69
+
+depends_lib         port:atlas port:libxc port:fftw-3 port:gsl
+
+configure.args      --with-libxc-prefix=${prefix} --with-blas=-lsatlas \
+                    --disable-gdlib --without-sparskit --with-netcdf-prefix=no \
+                    --with-etsf-io-prefix=no --with-berkeleygw-prefix=no \
+                    --with-arpack=no --with-libfm=no --with-pfft-prefix=no \
+                    --with-pspio-prefix=no --with-nfft=no --with-blacs=no \
+                    --with-scalapack=no --enable-utils
+# configure will find and use these other libraries unless they are explicitly disabled
+configure.optflags  -O3
+
+default_variants +newuoa
+if {![fortran_variant_isset]} {
+    default_variants    +gcc48
+}
+
+pre-configure {
+    configure.args-append  FCCPP="${configure.cpp} -E -ansi"
+}
+
+if {[mpi_variant_isset]} {
+    configure.args-delete  --disable-mpi
+    # an in-place allreduce of lxyz_inv in mesh_init.F90 leads to zeroes afterwards with MPI2
+    configure.args-append  --enable-mpi --without-external_zoltan --disable-mpi2
+    test.env-append        MPIEXEC=${mpi.exec}
+}
+
+# More options that could be added:
+# variants: berkeleygw, openmp, threads (for fftw, atlas?), scalapack, arpack
+# no way to turn off PAPI.
+
+# libxc does not have universal variant, so octopus cannot either
+universal_variant   no
+
+test.run            yes
+test.target         check-full
+
+variant newuoa description {Build with internal newuoa library for optimal control} {
+    configure.args-append --enable-newuoa
+}
+
+variant netcdf description {Build with support for NetCDF output} {
+    configure.args-delete   --with-netcdf-prefix=no
+    configure.args-append   --with-netcdf-prefix=${prefix}
+    depends_lib-append      port:netcdf-fortran
+    require_active_variants netcdf-fortran {} universal
+    compilers.enforce_fortran netcdf-fortran
+}
+
+variant etsf_io requires netcdf description {Build with support for ETSF_IO output} {
+    configure.args-delete   --with-etsf-io-prefix=no
+    configure.args-append   --with-etsf-io-prefix=${prefix}
+    depends_lib-append      port:etsf_io
+    compilers.enforce_fortran etsf_io
+}
+
+variant sparskit description {Build with support for SPARSKIT propagators} {
+    configure.args-delete   --without-sparskit
+    depends_lib-append      port:sparskit
+}
+
+variant gdlib description {Build with support for definition of domain by 2D image} {
+    configure.args-delete   --disable-gdlib
+    depends_lib-append      port:gd2
+}
+
+livecheck.type      regex
+livecheck.url       ${homepage}/wiki/index.php/Main_Page
+livecheck.regex     ${name} (\[0-9.\]+)

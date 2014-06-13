@@ -1,0 +1,20 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 115993 2014-01-16 02:31:37Z mojca@macports.org $
+
+PortSystem          1.0
+PortGroup           perl5 1.0
+
+epoch               2
+perl5.branches      5.8 5.10 5.12 5.14 5.16 5.18
+perl5.setup         version 0.9907
+license             {Artistic GPL}
+maintainers         nomaintainer
+description         Perl extension for Version Objects
+long_description    Overloaded version objects for all versions of Perl. \
+                    This module implements all of the features of \
+                    version objects which will be part of Perl 5.10.0.
+
+platforms           darwin
+
+checksums           rmd160  f9807ae0077ac9123df570b51f74e76cf9f6635b \
+                    sha256  e2e9cd6569565afc9809d28193a5787d4b73619f5d490c1eccda5c35cb6005f6

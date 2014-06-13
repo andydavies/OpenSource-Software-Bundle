@@ -1,0 +1,20 @@
+--- configure.orig	2013-12-25 13:52:42.000000000 +0900
++++ configure	2013-12-27 17:48:54.000000000 +0900
+@@ -5798,7 +5798,7 @@
+ 
+ $as_echo "#define USE_MECAB 1" >>confdefs.h
+ 
+-    MECAB_DICT=`$MECAB_CONFIG --dicdir`/`echo $DICT_ID | tr "A-Z" "a-z"`dic
++    MECAB_DICT=`$MECAB_CONFIG --dicdir`/`echo $DICT_ID | tr "A-Z" "a-z"`dic-utf8
+     if ! test -e $MECAB_DICT; then :
+   as_fn_error $? "\"${MECAB_DICT}\" not found" "$LINENO" 5
+ fi
+@@ -5900,7 +5900,7 @@
+ 
+ $as_echo "#define USE_AS_STANDALONE 1" >>confdefs.h
+ 
+-    MECAB_DICT=`$MECAB_CONFIG --dicdir`/`echo $DICT_ID | tr "A-Z" "a-z"`dic
++    MECAB_DICT=`$MECAB_CONFIG --dicdir`/`echo $DICT_ID | tr "A-Z" "a-z"`dic-utf8
+     JDEPP_CPPFLAGS+=" -DMECAB_DICT=\\\"${MECAB_DICT}\\\""
+     JDEPP_LDFLAGS+=" -lmecab"
+   else

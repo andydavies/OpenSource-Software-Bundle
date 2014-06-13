@@ -1,0 +1,51 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117778 2014-03-12 18:22:20Z cal@macports.org $
+
+PortSystem              1.0
+PortGroup               github 1.0
+
+github.setup            fish-shell fish-shell 2.1.0
+# fish was stealth-updated, no changes. Remove this line with the next update.
+dist_subdir             ${name}/${version}_1
+name                    fish
+license                 GPL-2
+categories              shells
+platforms               darwin
+maintainers             nomaintainer
+
+description             A command line shell for the 90s 
+long_description        fish is a smart and user-friendly command line shell for OS X, Linux, and the rest of the family 
+
+homepage                http://fishshell.com/
+
+checksums               rmd160  37b015542bf12ea71f593df3e8fbd18e49e0ceed \
+                        sha256  aa81de9075ab8e7aa99d3857b3653d698a4ff40d2246fbf2289ee925bf1a81b2
+
+depends_build           port:doxygen \
+                        path:bin/dot:graphviz
+depends_lib             port:libiconv \
+                        port:ncurses \
+                        port:gettext
+
+use_autoconf            yes
+
+patchfiles              patch-share_config_fish.diff
+
+post-patch {
+    reinplace "s|@@PREFIX@@|${prefix}/bin|g"     "${worksrcpath}/share/config.fish"
+}
+
+notes "
+To set MacPorts' ${name} as default login shell, run:
+
+    sudo chpass -s ${prefix}/bin/${name} \${USER}
+
+To be able to switch default shells to or from ${name} without superuser\
+privileges, add it to /etc/shells:
+
+    sudo sh -c 'echo ${prefix}/bin/${name} >> /etc/shells'
+
+For X clipboard integration, install the xsel port:
+
+    sudo port install xsel
+"

@@ -1,0 +1,27 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116039 2014-01-16 20:44:41Z devans@macports.org $
+
+PortSystem          1.0
+
+name                hicolor-icon-theme
+version             0.13
+categories          gnome
+platforms           darwin
+maintainers         nomaintainer
+supported_archs     noarch
+license             GPL-2
+
+description         A default fallback theme.
+
+long_description    This is the default fallback theme used by \
+                    implementations of the icon theme specification.
+
+homepage            http://www.gnome.org/
+master_sites        http://icon-theme.freedesktop.org/releases/
+
+checksums           rmd160  1a0c0b6e5282af1f3e2e1752c81cd4ab886abef6 \
+                    sha256  a38b038915480d1ddd4e3c421562560a14d42ace0449a5acc07c50f57f9c3406
+
+livecheck.type      regex
+livecheck.url       ${master_sites}
+livecheck.regex     ${name}-(\\d+(?:\\.\\d+)*)

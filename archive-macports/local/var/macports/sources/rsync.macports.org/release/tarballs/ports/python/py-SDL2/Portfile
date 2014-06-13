@@ -1,0 +1,39 @@
+# $Id: Portfile 118143 2014-03-23 18:32:20Z jmr@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-SDL2
+version             0.9.0
+categories-append   devel multimedia
+license             public-domain
+platforms           darwin
+supported_archs     noarch
+maintainers         jmr openmaintainer
+description         a python wrapper around the SDL2 library
+long_description \
+   PySDL2 is a wrapper around the SDL2 library and as such similar to the \
+   discontinued PySDL project. In contrast to PySDL, it has no licensing \
+   restrictions, nor does it rely on C code, but uses ctypes instead.
+
+homepage            https://bitbucket.org/marcusva/py-sdl2
+master_sites        ${homepage}/downloads/
+distname            PySDL2-${version}
+
+checksums           rmd160 e3e1b07c4cd3c933c1017e4e07ad05cb82638a6d \
+                    sha256 9d892cb4d493f355fbf81c874ea5867aec4e447ee678aefff21e19a94cd1338d
+
+python.versions     27 32 33 34
+
+if {$subport ne $name} {
+    depends_lib-append  port:libsdl2 \
+                        port:libsdl2_image \
+                        port:libsdl2_mixer \
+                        port:libsdl2_ttf
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       [lindex $master_sites 0]
+    livecheck.regex     PySDL2-(\[0-9.\]+)${extract.suffix}
+}

@@ -1,0 +1,35 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117803 2014-03-13 10:02:17Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-nuitka
+version             0.5.1.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             Apache
+
+python.versions     26 27 32 33 34
+
+maintainers         stromnov openmaintainer
+
+description         Python compiler with full language support and CPython compatibility.
+long_description    ${description}
+
+homepage            http://nuitka.net/
+master_sites        http://pypi.python.org/packages/source/N/Nuitka/
+
+distname            Nuitka-${version}
+
+checksums           rmd160  f60bae839f5bbc87bc1e5d7012c38f931c910471 \
+                    sha256  0b749bd2b2ff828120b742393f8fa40edc887d1f59165a31e2b98f4d5f2c9a4c
+
+if {${name} ne ${subport}} {
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       ${master_sites}
+    livecheck.regex     {Nuitka-(\d+(?:\.\d+)*)\.[tz]}
+}

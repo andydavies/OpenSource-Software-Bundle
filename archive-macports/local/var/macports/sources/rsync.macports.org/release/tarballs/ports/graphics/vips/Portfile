@@ -1,0 +1,45 @@
+# $Id: Portfile 116578 2014-01-29 08:18:34Z ryandesign@macports.org $
+
+PortSystem 1.0
+
+name		vips
+version		7.36.4
+revision	2
+description	VIPS is an image processing library.
+long_description	VIPS is an image processing library. It's good for \
+			large images and for colour.
+maintainers	gmail.com:jcupitt
+categories	graphics
+platforms	darwin
+license		LGPL-2.1+
+homepage	http://www.vips.ecs.soton.ac.uk
+master_sites	${homepage}/supported/current/
+
+checksums	rmd160  c187bcfd6bd6ff09ea82033ce81bea109c9aed80 \
+			sha256  f20e6690a75a45a78ac6d02abf5a3fe4d15473f53d8ab2e3054afd3eb6c58b2d
+
+configure.args	--enable-gtk-doc
+
+depends_build	port:pkgconfig \
+		port:gtk-doc
+
+depends_lib	port:libtool \
+		port:fftw-3 \
+		path:lib/pkgconfig/glib-2.0.pc:glib2 \
+		port:jpeg \
+		port:libpng \
+		port:tiff \
+		port:ImageMagick \
+		port:openexr \
+		port:orc \
+		port:cfitsio \
+		port:matio \
+		port:lcms2 \
+		port:zlib \
+		path:lib/pkgconfig/pango.pc:pango \
+		port:libexif \
+		port:libxml2
+
+livecheck.type	regex
+livecheck.url	${homepage}/supported/current/
+livecheck.regex	>${name}-(\\d+(?:\\.\\d+)*)${extract.suffix}<

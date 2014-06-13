@@ -1,0 +1,88 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117081 2014-02-15 08:17:54Z mojca@macports.org $
+
+PortSystem          1.0
+PortGroup           wxWidgets 1.0
+
+name                FileZilla
+version             3.7.4.1
+categories          www aqua
+platforms           darwin
+maintainers         strasweb.fr:rudloff openmaintainer
+license             GPL-2+
+
+description         Open-source FTP, FTPS, and SFTP client
+
+long_description    FileZilla Client is a fast and reliable cross-platform \
+                    FTP, FTPS and SFTP client with lots of useful features \
+                    and an intuitive graphical user interface.
+
+homepage            https://filezilla-project.org/
+master_sites        sourceforge:project/filezilla/FileZilla_Client/${version}
+
+checksums           rmd160  930184fb092c44de36eed822d589ae5bd8e05f8b \
+                    sha256  8be46f472c12d412c58b5a0b1be751c64bc5e7fceaa6b9170f8edbc7dbfa64a9
+
+depends_build       port:pkgconfig
+
+depends_lib         port:dbus \
+                    port:gettext \
+                    port:gmp \
+                    port:gnutls \
+                    port:libgpg-error \
+                    port:libgcrypt \
+                    port:libiconv \
+                    port:libidn \
+                    port:nettle \
+                    port:sqlite3 \
+                    port:xdg-utils
+
+distname            ${name}_${version}_src
+use_bzip2           yes
+worksrcdir          filezilla-${version}
+
+# http://trac.filezilla-project.org/ticket/8272
+patchfiles          patch-wxWidgets-3.0.diff \
+                    patch-src-dbus-wxdbusconnection.cpp.diff
+
+# http://trac.filezilla-project.org/ticket/5473
+# http://sourceforge.net/p/tinyxml/patches/51/
+configure.args      --with-tinyxml=builtin \
+                    --disable-manualupdatecheck \
+                    --disable-autoupdatecheck
+
+variant wxwidgets30 conflicts wxgtk28 wxwidgets28 description {Use wxWidgets 3.0 (not fully functional yet)} {
+    wxWidgets.use           wxWidgets-3.0
+    depends_lib-append      port:${wxWidgets.port}
+    configure.args-append   --with-wxdir=${wxWidgets.wxdir}
+    configure.env-append    WXRC=${wxWidgets.wxrc}
+    destroot {              copy ${worksrcpath}/FileZilla.app ${destroot}${applications_dir} }
+}
+
+variant wxwidgets28 conflicts wxgtk28 wxwidgets30 description {Use 32-bit Carbon-based wxWidgets 2.8} {
+    wxWidgets.use           wxWidgets-2.8
+    depends_lib-append      port:${wxWidgets.port}
+    configure.args-append   --with-wxdir=${wxWidgets.wxdir}
+    configure.env-append    WXRC=${wxWidgets.wxrc}
+    destroot {              copy ${worksrcpath}/FileZilla.app ${destroot}${applications_dir} }
+}
+
+# TODO: when FileZilla is built against wxGTK, it doesn't create an app; this needs (possibly an upstream) fix
+variant wxgtk28 conflicts wxwidgets28 wxwidgets30 description {Use wxWidgets 2.8 with GTK} {
+    wxWidgets.use           wxGTK-2.8
+    depends_lib-append      port:${wxWidgets.port}
+    configure.args-append   --with-wxdir=${wxWidgets.wxdir}
+    configure.env-append    WXRC=${wxWidgets.wxrc}
+}
+
+if {![variant_isset wxwidgets30] && ![variant_isset wxwidgets28] && ![variant_isset wxgtk28]} {
+    if {[vercmp $xcodeversion 4.4] >= 0} {
+        default_variants +wxgtk28
+    } else {
+        default_variants +wxwidgets28
+    }
+}
+
+livecheck.type      regex
+livecheck.url       ${homepage}download.php?type=client
+livecheck.regex     /${name}_(\[0-9.\]+)

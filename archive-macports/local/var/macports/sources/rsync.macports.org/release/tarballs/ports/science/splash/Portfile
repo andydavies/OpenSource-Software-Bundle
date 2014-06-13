@@ -1,0 +1,110 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117673 2014-03-07 22:54:09Z macsforever2000@macports.org $
+
+PortSystem          1.0
+
+name                splash
+version             2.4.0
+categories          science graphics
+platforms           darwin
+maintainers         monash.edu:daniel.price
+description         Smoothed Particle Hydrodynamics visualisation tool
+long_description    SPLASH is a tool for visualisation of (mainly astrophysical) \
+                    Smoothed Particle Hydrodynamics simulations
+                    
+homepage            http://users.monash.edu.au/~dprice/splash
+master_sites        ${homepage}/releases/
+license             GPL-2+
+
+worksrcdir          ${name}
+
+checksums           rmd160  981bc357a8f6b73c515d6bc9f267a6f00d28869e \
+                    sha256  5ff612ed988dbddcf57136317347529f7cf3c85ffac99167a14db5877b7e5333
+
+default_variants    +giza
+
+use_configure       no
+build.args          SYSTEM=gfortran
+
+destroot.args       PREFIX=${prefix}
+use_parallel_build  no
+
+variant giza description {use giza as the backend graphics library} conflicts pgplot {
+   depends_lib-append      path:lib/pkgconfig/cairo.pc:cairo \
+                           port:xorg-libX11
+   build.args-append       X11DIR=${prefix} X11LIBS='-L${prefix}/lib -lX11'
+}
+
+variant pgplot description {use PGPLOT as the backend graphics library} conflicts giza {
+   depends_lib-append      port:pgplot
+   build.env-append        PGPLOT_DIR=${prefix}/lib \
+                           PGPLOT_DEV=/xw
+   build.args-append       BACKEND=pgplot
+}
+
+set gcc_versions {4.5 4.6 4.7 4.8}
+set default_fortran_variant +gcc48
+
+foreach ver ${gcc_versions} {
+    set ver_no_dot [join [split ${ver} "."] ""]
+
+    set variant_line {variant gcc${ver_no_dot} description "build with gfortran from gcc${ver_no_dot}"}
+
+    foreach over ${gcc_versions} {
+        if {${ver} == ${over}} {
+            continue
+        }
+
+        set over_no_dot [join [split ${over} "."] ""]
+        append variant_line " conflicts gcc${over_no_dot}"
+    }
+    append variant_line { {}}
+
+    eval $variant_line
+
+    if {[variant_isset gcc${ver_no_dot}]} {
+        if {${default_fortran_variant} != "+gcc${ver_no_dot}"} {
+            set default_fortran_variant ""
+        }
+    }
+}
+
+if {${default_fortran_variant} != ""} {
+    default_variants-append "${default_fortran_variant}"
+}
+
+foreach ver ${gcc_versions} {
+    set ver_no_dot [join [split ${ver} "."] ""]
+
+    if {[variant_isset gcc${ver_no_dot}]} {
+        depends_lib-append path:lib/libgcc/libgcc_s.1.dylib:libgcc
+        depends_build-append port:gcc${ver_no_dot}
+
+        configure.fc  ${prefix}/bin/gfortran-mp-${ver}
+        configure.f77 ${prefix}/bin/gfortran-mp-${ver}
+        configure.f90 ${prefix}/bin/gfortran-mp-${ver}
+    }
+}
+
+build.args-append   FC="${configure.fc}" \
+                    CC="${configure.cc}" \
+                    CFLAGS="[get_canonical_archflags cc]" \
+                    FFLAGS="[get_canonical_archflags fc]"
+
+variant hdf5 description {compiles data reads that depend on HDF5} {
+   build.args-append       gadgethdf5 HDF5ROOT=${prefix}
+   depends_lib-append      port:hdf5-18
+}
+
+variant h5part description {compiles H5Part data read} {
+   build.args-append       h5part HDF5ROOT=${prefix} H5PART_DIR=${prefix} H5PART_LIBS="-L${prefix}/lib -lH5Part"
+   depends_lib-append      port:H5Part
+}
+
+variant read_extraformats1 description {compiles additional data reads: foulkes, mbatesph, oilonwater, rsph, urban (f/b/o/r/usplash)} conflicts read_extraformats2 {
+   build.args-append       foulkes mbatesph oilonwater rsph urban
+}
+
+variant read_extraformats2 description {compiles additional data reads: Bauswein, UCLA, vanaverbeke data read (bsplash, usplash, vsplash)} conflicts read_extraformats1 {
+   build.args-append       bauswein ucla vanaverbeke
+}

@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:filetype=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117095 2014-02-16 11:54:51Z stromnov@macports.org $
+
+PortSystem          1.0
+PortGroup           python 1.0
+
+name                py-lxml
+version             3.3.1
+revision            0
+categories-append   devel
+platforms           darwin
+license             BSD
+
+python.versions     24 25 26 27 31 32 33 34
+
+maintainers         akitada gmail.com:dbraband openmaintainer
+
+description         Powerful and Pythonic XML processing library
+
+long_description    lxml is a Pythonic binding for the libxml2 and \
+                    libxslt libraries.  It is unique in that it \
+                    combines the speed and feature completeness of \
+                    these libraries with the simplicity of a native \
+                    Python API, mostly compatible but superior to \
+                    the well-known ElementTree API.
+
+homepage            http://lxml.de/
+master_sites        http://pypi.python.org/packages/source/l/lxml/
+
+checksums           rmd160  5e64f50aa83c32889956a6c206ef7532f283b660 \
+                    sha256  8cbaa02dd5a0a9dd7f571289c51eed9cb5c747d6674f3300e4bd63586e921819
+
+distname            lxml-${version}
+
+if {${name} ne ${subport}} {
+    depends_build-append \
+                        port:py${python.version}-setuptools
+
+    depends_lib-append  port:zlib \
+                        port:libxml2 \
+                        port:libxslt
+
+    livecheck.type      none
+} else {
+    livecheck.type      regex
+    livecheck.url       ${master_sites}
+    livecheck.regex     "lxml-(\\d+(?:\\.\\d+)*)${extract.suffix}"
+}

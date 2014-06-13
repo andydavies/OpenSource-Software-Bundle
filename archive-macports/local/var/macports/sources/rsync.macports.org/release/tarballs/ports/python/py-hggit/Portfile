@@ -1,0 +1,72 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117851 2014-03-14 22:55:21Z sean@macports.org $
+
+PortSystem              1.0
+PortGroup               python 1.0
+PortGroup               bitbucket 1.0
+
+epoch                   20130201
+
+set realname            hggit
+name                    py-hggit
+
+categories-append       devel
+license                 GPL-2
+platforms               darwin
+supported_archs         noarch
+maintainers             easieste sean openmaintainer
+
+homepage                http://hg-git.github.com/
+description             Push to and pull from a Git server repository from Mercurial.
+long_description        This is the Hg-Git plugin for Mercurial, adding the ability \
+                        to push to and pull from a Git server repository from Mercurial.\
+                        This means you can collaborate on Git based projects from Mercurial, \
+                        or use a Git server as a collaboration point for a team with \
+                        developers using both Git and Mercurial.
+
+# can't set python.versions before adding custom subports
+set pversions           27
+
+foreach pv $pversions {
+    subport py$pv-$realname-devel {
+    }
+}
+
+if {[string match "*-devel" $subport]} {
+    bitbucket.setup     durin42 hg-git 5e74edb7a62d
+    name                py-$realname-devel
+    version             0.5.99
+    revision            3
+
+    checksums           rmd160  d21e85c85beddf97558a846c666d8dfe8d6bae2f \
+                        sha256  632db059b2020fdd41e752f665137c5329f44129408963fefbb12f20198c0f6c
+} else {
+    bitbucket.setup     durin42 hg-git 0.5.0
+    name                py-${realname}
+
+    checksums           rmd160  21d7d383f4881e659c86906c0d818790388bd51c \
+                        sha256  eb3b5c6327ac0050de0184a0e2da9ba1abdf7ae4eb8010c388902b40fa493019
+}
+
+set python.versions    $pversions
+
+if {${name} ne ${subport}} {
+    depends_lib-append  path:bin/hg:mercurial \
+                        port:py${python.version}-dulwich
+
+    conflicts           py${python.version}-$realname-devel
+    if {[string match "*-devel" $subport]} {
+        conflicts       py${python.version}-$realname
+    }
+
+    notes               "
+To enable ${realname}, add the following to your ~/.hgrc:
+
+\[extensions\]
+${realname} =
+"
+
+    if {![string match "*-devel" $subport]} {
+        livecheck.type      none
+    }
+}

@@ -1,0 +1,27 @@
+# $Id: Portfile 116005 2014-01-16 07:28:33Z mww@macports.org $
+
+PortSystem 1.0
+
+name                libmpc
+version             1.0.2
+categories          devel
+maintainers         mww openmaintainer
+platforms           darwin
+license             LGPL-2.1+
+description         C library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result
+long_description    ${description}
+
+homepage            http://www.multiprecision.org/mpc/
+master_sites        http://www.multiprecision.org/mpc/download/
+distname            mpc-${version}
+checksums           rmd160  1505c29d5e88c8785742c40fbbd441d241b3a9a4 \
+                    sha256  b561f54d8a479cee3bc891ee52735f18ff86712ba30f036f8b8537bae380c488
+
+depends_lib         port:gmp port:mpfr
+
+test.run            yes
+test.target         check
+
+livecheck.type      regex
+livecheck.url       http://www.multiprecision.org/index.php?prog=mpc&page=download
+livecheck.regex     href=\"mpc/download/mpc-(.*?)${extract.suffix}\"

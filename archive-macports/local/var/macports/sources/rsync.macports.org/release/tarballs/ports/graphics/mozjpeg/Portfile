@@ -1,0 +1,48 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117637 2014-03-06 14:56:49Z raimue@macports.org $
+PortSystem          1.0
+PortGroup           muniversal 1.0
+PortGroup           github 1.0
+
+github.setup        mozilla mozjpeg 1.0 v
+categories          graphics
+conflicts           jpeg libjpeg-turbo
+platforms           darwin
+supported_archs     i386 x86_64
+maintainers         raimue openmaintainer
+description         A fork of libjpeg-turbo by Mozilla with 'jpgcrush' feature
+long_description \
+    mozjpeg is a fork of libjpeg-turbo with jpgcrush functionality to reduce \
+    the size of JPEG images. The 'jpgcrush' feature finds the progressive \
+    coding configuration which uses the fewest bits. This most frequently \
+    reduces file size by 2-10%, but those are not hard limits. Significantly \
+    greater reductions have been observed.
+license             BSD
+
+checksums           rmd160  f585b217c6729b78a34fa27b336118897c912a55 \
+                    sha256  6c4845d7fa0bddd77e4a209e8e81bde11af8524dcd2cb0bb10bfd9519548ec95
+
+depends_lib         port:nasm
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+configure.args-append   --with-jpeg8 NASM=${prefix}/bin/nasm
+switch ${build_arch} {
+    i386 {
+        configure.args-append --host i686-apple-darwin
+    }
+    x86_64 {
+        configure.args-append --host x86_64-apple-darwin
+    }
+}
+
+post-destroot {
+    xinstall -d ${destroot}${prefix}/share/doc/${name}
+    move ${destroot}${prefix}/share/doc/example.c ${destroot}${prefix}/share/doc/${name}/
+    move ${destroot}${prefix}/share/doc/libjpeg.txt ${destroot}${prefix}/share/doc/${name}/
+    move ${destroot}${prefix}/share/doc/README ${destroot}${prefix}/share/doc/${name}/
+    move ${destroot}${prefix}/share/doc/README-turbo.txt ${destroot}${prefix}/share/doc/${name}/
+    move ${destroot}${prefix}/share/doc/structure.txt ${destroot}${prefix}/share/doc/${name}/
+    move ${destroot}${prefix}/share/doc/usage.txt ${destroot}${prefix}/share/doc/${name}/
+    move ${destroot}${prefix}/share/doc/wizard.txt ${destroot}${prefix}/share/doc/${name}/
+}

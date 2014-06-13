@@ -1,0 +1,27 @@
+# $Id: Portfile 116609 2014-01-30 18:10:33Z mww@macports.org $
+
+PortSystem          1.0
+PortGroup           github 1.0
+
+github.setup        ocaml opam 1.1.1
+
+name                opam
+platforms           darwin
+categories          sysutils ml
+license             {LGPL-3 OpenSSLException}
+maintainers         mww openmaintainer
+homepage            http://opam.ocamlpro.com/
+description         OPAM is a package manager for OCaml
+long_description    OPAM is a package manager for OCaml that can install \
+                    multiple versions of OCaml and libraries in a users home \
+                    directory.
+
+distname            opam-full-${version}
+checksums           rmd160  e785f672c209ecd25901e6a760a948aa22ace208 \
+                    sha256  8329de8c3fbeb203041d07eeb2fc814ceee3ffdf054ea720e99bce80d038d7fe
+
+depends_build       port:ocaml
+
+build.env-append    "TERM=xterm"
+use_parallel_build  no
+

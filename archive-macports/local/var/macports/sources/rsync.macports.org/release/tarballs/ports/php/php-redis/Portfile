@@ -1,0 +1,32 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118022 2014-03-19 15:31:23Z ryandesign@macports.org $
+
+PortSystem              1.0
+PortGroup               github 1.0
+PortGroup               php 1.1
+
+github.setup            nicolasff phpredis 2.2.5
+revision                1
+name                    php-redis
+categories-append       databases
+platforms               darwin
+maintainers             ryandesign openmaintainer
+license                 PHP-3.01
+
+php.branches            5.3 5.4 5.5
+
+distname                redis-${version}
+
+description             an API for communicating with a Redis database from PHP
+
+long_description        ${name} is ${description}.
+
+# 2.2.5 was stealth-updated on 2014-03-17.
+dist_subdir             ${name}/${version}_1
+
+checksums               rmd160  52827b4ede0fa513010278794d9806f38857f7db \
+                        sha256  c1c4cccce4c140da58c00b19a41f5bd2d218811733711984fc3e8b73cd4c6b33
+
+configure.args-append   --enable-redis
+
+use_parallel_build      yes

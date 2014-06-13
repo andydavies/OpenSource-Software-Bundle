@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116878 2014-02-09 12:07:42Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kdiamond
+version             4.12.2
+categories          kde kde4 games
+license             GPL-2+
+maintainers         nicos openmaintainer
+description         The object of the game is to build lines of three similar diamonds.
+long_description    ${description}
+platforms           darwin
+homepage            http://games.kde.org/game.php?game=kdiamond
+master_sites        kde:stable/${version}/src
+use_xz              yes
+distname            ${name}-${version}
+checksums           rmd160  c04e4a59995eee2937c495ae8780d14114be337e \
+                    sha256  2b494ac2a04ac50c04e1c0ff781e5a3710401ae43d1a8f58c1280430ace46925
+
+#Binaries do not link to openssl, nor use the ssl backend of kdelibs4
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:libkdegames
+
+if {![variant_isset docs]} {
+    patchfiles      patch-CMakeLists.diff
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)

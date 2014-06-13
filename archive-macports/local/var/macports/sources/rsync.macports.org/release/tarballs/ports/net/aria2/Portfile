@@ -1,0 +1,31 @@
+# $Id: Portfile 115576 2014-01-05 23:08:57Z mww@macports.org $
+
+PortSystem 1.0
+
+name                aria2
+version             1.18.3
+categories          net
+platforms           darwin
+maintainers         mww
+license             {GPL-2+ OpenSSLException}
+description         download utility with resuming and segmented downloading
+long_description    aria2 is a download utility with resuming and segmented \
+                    downloading. Supported protocols are HTTP/HTTPS/FTP/BitTorrent.
+
+homepage            http://aria2.sourceforge.net/
+master_sites        sourceforge
+checksums           rmd160  cddd09fdf1686f21744a42f67698497205894572 \
+                    sha256  3929dbe25c20cf430dfd80054ae80ceb3e343f3f864ddc75e64d174ce9d9bc78
+use_bzip2           yes
+
+depends_build       port:pkgconfig
+depends_lib         port:gettext port:libiconv port:gnutls port:libxml2
+
+configure.cxxflags-append "-I${prefix}/include/libxml2"
+configure.args      --with-gnutls --with-libgnutls-prefix=${prefix} \
+                    --with-libiconv-prefix=${prefix} \
+                    --with-libintl-prefix=${prefix} \
+                    --with-xml-prefix=${prefix} \
+                    --without-sqlite3
+
+livecheck.type      freecode

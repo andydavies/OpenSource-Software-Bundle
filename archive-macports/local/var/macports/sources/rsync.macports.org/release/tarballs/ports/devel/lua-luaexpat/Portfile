@@ -1,0 +1,31 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117743 2014-03-10 18:58:48Z snc@macports.org $
+
+PortSystem          1.0
+
+name                lua-luaexpat
+version             1.2.0
+set buildhash       30c2491fe44a
+categories          devel
+license             MIT
+platforms           darwin
+maintainers         nomaintainer
+description         SAX XML parser
+long_description    LuaExpat is a SAX XML parser based on the Expat library. \
+                    LuaExpat is free software and uses the same license as Lua 5.1.
+homepage            http://www.keplerproject.org/luaexpat/index.html
+master_sites        http://code.matthewwild.co.uk/lua-expat/archive
+distname            ${buildhash}
+use_configure       no
+checksums           sha1    c8de19c12f9d0899c3ecf5bf3c679910ea5d1c32 \
+                    rmd160  d1b6c8de59cfe1de814fb28f753ff850298ac735
+worksrcdir          lua-expat-${buildhash}
+patchfiles          config-patch.diff \
+                    makefile-patch.diff
+post-patch {
+   reinplace "s|%PREFIX%|${prefix}|g" ${worksrcpath}/config
+    reinplace s|luaL_reg|luaL_Reg|g ${worksrcpath}/src/lxplib.c
+}
+depends_build       port:lua
+depends_lib         port:expat
+build.target

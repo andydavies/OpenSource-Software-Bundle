@@ -1,0 +1,33 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 118107 2014-03-22 19:49:03Z devans@macports.org $
+
+PortSystem          1.0
+
+name                dmapd
+version             0.0.69
+license             GPL-2+
+description         A server that provides DAAP and DPAP shares.
+long_description    The dmapd project provides a GObject-based, Open Source implementation of DMAP sharing.
+maintainers         devans openmaintainer
+categories          multimedia
+platforms           darwin
+
+homepage            http://www.flyn.org/projects/${name}/
+master_sites        ${homepage}
+
+checksums           rmd160  a0c7e53b8a1164ec43e5bc6de8625a22a4637d90 \
+                    sha256  9bba01f2e2019db0410c1114e307b768112184d9caeda4597c0557232c3fb058
+
+depends_build       port:pkgconfig
+
+depends_lib         path:lib/pkgconfig/glib-2.0.pc:glib2 \
+                    port:libdmapsharing \
+                    port:libexif \
+                    port:GraphicsMagick \
+                    port:vips \
+                    port:gstreamer1 \
+                    port:db48
+
+livecheck.type      regex
+livecheck.url       http://www.flyn.org/projects/${name}/download.html
+livecheck.regex     ${name}-(\[0-9\]+\\\.\[0-9\\\.\]+).tar.gz

@@ -1,0 +1,56 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 117268 2014-02-21 02:08:19Z jeremyhu@macports.org $
+
+PortSystem          1.0
+PortGroup           muniversal 1.0
+
+name                cloog-devel
+conflicts           cloog
+
+version             0.18.2
+set git_commit      2d8b7c6b43ee46fee978a57fa6877de49675f357
+
+categories          devel math
+
+maintainers         nomaintainer
+platforms           darwin
+
+description         CLooG, the Chunky Loop Generator, generates code for scanning Z-polyhedra
+
+long_description    CLooG is a free software and library to generate code for scanning Z-polyhedra. \
+                    That is, it finds a code (e.g. in C, FORTRAN...) that reaches each \
+                    integral point of one or more parameterized polyhedra. CLooG has been \
+                    originally written to solve the code generation problem for optimizing \
+                    compilers based on the polytope model. Nevertheless it is used now in \
+                    various area e.g. to build control automata for high-level synthesis \
+                    or to find the best polynomial approximation of a function. CLooG may \
+                    help in any situation where scanning polyhedra matters. While the user \
+                    has full control on generated code quality, CLooG is designed to avoid \
+                    control overhead and to produce a very effective code.
+
+license             LGPL-2.1+
+homepage            http://repo.or.cz/w/cloog.git
+master_sites        http://repo.or.cz/w/cloog.git/snapshot
+
+distname            ${git_commit}
+worksrcdir          cloog
+
+checksums           rmd160  0d02471273918c991eab74bd0e9e7dca18820965 \
+                    sha256  1755b79ffb660967b08fe7df0017934c13a0b292dc248040abb85f4cdfc8737f
+
+depends_lib         port:gmp port:isl-devel
+
+# prevent -L/lib from being added to LDFLAGS
+# see http://groups.google.com/group/isl-development/t/37ad876557e50f2c 
+patchfiles          patch-ax_create_pkgconfig_info.m4.diff \
+                    patch-configure.ac.diff
+
+use_autoreconf      yes
+autoreconf.args     -fvi
+
+configure.args-append \
+                    --with-isl=system
+
+livecheck.type      regex
+livecheck.url       ${master_sites}
+livecheck.regex     ${name}-(\[0-9.\]+)\\.tar.gz

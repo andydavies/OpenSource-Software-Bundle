@@ -1,0 +1,8 @@
+#!/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Resources/Python.app/Contents/MacOS/Python
+
+#
+#   Cython -- Main Program, Unix
+#
+
+from Cython.Compiler.Main import main
+main(command_line = 1)

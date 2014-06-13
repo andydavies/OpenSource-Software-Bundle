@@ -1,0 +1,54 @@
+# -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
+# $Id: Portfile 116854 2014-02-08 16:39:34Z nicos@macports.org $
+
+PortSystem          1.0
+PortGroup           kde4   1.1
+
+name                kdepimlibs4
+version             4.12.2
+categories          kde kde4
+maintainers         nicos
+license             GPL-2+ LGPL-2+ BSD
+description         KDE4 core PIM libraries
+long_description    Core libraries necessary for Personal Information Management (PIM) in KDE4
+platforms           darwin
+homepage            http://www.kde.org
+master_sites        kde:stable/${version}/src/
+use_xz              yes
+distname            kdepimlibs-${version}
+
+checksums           rmd160  1b10f03459092be86a3de7516a8e3fa6f3e2ac6f \
+                    sha256  e475a40f8e00ce57d7acead85a4e33040cc50dc43962c7ae1b030ddbc4ae47e2
+
+#The only binaries linking to openssl (through QtNetwork) are libkimap.dylib
+#and libmailtransport.dylib, which are purely LPGL, thus not conflicting with
+#openssl license
+license_noconflict  openssl
+
+depends_lib-append  port:kdelibs4 \
+                    port:akonadi \
+                    port:nepomuk-core \
+                    port:boost \
+                    port:libical \
+                    port:openldap \
+                    port:prison \
+                    port:gpgme
+
+#Suppress build of unused kioslave
+patchfiles-append   patch-CMakeLists.diff
+
+configure.args-append   -DMAILTRANSPORT_INPROCESS_SMTP=Off
+
+pre-activate {
+    if {[file exists ${applications_dir}/KDE4/akonadi2xml.app/Contents/Info.plist]
+        && ![catch {set vers [lindex [registry_active kdepim4-runtime] 0]}] 
+        && [rpm-vercomp [lindex $vers 1] 4.12.0] < 0} {
+            ui_msg "Nicos: Deactivate port"
+            registry_deactivate_composite kdepim4-runtime "" [list ports_nodepcheck 1] 
+    } else {
+        ui_msg "Nicos: Not deactivating port"
+    } 
+}
+
+livecheck.url       http://kde.mirrors.hoobly.com/stable/
+livecheck.regex     (\\d+(\\.\\d+)+)
