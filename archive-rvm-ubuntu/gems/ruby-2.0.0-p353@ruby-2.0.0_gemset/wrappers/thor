@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if
+  [[ -s "/home/appurify/.rvm/gems/ruby-2.0.0-p353@ruby-2.0.0_gemset/environment" ]]
+then
+  source "/home/appurify/.rvm/gems/ruby-2.0.0-p353@ruby-2.0.0_gemset/environment"
+  exec thor "$@"
+else
+  echo "ERROR: Missing RVM environment file: '/home/appurify/.rvm/gems/ruby-2.0.0-p353@ruby-2.0.0_gemset/environment'" >&2
+  exit 1
+fi

@@ -1,0 +1,16 @@
+[2014-02-21 22:14:46] __rvm_post_configure_ruby
+__rvm_post_configure_ruby () 
+{ 
+    typeset option;
+    if (( ${rvm_static_flag:-0} == 1 )); then
+        for option in 'option nodynamic' openssl psych zlib readline;
+        do
+            __rvm_update_ext_setup ${option};
+        done;
+    fi
+}
+current path: /home/appurify/.rvm/src/ruby-2.0.0-p353
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.1.0
+PATH=/home/appurify/.rvm/gems/ruby-2.1.0/bin:/home/appurify/.rvm/gems/ruby-2.1.0@global/bin:/home/appurify/.rvm/rubies/ruby-2.1.0/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.1.0:/home/appurify/.rvm/gems/ruby-2.1.0@global
+command(1): __rvm_post_configure_ruby

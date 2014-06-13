@@ -1,0 +1,7 @@
+export PATH="/home/appurify/.rvm/gems/jruby-1.7.10@jruby-1.7.10_gemset/bin:/home/appurify/.rvm/gems/jruby-1.7.10@global/bin:/home/appurify/.rvm/rubies/jruby-1.7.10/bin:$PATH"
+export GEM_HOME='/home/appurify/.rvm/gems/jruby-1.7.10@jruby-1.7.10_gemset'
+export GEM_PATH='/home/appurify/.rvm/gems/jruby-1.7.10@jruby-1.7.10_gemset:/home/appurify/.rvm/gems/jruby-1.7.10@global'
+export MY_RUBY_HOME='/home/appurify/.rvm/rubies/jruby-1.7.10'
+export IRBRC='/home/appurify/.rvm/rubies/jruby-1.7.10/.irbrc'
+unset MAGLEV_HOME
+unset RBXOPT

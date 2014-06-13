@@ -1,0 +1,26 @@
+[2014-02-21 22:21:03] rubygems_remove
+rubygems_remove () 
+{ 
+    typeset rubygems_path __ruby entry;
+    rvm_log "Removing old Rubygems files...";
+    case "$rvm_ruby_string" in 
+        rbx-*)
+            __ruby="['prefix']"
+        ;;
+        *)
+            __ruby=".values_at('sitelibdir','vendorlibdir').detect{ |path| File.directory?(File.join(path.to_s, 'rubygems')) }.to_s"
+        ;;
+    esac;
+    rubygems_path="$(${1:-ruby} -rrbconfig -e "puts ::Kernel.const_get('RbConfig')::CONFIG${ruby__}")";
+    entries=("${rubygems_path}/ubygems.rb" "${rubygems_path}/gauntlet_rubygems.rb" "${rubygems_path}/rbconfig/");
+    for entry in "${entries[@]}" "${rubygems_path}/rubygems"*;
+    do
+        __rvm_rm_rf "$entry";
+    done
+}
+current path: /home/appurify
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.0.0-p353
+PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353/bin:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global/bin:/home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global
+command(2): rubygems_remove /home/appurify/.rvm/rubies/jruby-1.7.10/bin/ruby
+Removing old Rubygems files...

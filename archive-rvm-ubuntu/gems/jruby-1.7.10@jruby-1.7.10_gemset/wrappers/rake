@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if
+  [[ -s "/home/appurify/.rvm/gems/jruby-1.7.10@jruby-1.7.10_gemset/environment" ]]
+then
+  source "/home/appurify/.rvm/gems/jruby-1.7.10@jruby-1.7.10_gemset/environment"
+  exec rake "$@"
+else
+  echo "ERROR: Missing RVM environment file: '/home/appurify/.rvm/gems/jruby-1.7.10@jruby-1.7.10_gemset/environment'" >&2
+  exit 1
+fi

@@ -1,0 +1,7 @@
+[2014-02-21 22:14:19] git
+current path: /home/appurify/.rvm/src
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.1.0
+PATH=/home/appurify/.rvm/gems/ruby-2.1.0/bin:/home/appurify/.rvm/gems/ruby-2.1.0@global/bin:/home/appurify/.rvm/rubies/ruby-2.1.0/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.1.0:/home/appurify/.rvm/gems/ruby-2.1.0@global
+command(4): git clone https://github.com/jruby/jruby.git /home/appurify/.rvm/repos/jruby
+/home/appurify/.rvm/scripts/functions/utility_logging: line 201: git: command not found

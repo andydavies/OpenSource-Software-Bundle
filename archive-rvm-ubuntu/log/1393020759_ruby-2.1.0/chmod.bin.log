@@ -1,0 +1,11 @@
+[2014-02-21 22:14:10] __rvm_set_executable
+__rvm_set_executable () 
+{ 
+    for __file in "$@";
+    do
+        [[ -x "${__file}" ]] || chmod +x "${__file}";
+    done
+}
+current path: /home/appurify/.rvm/src/rvm
+PATH=/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+command(9): __rvm_set_executable /home/appurify/.rvm/rubies/ruby-2.1.0/bin/erb /home/appurify/.rvm/rubies/ruby-2.1.0/bin/gem /home/appurify/.rvm/rubies/ruby-2.1.0/bin/irb /home/appurify/.rvm/rubies/ruby-2.1.0/bin/rake /home/appurify/.rvm/rubies/ruby-2.1.0/bin/rdoc /home/appurify/.rvm/rubies/ruby-2.1.0/bin/ri /home/appurify/.rvm/rubies/ruby-2.1.0/bin/ruby /home/appurify/.rvm/rubies/ruby-2.1.0/bin/testrb

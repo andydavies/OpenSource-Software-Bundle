@@ -1,0 +1,11 @@
+[2014-02-22 00:15:19] run_gem_wrappers_regenerate
+run_gem_wrappers_regenerate () 
+{ 
+    gem_install gem-wrappers && gem wrappers regenerate || return $?
+}
+current path: /tmp/testrun_145613/test/target
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.0.0-p353@g_532205b1ced146368f3ebfbb9549a8c9
+PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353@g_532205b1ced146368f3ebfbb9549a8c9/bin:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global/bin:/home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin:/home/appurify/.rvm/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353@g_532205b1ced146368f3ebfbb9549a8c9:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global
+command(1): run_gem_wrappers_regenerate
+gem gem-wrappers >=1.2.4 is already installed

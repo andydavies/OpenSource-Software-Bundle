@@ -1,0 +1,28 @@
+[2014-02-21 22:14:14] gemset_import_list
+gemset_import_list () 
+{ 
+    typeset line;
+    for line in "$@";
+    do
+        gem_install $line || rvm_error "there was an error installing gem $line";
+    done
+}
+current path: /home/appurify/.rvm/src/rvm
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.1.0@global
+PATH=/home/appurify/.rvm/gems/ruby-2.1.0@global/bin:/home/appurify/.rvm/rubies/ruby-2.1.0/bin:/home/appurify/.rvm/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.1.0@global
+command(6): gemset_import_list gem-wrappers rubygems-bundler bundler rake rvm
+[2014-02-21 22:14:14] gem
+current path: /home/appurify/.rvm/src/rvm
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.1.0@global
+PATH=/home/appurify/.rvm/gems/ruby-2.1.0@global/bin:/home/appurify/.rvm/rubies/ruby-2.1.0/bin:/home/appurify/.rvm/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.1.0@global
+command(5): gem install /home/appurify/.rvm/gem-cache/gem-wrappers-1.2.4.gem --no-ri --no-rdoc
+installing gem /home/appurify/.rvm/gem-cache/gem-wrappers-1.2.4.gem --no-ri --no-rdoc
+Building native extensions.  This could take a while...
+Successfully installed gem-wrappers-1.2.4
+1 gem installed
+gem rubygems-bundler  is already installed
+gem bundler  is already installed
+gem rake  is already installed
+gem rvm  is already installed

@@ -1,0 +1,12 @@
+[2014-02-21 22:14:27] __rvm_patch
+__rvm_patch () 
+{ 
+    \patch "$@" || return $?
+}
+current path: /home/appurify/.rvm/src/ruby-2.0.0-p353
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.1.0
+PATH=/home/appurify/.rvm/gems/ruby-2.1.0/bin:/home/appurify/.rvm/gems/ruby-2.1.0@global/bin:/home/appurify/.rvm/rubies/ruby-2.1.0/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.1.0:/home/appurify/.rvm/gems/ruby-2.1.0@global
+command(8): __rvm_patch -F 25 -p1 -N -f -i /home/appurify/.rvm/patches/ruby/GH-488.patch
+patching file ext/openssl/ossl_ssl.c
+Hunk #1 succeeded at 2191 (offset -38 lines).

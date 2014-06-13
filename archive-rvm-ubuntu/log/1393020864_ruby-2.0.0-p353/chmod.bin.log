@@ -1,0 +1,13 @@
+[2014-02-21 22:16:22] __rvm_set_executable
+__rvm_set_executable () 
+{ 
+    for __file in "$@";
+    do
+        [[ -x "${__file}" ]] || chmod +x "${__file}";
+    done
+}
+current path: /home/appurify/.rvm/src/ruby-2.0.0-p353
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.1.0
+PATH=/home/appurify/.rvm/gems/ruby-2.1.0/bin:/home/appurify/.rvm/gems/ruby-2.1.0@global/bin:/home/appurify/.rvm/rubies/ruby-2.1.0/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.1.0:/home/appurify/.rvm/gems/ruby-2.1.0@global
+command(9): __rvm_set_executable /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/erb /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/gem /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/irb /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/rake /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/rdoc /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/ri /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/ruby /home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin/testrb

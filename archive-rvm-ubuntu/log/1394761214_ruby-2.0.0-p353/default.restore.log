@@ -1,0 +1,33 @@
+[2014-03-14 01:40:15] alias_delete
+alias_delete () 
+{ 
+    __rvm_log_command "alias_delete" "Deleting alias: ${1:-$alias_name}" alias_delete_execute "${1:-$alias_name}" || return $?
+}
+current path: /home/appurify
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.0.0-p353
+PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353/bin:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global/bin:/home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global
+command(2): alias_delete default
+[2014-03-14 01:40:15] alias_delete_execute
+alias_delete_execute () 
+{ 
+    for _path in "$rvm_rubies_path" "$rvm_environments_path" "$rvm_wrappers_path";
+    do
+        if [[ -L "$_path/$1" ]]; then
+            \rm -fv "$_path/$1" || return $?;
+        fi;
+    done;
+    __rvm_db_ "$rvm_path/config/alias" "$1" "delete";
+    alias_after_delete_default "$1" || return $?
+}
+current path: /home/appurify
+GEM_HOME=/home/appurify/.rvm/gems/ruby-2.0.0-p353
+PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353/bin:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global/bin:/home/appurify/.rvm/rubies/ruby-2.0.0-p353/bin:/usr/local/android-sdk/platform-tools:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/home/appurify/.rvm/bin
+GEM_PATH=/home/appurify/.rvm/gems/ruby-2.0.0-p353:/home/appurify/.rvm/gems/ruby-2.0.0-p353@global
+command(2): alias_delete_execute default
+Deleting alias: default
+removed `/home/appurify/.rvm/rubies/default'
+removed `/home/appurify/.rvm/environments/default'
+removed `/home/appurify/.rvm/wrappers/default'
+removed `/home/appurify/.rvm/bin/rake'
+removed `/home/appurify/.rvm/bin/bundle'
