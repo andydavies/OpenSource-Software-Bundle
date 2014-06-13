@@ -1,0 +1,12 @@
+/Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby extconf.rb
+rake 10.1.0
+rdoc 4.0.1
+
+make  clean
+make: *** No rule to make target `clean'.  Stop.
+
+make
+make: Nothing to be done for `all'.
+
+make  install
+make: Nothing to be done for `install'.

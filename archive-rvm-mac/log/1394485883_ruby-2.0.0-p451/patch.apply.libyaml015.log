@@ -1,0 +1,33 @@
+[2014-03-10 14:11:27] __rvm_patch
+__rvm_patch () 
+{ 
+    \patch "$@" || return $?
+}
+current path: /Users/appurify/.rvm/src/ruby-2.0.0-p451
+GEM_HOME=/Users/appurify/.rvm/gems/jruby-1.7.10
+PATH=/Users/appurify/.rvm/gems/jruby-1.7.10/bin:/Users/appurify/.rvm/gems/jruby-1.7.10@global/bin:/Users/appurify/.rvm/rubies/jruby-1.7.10/bin:/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+GEM_PATH=/Users/appurify/.rvm/gems/jruby-1.7.10:/Users/appurify/.rvm/gems/jruby-1.7.10@global
+command(8): __rvm_patch -F 25 -p1 -N -f -i /Users/appurify/.rvm/patches/ruby/libyaml015.patch
+patching file ext/psych/yaml/loader.c
+Hunk #1 succeeded at 289 with fuzz 2 (offset 3 lines).
+Hunk #2 succeeded at 341 with fuzz 2 (offset 10 lines).
+Hunk #3 succeeded at 365 with fuzz 3 (offset 10 lines).
+Hunk #4 succeeded at 414 with fuzz 2 (offset 20 lines).
+Hunk #5 succeeded at 438 with fuzz 3 (offset 20 lines).
+patching file ext/psych/yaml/reader.c
+Hunk #1 succeeded at 128 with fuzz 1 (offset -332 lines).
+patching file ext/psych/yaml/scanner.c
+Hunk #1 FAILED at 615.
+Hunk #2 FAILED at 1103.
+Hunk #3 succeeded at 1181 with fuzz 2 (offset 5 lines).
+Hunk #4 FAILED at 1216.
+Hunk #5 succeeded at 1236 with fuzz 3 (offset 5 lines).
+Hunk #6 FAILED at 1269.
+Hunk #7 FAILED at 2589.
+5 out of 7 hunks FAILED -- saving rejects to file ext/psych/yaml/scanner.c.rej
+patching file ext/psych/yaml/yaml_private.h
+Hunk #1 succeeded at 7 with fuzz 3.
+Hunk #2 succeeded at 453 with fuzz 2 (offset 21 lines).
+patching file ext/psych/yaml/config.h
+Hunk #1 FAILED at 1.
+1 out of 1 hunk FAILED -- saving rejects to file ext/psych/yaml/config.h.rej

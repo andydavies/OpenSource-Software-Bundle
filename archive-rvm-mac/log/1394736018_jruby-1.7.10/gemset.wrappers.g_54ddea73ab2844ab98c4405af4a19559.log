@@ -1,0 +1,11 @@
+[2014-03-13 11:40:18] run_gem_wrappers_regenerate
+run_gem_wrappers_regenerate () 
+{ 
+    gem_install gem-wrappers && gem wrappers regenerate || return $?
+}
+current path: /tmp/testrun_36976/test/SiteAutomation
+GEM_HOME=/Users/appurify/.rvm/gems/jruby-1.7.10@g_54ddea73ab2844ab98c4405af4a19559
+PATH=/Users/appurify/.rvm/gems/jruby-1.7.10@g_54ddea73ab2844ab98c4405af4a19559/bin:/Users/appurify/.rvm/gems/jruby-1.7.10@global/bin:/Users/appurify/.rvm/rubies/jruby-1.7.10/bin:/Users/appurify/.rvm/bin:/salt/homebrew/bin:/android-sdk/platform-tools:/opt/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/jruby-1.7.10@g_54ddea73ab2844ab98c4405af4a19559:/Users/appurify/.rvm/gems/jruby-1.7.10@global
+command(1): run_gem_wrappers_regenerate
+gem gem-wrappers >=1.2.4 is already installed

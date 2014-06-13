@@ -1,0 +1,110 @@
+[2014-03-10 14:00:11] requirements_osx_port_update_system
+requirements_osx_port_update_system () 
+{ 
+    __rvm_try_sudo port -dv selfupdate || return $?
+}
+current path: /Users/appurify/.rvm/src/rvm
+PATH=/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+command(2): requirements_osx_port_update_system ruby-2.1.1
+DEBUG: MacPorts sources location: /opt/local/var/macports/sources/rsync.macports.org/release/tarballs
+--->  Updating MacPorts base sources using rsync
+receiving file list ... done
+base.tar
+
+sent 13396 bytes  received 10359 bytes  47510.00 bytes/sec
+total size is 4925440  speedup is 207.34
+receiving file list ... done
+base.tar.rmd160
+
+sent 64 bytes  received 635 bytes  1398.00 bytes/sec
+total size is 512  speedup is 0.73
+DEBUG: successful verification with key /opt/local/share/macports/macports-pubkey.pem
+DEBUG: /usr/bin/tar -C /opt/local/var/macports/sources/rsync.macports.org/release/tarballs/tmp -xf /opt/local/var/macports/sources/rsync.macports.org/release/tarballs/base.tar
+MacPorts base version 2.2.1 installed,
+DEBUG: Rebuilding and reinstalling MacPorts if needed
+MacPorts base version 2.2.1 downloaded.
+--->  Updating the ports tree
+Synchronizing local ports tree from rsync://rsync.macports.org/release/tarballs/ports.tar
+DEBUG: /usr/bin/rsync -rtzv --delete-after  rsync://rsync.macports.org/release/tarballs/ports.tar /opt/local/var/macports/sources/rsync.macports.org/release/tarballs
+receiving file list ... done
+ports.tar
+
+sent 54168 bytes  received 1138831 bytes  795332.67 bytes/sec
+total size is 59484160  speedup is 49.86
+DEBUG: /usr/bin/rsync -rtzv --delete-after  rsync://rsync.macports.org/release/tarballs/ports.tar.rmd160 /opt/local/var/macports/sources/rsync.macports.org/release/tarballs
+receiving file list ... done
+ports.tar.rmd160
+
+sent 64 bytes  received 636 bytes  1400.00 bytes/sec
+total size is 512  speedup is 0.73
+DEBUG: successful verification with key /opt/local/share/macports/macports-pubkey.pem
+DEBUG: /usr/bin/tar -C /opt/local/var/macports/sources/rsync.macports.org/release/tarballs/tmp -xf /opt/local/var/macports/sources/rsync.macports.org/release/tarballs/ports.tar
+Creating port index in /opt/local/var/macports/sources/rsync.macports.org/release/tarballs/ports
+Adding port audio/libfdk-aac
+Adding port devel/capstone
+Adding port devel/cloog-devel
+Adding port devel/crlibm
+Adding port devel/gtk-mac-bundler
+Adding port devel/isl-devel
+Adding port gnome/frogr
+Adding port gnome/gfbgraph
+Adding port gnome/gitg
+Adding port gnome/grilo-plugins
+Adding port gnome/libgit2-glib
+Adding port graphics/mozjpeg
+Adding port graphics/pngquant
+Adding port lang/mozjs24
+Adding port math/OpenBLAS-devel
+Adding port python/py-future
+Adding subport py26-future
+Adding subport py27-future
+Adding subport py33-future
+Adding subport py34-future
+Adding port python/py-pathtools
+Adding subport py27-pathtools
+Adding subport py33-pathtools
+Adding subport py34-pathtools
+Adding port python/py-pyphant
+Adding subport py26-pyphant
+Adding subport py27-pyphant
+Adding port python/py-pyphant-fmf
+Adding subport py26-pyphant-fmf
+Adding subport py27-pyphant-fmf
+Adding port python/py-pyphant-imageprocessing
+Adding subport py26-pyphant-imageprocessing
+Adding subport py27-pyphant-imageprocessing
+Adding port python/py-pyphant-osc
+Adding subport py26-pyphant-osc
+Adding subport py27-pyphant-osc
+Adding port python/py-pyphant-statistics
+Adding subport py26-pyphant-statistics
+Adding subport py27-pyphant-statistics
+Adding port python/py-pyphant-tools
+Adding subport py26-pyphant-tools
+Adding subport py27-pyphant-tools
+Adding port python/py-robotremoteserver
+Adding subport py26-robotremoteserver
+Adding subport py27-robotremoteserver
+Adding subport py33-robotremoteserver
+Adding subport py34-robotremoteserver
+Adding port ruby/rb19-rake
+Adding port science/gshhg-gmt
+Adding port science/gstlal-calibration
+Adding port security/libevt
+Adding port security/libgfshare
+Adding port sysutils/cardpeek
+Adding port sysutils/molly-guard
+Adding port textproc/rnnlm
+Adding port textproc/slearp
+Adding port textproc/word2vec
+
+Total number of ports parsed:	57 
+Ports successfully parsed:	57 
+Ports failed:			0 
+Up-to-date ports skipped:	18109
+
+--->  MacPorts base is already the latest version
+DEBUG: Setting MacPorts sources ownership to appurify
+
+The ports tree has been updated. To upgrade your installed ports, you should run
+  port upgrade outdated

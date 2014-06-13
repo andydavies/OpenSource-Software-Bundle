@@ -1,0 +1,11 @@
+[2014-03-10 14:06:06] run_gem_wrappers_regenerate
+run_gem_wrappers_regenerate () 
+{ 
+    gem_install gem-wrappers && gem wrappers regenerate || return $?
+}
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1/bin:/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/Users/appurify/.rvm/bin:/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1:/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(1): run_gem_wrappers_regenerate
+gem gem-wrappers >=1.2.4 is already installed

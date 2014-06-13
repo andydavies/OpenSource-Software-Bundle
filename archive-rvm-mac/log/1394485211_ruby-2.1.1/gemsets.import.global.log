@@ -1,0 +1,57 @@
+[2014-03-10 14:05:52] gemset_import_list
+gemset_import_list () 
+{ 
+    typeset line;
+    for line in "$@";
+    do
+        gem_install $line || rvm_error "there was an error installing gem $line";
+    done
+}
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/Users/appurify/.rvm/bin:/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(6): gemset_import_list gem-wrappers rubygems-bundler bundler rake rvm
+[2014-03-10 14:05:52] gem
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/Users/appurify/.rvm/bin:/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(5): gem install /Users/appurify/.rvm/gem-cache/gem-wrappers-1.2.4.gem --no-ri --no-rdoc
+installing gem /Users/appurify/.rvm/gem-cache/gem-wrappers-1.2.4.gem --no-ri --no-rdoc
+Building native extensions.  This could take a while...
+Successfully installed gem-wrappers-1.2.4
+1 gem installed
+[2014-03-10 14:05:54] gem
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/Users/appurify/.rvm/bin:/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(5): gem install rubygems-bundler --no-ri --no-rdoc
+installing gem rubygems-bundler --no-ri --no-rdoc
+Successfully installed bundler-unload-1.0.2
+Building native extensions.  This could take a while...
+# In case of problems run the following command to update binstubs:
+gem regenerate_binstubs
+Successfully installed executable-hooks-1.3.1
+Successfully installed rubygems-bundler-1.4.2
+3 gems installed
+[2014-03-10 14:06:01] gem
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/Users/appurify/.rvm/bin:/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(5): gem install bundler --no-ri --no-rdoc
+installing gem bundler --no-ri --no-rdoc
+Successfully installed bundler-1.5.3
+1 gem installed
+gem rake  is already installed
+[2014-03-10 14:06:04] gem
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/Users/appurify/.rvm/bin:/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(5): gem install /Users/appurify/.rvm/gem-cache/rvm-1.11.3.9.gem --no-ri --no-rdoc
+installing gem /Users/appurify/.rvm/gem-cache/rvm-1.11.3.9.gem --no-ri --no-rdoc
+Successfully installed rvm-1.11.3.9
+1 gem installed

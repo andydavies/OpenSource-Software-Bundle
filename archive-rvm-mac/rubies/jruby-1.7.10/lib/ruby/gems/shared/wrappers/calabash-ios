@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if
+  [[ -s "/Users/appurify/.rvm/gems/jruby-1.7.10@global/environment" ]]
+then
+  source "/Users/appurify/.rvm/gems/jruby-1.7.10@global/environment"
+  exec calabash-ios "$@"
+else
+  echo "ERROR: Missing RVM environment file: '/Users/appurify/.rvm/gems/jruby-1.7.10@global/environment'" >&2
+  exit 1
+fi

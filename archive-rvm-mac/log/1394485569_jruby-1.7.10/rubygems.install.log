@@ -1,0 +1,322 @@
+[2014-03-10 14:09:31] /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/ruby
+current path: /Users/appurify/.rvm/src/rubygems-2.2.2
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1/bin:/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1:/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(6): env GEM_HOME= GEM_PATH= /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/ruby -d /Users/appurify/.rvm/src/rubygems-2.2.2/setup.rb
+java.lang.ClassNotFoundException: rubygems.defaults.OperatingSystemService
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at org.jruby.util.JRubyClassLoader.findClass(JRubyClassLoader.java:128)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:270)
+	at org.jruby.javasupport.JavaSupport.loadJavaClass(JavaSupport.java:166)
+	at org.jruby.runtime.load.LoadService$ExtensionSearcher.trySearch(LoadService.java:814)
+	at org.jruby.runtime.load.LoadService.findFileForLoad(LoadService.java:411)
+	at org.jruby.runtime.load.LoadService.smartLoadInternal(LoadService.java:560)
+	at org.jruby.runtime.load.LoadService.requireCommon(LoadService.java:457)
+	at org.jruby.runtime.load.LoadService.require(LoadService.java:421)
+	at org.jruby.RubyKernel.requireCommon(RubyKernel.java:1089)
+	at org.jruby.RubyKernel.require19(RubyKernel.java:1083)
+	at org.jruby.RubyKernel$INVOKER$s$1$0$require19.call(RubyKernel$INVOKER$s$1$0$require19.gen)
+	at org.jruby.internal.runtime.methods.JavaMethod$JavaMethodOneOrNBlock.call(JavaMethod.java:350)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RescueNode.executeBody(RescueNode.java:221)
+	at org.jruby.ast.RescueNode.interpret(RescueNode.java:116)
+	at org.jruby.ast.BeginNode.interpret(BeginNode.java:83)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.IfNode.interpret(IfNode.java:118)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.tryLoadingLibraryOrScript(LoadService.java:959)
+	at org.jruby.runtime.load.LoadService.smartLoadInternal(LoadService.java:573)
+	at org.jruby.runtime.load.LoadService.requireCommon(LoadService.java:457)
+	at org.jruby.runtime.load.LoadService.require(LoadService.java:421)
+	at org.jruby.RubyKernel.requireCommon(RubyKernel.java:1089)
+	at org.jruby.RubyKernel.require19(RubyKernel.java:1083)
+	at org.jruby.RubyKernel$INVOKER$s$1$0$require19.call(RubyKernel$INVOKER$s$1$0$require19.gen)
+	at org.jruby.internal.runtime.methods.JavaMethod$JavaMethodOneOrNBlock.call(JavaMethod.java:350)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RescueNode.executeBody(RescueNode.java:221)
+	at org.jruby.ast.RescueNode.interpret(RescueNode.java:116)
+	at org.jruby.ast.BeginNode.interpret(BeginNode.java:83)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.load(LoadService.java:359)
+	at org.jruby.RubyKernel.loadCommon(RubyKernel.java:1107)
+	at org.jruby.RubyKernel.load19(RubyKernel.java:1099)
+	at org.jruby.RubyKernel$INVOKER$s$0$1$load19.call(RubyKernel$INVOKER$s$0$1$load19.gen)
+	at org.jruby.internal.runtime.methods.DynamicMethod.call(DynamicMethod.java:210)
+	at org.jruby.internal.runtime.methods.DynamicMethod.call(DynamicMethod.java:206)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.IfNode.interpret(IfNode.java:118)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.loadFromClassLoader(LoadService.java:385)
+	at org.jruby.Ruby.initRubyKernel(Ruby.java:1722)
+	at org.jruby.Ruby.init(Ruby.java:1201)
+	at org.jruby.Ruby.newInstance(Ruby.java:278)
+	at org.jruby.Main.internalRun(Main.java:258)
+	at org.jruby.Main.run(Main.java:217)
+	at org.jruby.Main.main(Main.java:197)
+java.lang.ClassNotFoundException: rubygems.defaults.JrubyNativeService
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:366)
+	at java.net.URLClassLoader$1.run(URLClassLoader.java:355)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:354)
+	at org.jruby.util.JRubyClassLoader.findClass(JRubyClassLoader.java:128)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:425)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:358)
+	at java.lang.Class.forName0(Native Method)
+	at java.lang.Class.forName(Class.java:270)
+	at org.jruby.javasupport.JavaSupport.loadJavaClass(JavaSupport.java:166)
+	at org.jruby.runtime.load.LoadService$ExtensionSearcher.trySearch(LoadService.java:814)
+	at org.jruby.runtime.load.LoadService.findFileForLoad(LoadService.java:411)
+	at org.jruby.runtime.load.LoadService.smartLoadInternal(LoadService.java:560)
+	at org.jruby.runtime.load.LoadService.requireCommon(LoadService.java:457)
+	at org.jruby.runtime.load.LoadService.require(LoadService.java:421)
+	at org.jruby.RubyKernel.requireCommon(RubyKernel.java:1089)
+	at org.jruby.RubyKernel.require19(RubyKernel.java:1083)
+	at org.jruby.RubyKernel$INVOKER$s$1$0$require19.call(RubyKernel$INVOKER$s$1$0$require19.gen)
+	at org.jruby.internal.runtime.methods.JavaMethod$JavaMethodOneOrNBlock.call(JavaMethod.java:350)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RescueNode.executeBody(RescueNode.java:221)
+	at org.jruby.ast.RescueNode.interpret(RescueNode.java:116)
+	at org.jruby.ast.BeginNode.interpret(BeginNode.java:83)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.tryLoadingLibraryOrScript(LoadService.java:959)
+	at org.jruby.runtime.load.LoadService.smartLoadInternal(LoadService.java:573)
+	at org.jruby.runtime.load.LoadService.requireCommon(LoadService.java:457)
+	at org.jruby.runtime.load.LoadService.require(LoadService.java:421)
+	at org.jruby.RubyKernel.requireCommon(RubyKernel.java:1089)
+	at org.jruby.RubyKernel.require19(RubyKernel.java:1083)
+	at org.jruby.RubyKernel$INVOKER$s$1$0$require19.call(RubyKernel$INVOKER$s$1$0$require19.gen)
+	at org.jruby.internal.runtime.methods.JavaMethod$JavaMethodOneOrNBlock.call(JavaMethod.java:350)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RescueNode.executeBody(RescueNode.java:221)
+	at org.jruby.ast.RescueNode.interpret(RescueNode.java:116)
+	at org.jruby.ast.BeginNode.interpret(BeginNode.java:83)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.IfNode.interpret(IfNode.java:116)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.IfNode.interpret(IfNode.java:118)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.tryLoadingLibraryOrScript(LoadService.java:959)
+	at org.jruby.runtime.load.LoadService.smartLoadInternal(LoadService.java:573)
+	at org.jruby.runtime.load.LoadService.requireCommon(LoadService.java:457)
+	at org.jruby.runtime.load.LoadService.require(LoadService.java:421)
+	at org.jruby.RubyKernel.requireCommon(RubyKernel.java:1089)
+	at org.jruby.RubyKernel.require19(RubyKernel.java:1083)
+	at org.jruby.RubyKernel$INVOKER$s$1$0$require19.call(RubyKernel$INVOKER$s$1$0$require19.gen)
+	at org.jruby.internal.runtime.methods.JavaMethod$JavaMethodOneOrNBlock.call(JavaMethod.java:350)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RescueNode.executeBody(RescueNode.java:221)
+	at org.jruby.ast.RescueNode.interpret(RescueNode.java:116)
+	at org.jruby.ast.BeginNode.interpret(BeginNode.java:83)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.load(LoadService.java:359)
+	at org.jruby.RubyKernel.loadCommon(RubyKernel.java:1107)
+	at org.jruby.RubyKernel.load19(RubyKernel.java:1099)
+	at org.jruby.RubyKernel$INVOKER$s$0$1$load19.call(RubyKernel$INVOKER$s$0$1$load19.gen)
+	at org.jruby.internal.runtime.methods.DynamicMethod.call(DynamicMethod.java:210)
+	at org.jruby.internal.runtime.methods.DynamicMethod.call(DynamicMethod.java:206)
+	at org.jruby.runtime.callsite.CachingCallSite.cacheAndCall(CachingCallSite.java:326)
+	at org.jruby.runtime.callsite.CachingCallSite.call(CachingCallSite.java:170)
+	at org.jruby.ast.FCallOneArgNode.interpret(FCallOneArgNode.java:36)
+	at org.jruby.ast.IfNode.interpret(IfNode.java:118)
+	at org.jruby.ast.NewlineNode.interpret(NewlineNode.java:105)
+	at org.jruby.ast.BlockNode.interpret(BlockNode.java:71)
+	at org.jruby.ast.RootNode.interpret(RootNode.java:129)
+	at org.jruby.evaluator.ASTInterpreter.INTERPRET_ROOT(ASTInterpreter.java:121)
+	at org.jruby.Ruby.runInterpreter(Ruby.java:838)
+	at org.jruby.Ruby.loadFile(Ruby.java:2750)
+	at org.jruby.runtime.load.ExternalScript.load(ExternalScript.java:66)
+	at org.jruby.runtime.load.LoadService.loadFromClassLoader(LoadService.java:385)
+	at org.jruby.Ruby.initRubyKernel(Ruby.java:1722)
+	at org.jruby.Ruby.init(Ruby.java:1201)
+	at org.jruby.Ruby.newInstance(Ruby.java:278)
+	at org.jruby.Main.internalRun(Main.java:258)
+	at org.jruby.Main.run(Main.java:217)
+	at org.jruby.Main.main(Main.java:197)
+RubyGems 2.2.2 installed
+
+=== 2.2.1 / 2014-01-06
+
+Bug fixes:
+
+* Platforms in the Gemfile.lock GEM section are now handled correctly.  Bug
+  #767 by Diego Viola.
+* RubyGems now displays which gem couldn't be uninstalled from the home
+  directory.  Pull request #757 by Michal Papis.
+* Removed unused method Gem::Resolver#find_conflict_state.  Pull request #759
+  by Smit Shah.
+* Fixed installing gems from local files without dependencies.  Issue #760 by
+  Arash Mousavi, pull request #764 by Tim Moore.
+* Removed TODO about syntax that works in Ruby 1.8.7.  Pull request #765 by
+  Benjamin Fleischer.
+* Switched Gem.ruby_api_version to use RbConfig::CONFIG['ruby_version'] which
+  has the same value but is overridable by packagers through
+  --with-ruby-version= when configuring ruby.  Bug #770 by Jeremy Evans.
+* RubyGems now prefers the bundler API for `gem install` to reduce HTTP
+  requests.  (This change was intended for RubyGems 2.2.0 but was missed.)
+  This should address bug #762 by Dan Peterson and bug #766 by mipearson.
+* Added Gem::BasicSpecification#source_paths so documentation or analysis
+  tools can work properly as require_paths no longer returns extension source
+  directories.  Bug #758 Vít Ondruch.
+* Gem.read_binary can read read-only files again.  This caused file://
+  repositories to stop working.  Bug #761 by John Anderson.
+* Fixed specification file sorting for Ruby 1.8.7 compatibility.  Pull
+  request #763 by James Mead
+
+=== 2.2.0 / 2013-12-26
+
+Special thanks to Vít Ondruch and Michal Papis for testing and finding bugs in
+RubyGems as it was prepared for the 2.2.0 release.
+
+Major enhancements:
+
+* RubyGems can check for gem dependencies files (gem.deps.rb or Gemfile) when
+  rubygems executables are started and uses the found dependencies.  This
+  means `rake` will work similar to `bundle exec rake`.  To enable this set
+  the `RUBYGEMS_GEMDEPS` environment variable to the location of your
+  dependencies file.
+
+  See Gem::use_gemdeps for further details.
+
+* A RubyGems directory may now be shared amongst multiple ruby versions.  Upon
+  activation RubyGems will automatically compile missing extensions for the
+  current platform when the built objects are missing.  Issue #596 by Michal
+  Papis
+
+  By default different platforms do not share gem install locations so this
+  must be configured by setting GEM_HOME to a common directory.  Some gems use
+  fixed paths for requiring extensions and are not compatible with sharing gem
+  directories.
+
+  The default sharing location may be configured by RubyGems packagers through
+  Gem.default_ext_dir_for.  Pull Request #744 by Vít Ondruch.
+
+Minor enhancements:
+
+* RubyGems checks the 'allowed_push_host' metadata value when pushing a gem to
+  prevent an accidental push to a public repository (such as rubygems.org).
+  If you have private gems you should set this value in your gem specification
+  metadata.  Pull request #603 by Seamus Abshere.
+* `gem list` now shows results for multiple arguments.  Pull request #604 by
+  Zach Rabinovich.
+* `gem pristine --extensions` will restore only gems with extensions.  Issue
+  #619 by Postmodern.
+* Gem::Specification#files is now sorted.  Pull request #612 by Justin George.
+* For `gem list` and friends, "LOCAL" and "REMOTE" headers are omitted if
+  only local or remote gem information is requested with --quiet.  Pull
+  request #615 by Michal Papis.
+* Added Gem::Specification#full_require_paths which is like require_paths, but
+  returns a fully-qualified results.  Pull request #632 by Vít Ondruch.
+* RubyGems now looks for the https_proxy environment variable for https://
+  sources.  RubyGems will fall back to http_proxy if there is no https_proxy.
+  Issue #610 by mkristian.
+* RubyGems now creates directories in .gem files.  Issue #631 by marksolaris.
+* RubyGems raises an exception when a specification includes its gem.  Issue
+  #623 by notEthan.
+* RubyGems now displays relevant release note information when updating
+  RubyGems.  Issue #647 by Trevor Wennblom.
+* Deprecated Gem::Installer::ExtensionBuildError in favor of
+  Gem::Ext::BuildError.  The old constant is an alias for the new constant.
+* When extensions are built the gem_make.out file is always written now, even
+  on success.  This will help with debugging bad builds that report success.
+* If a specification fails to validate RubyGems shows a link to the
+  specification reference guide.  Issue #656 by Markus Heiler.
+* When using `gem install -g`, RubyGems now detects the presence of an
+  Isolate, Gemfile or gem.deps.rb file.
+* Added Gem::StubSpecification#stubbed? to help determine if a user should run
+  `gem pristine` to speed up gem loading.  Pull request #694 and #701 by Jon
+  Leighton.
+* RubyGems now warns when a gem has a pessimistic version dependency that may
+  be too strict.
+* RubyGems now warns when a gem has an open-ended dependency.
+* RubyGems now raises an exception when a dependency for a gem is defined
+  twice.
+* Marked the license specification attribute as recommended.  Pull request
+  #713 by Benjamin Fleischer.
+* RubyGems uses io/console instead of `stty` when available.  Pull request
+  #740 by Nobuyoshi Nakada
+* Relaxed Gem.ruby tests for platforms that override where ruby lives.  Pull
+  Request #755 by strzibny.
+
+Bug fixes:
+
+* RubyGems now returns an error status when any file given to `gem which`
+  cannot be found.  Ruby bug #9004 by Eugene Vilensky.
+* Fixed command escaping when building rake extensions.  Pull request #721 by
+  Dmitry Ratnikov.
+* Fixed uninstallation of gems when GEM_HOME is a relative directory.  Issue
+  #708 by Ryan Davis.
+* Default gems are now ignored by Gem::Validator#alien.  Issue #717 by David
+  Bahar.
+* Fixed typos in RubyGems.  Pull requests #723, #725, #731 by Akira Matsuda,
+  pull request #736 by Leo Gallucci, pull request #746 by DV Suresh.
+* RubyGems now holds exclusive locks on cached gem files to prevent incorrect
+  updates.  Pull Request #737 by Smit Shah
+* Improved speed of `gem install --ignore-dependencies`.  Patch by Terence
+  Lee.
+
+
+------------------------------------------------------------------------------
+
+RubyGems installed the following executables:
+	/Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jgem
+

@@ -1,0 +1,601 @@
+[2014-03-10 14:11:52] __rvm_make
+__rvm_make () 
+{ 
+    \make "$@" || return $?
+}
+current path: /Users/appurify/.rvm/src/ruby-2.0.0-p451
+GEM_HOME=/Users/appurify/.rvm/gems/jruby-1.7.10
+PATH=/Users/appurify/.rvm/gems/jruby-1.7.10/bin:/Users/appurify/.rvm/gems/jruby-1.7.10@global/bin:/Users/appurify/.rvm/rubies/jruby-1.7.10/bin:/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+GEM_PATH=/Users/appurify/.rvm/gems/jruby-1.7.10:/Users/appurify/.rvm/gems/jruby-1.7.10@global
+command(3): __rvm_make -j 1
+	CC = /usr/bin/clang
+	LD = ld
+	LDSHARED = /usr/bin/clang -dynamiclib
+	CFLAGS = -O3 -fno-fast-math -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wunused-variable -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration   -fno-common -pipe 
+	XCFLAGS = -include ruby/config.h -include ruby/missing.h -D_FORTIFY_SOURCE=2 -fstack-protector -fno-strict-overflow -fvisibility=hidden -DRUBY_EXPORT
+	CPPFLAGS = -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -I. -I.ext/include/x86_64-darwin12.5.0 -I./include -I.
+	DLDFLAGS = -Wl,-undefined,dynamic_lookup -Wl,-multiply_defined,suppress -install_name /Users/appurify/.rvm/rubies/ruby-2.0.0-p451/lib/libruby.2.0.0.dylib -current_version 2.0.0 -compatibility_version 2.0.0  -fstack-protector -Wl,-u,_objc_msgSend  -fstack-protector -Wl,-u,_objc_msgSend  
+	SOLIBS = 
+compiling main.c
+compiling dmydln.c
+compiling dmyencoding.c
+compiling version.c
+compiling dmyversion.c
+compiling miniprelude.c
+translating probes probes.d
+. ./vm_opts.h
+compiling array.c
+compiling bignum.c
+compiling class.c
+compiling compar.c
+compiling complex.c
+compiling dir.c
+compiling dln_find.c
+compiling enum.c
+compiling enumerator.c
+compiling error.c
+compiling eval.c
+compiling load.c
+compiling proc.c
+compiling file.c
+compiling gc.c
+compiling hash.c
+compiling inits.c
+compiling io.c
+compiling marshal.c
+compiling math.c
+compiling node.c
+compiling numeric.c
+compiling object.c
+compiling pack.c
+compiling parse.c
+compiling process.c
+compiling random.c
+compiling range.c
+compiling rational.c
+compiling re.c
+compiling regcomp.c
+compiling regenc.c
+compiling regerror.c
+compiling regexec.c
+compiling regparse.c
+compiling regsyntax.c
+compiling ruby.c
+compiling safe.c
+compiling signal.c
+compiling sprintf.c
+compiling st.c
+compiling strftime.c
+compiling string.c
+compiling struct.c
+compiling time.c
+compiling transcode.c
+compiling util.c
+compiling variable.c
+compiling compile.c
+compiling debug.c
+compiling iseq.c
+compiling vm.c
+compiling vm_dump.c
+compiling vm_backtrace.c
+compiling vm_trace.c
+compiling thread.c
+thread.c:3341:34: warning: variable 'orig_read' is uninitialized when used within its own initialization [-Wuninitialized]
+    rb_fdset_t UNINITIALIZED_VAR(orig_read);
+                                 ^~~~~~~~~
+./vm_core.h:119:34: note: expanded from macro 'UNINITIALIZED_VAR'
+#define UNINITIALIZED_VAR(x) x = x
+                                 ^
+thread.c:3342:34: warning: variable 'orig_write' is uninitialized when used within its own initialization [-Wuninitialized]
+    rb_fdset_t UNINITIALIZED_VAR(orig_write);
+                                 ^~~~~~~~~~
+./vm_core.h:119:34: note: expanded from macro 'UNINITIALIZED_VAR'
+#define UNINITIALIZED_VAR(x) x = x
+                                 ^
+thread.c:3343:34: warning: variable 'orig_except' is uninitialized when used within its own initialization [-Wuninitialized]
+    rb_fdset_t UNINITIALIZED_VAR(orig_except);
+                                 ^~~~~~~~~~~
+./vm_core.h:119:34: note: expanded from macro 'UNINITIALIZED_VAR'
+#define UNINITIALIZED_VAR(x) x = x
+                                 ^
+3 warnings generated.
+compiling cont.c
+compiling ./enc/ascii.c
+compiling ./enc/us_ascii.c
+compiling ./enc/unicode.c
+compiling ./enc/utf_8.c
+compiling newline.c
+compiling ./missing/setproctitle.c
+compiling dmyext.c
+linking miniruby
+rbconfig.rb updated
+generating enc.mk
+compiling dln.c
+compiling encoding.c
+generating prelude.c
+compiling prelude.c
+linking static-library libruby.2.0.0-static.a
+verifying static-library libruby.2.0.0-static.a
+linking shared-library libruby.2.0.0.dylib
+generating encdb.h
+encdb.h unchanged
+making enc
+compiling ./enc/encdb.c
+linking encoding encdb.bundle
+compiling ./enc/big5.c
+linking encoding big5.bundle
+compiling ./enc/cp949.c
+linking encoding cp949.bundle
+compiling ./enc/emacs_mule.c
+linking encoding emacs_mule.bundle
+compiling ./enc/euc_jp.c
+linking encoding euc_jp.bundle
+compiling ./enc/euc_kr.c
+linking encoding euc_kr.bundle
+compiling ./enc/euc_tw.c
+linking encoding euc_tw.bundle
+compiling ./enc/gb2312.c
+linking encoding gb2312.bundle
+compiling ./enc/gb18030.c
+linking encoding gb18030.bundle
+compiling ./enc/gbk.c
+linking encoding gbk.bundle
+compiling ./enc/iso_8859_1.c
+linking encoding iso_8859_1.bundle
+compiling ./enc/iso_8859_2.c
+linking encoding iso_8859_2.bundle
+compiling ./enc/iso_8859_3.c
+linking encoding iso_8859_3.bundle
+compiling ./enc/iso_8859_4.c
+linking encoding iso_8859_4.bundle
+compiling ./enc/iso_8859_5.c
+linking encoding iso_8859_5.bundle
+compiling ./enc/iso_8859_6.c
+linking encoding iso_8859_6.bundle
+compiling ./enc/iso_8859_7.c
+linking encoding iso_8859_7.bundle
+compiling ./enc/iso_8859_8.c
+linking encoding iso_8859_8.bundle
+compiling ./enc/iso_8859_9.c
+linking encoding iso_8859_9.bundle
+compiling ./enc/iso_8859_10.c
+linking encoding iso_8859_10.bundle
+compiling ./enc/iso_8859_11.c
+linking encoding iso_8859_11.bundle
+compiling ./enc/iso_8859_13.c
+linking encoding iso_8859_13.bundle
+compiling ./enc/iso_8859_14.c
+linking encoding iso_8859_14.bundle
+compiling ./enc/iso_8859_15.c
+linking encoding iso_8859_15.bundle
+compiling ./enc/iso_8859_16.c
+linking encoding iso_8859_16.bundle
+compiling ./enc/koi8_r.c
+linking encoding koi8_r.bundle
+compiling ./enc/koi8_u.c
+linking encoding koi8_u.bundle
+compiling ./enc/shift_jis.c
+linking encoding shift_jis.bundle
+compiling ./enc/utf_16be.c
+linking encoding utf_16be.bundle
+compiling ./enc/utf_16le.c
+linking encoding utf_16le.bundle
+compiling ./enc/utf_32be.c
+linking encoding utf_32be.bundle
+compiling ./enc/utf_32le.c
+linking encoding utf_32le.bundle
+compiling ./enc/windows_31j.c
+linking encoding windows_31j.bundle
+compiling ./enc/windows_1251.c
+linking encoding windows_1251.bundle
+making srcs under enc
+make[1]: Nothing to be done for `srcs'.
+generating transdb.h
+transdb.h unchanged
+making trans
+compiling ./enc/trans/transdb.c
+linking transcoder transdb.bundle
+compiling ./enc/trans/big5.c
+linking transcoder big5.bundle
+compiling ./enc/trans/chinese.c
+linking transcoder chinese.bundle
+compiling ./enc/trans/emoji.c
+linking transcoder emoji.bundle
+compiling ./enc/trans/emoji_iso2022_kddi.c
+linking transcoder emoji_iso2022_kddi.bundle
+compiling ./enc/trans/emoji_sjis_docomo.c
+linking transcoder emoji_sjis_docomo.bundle
+compiling ./enc/trans/emoji_sjis_kddi.c
+linking transcoder emoji_sjis_kddi.bundle
+compiling ./enc/trans/emoji_sjis_softbank.c
+linking transcoder emoji_sjis_softbank.bundle
+compiling ./enc/trans/escape.c
+linking transcoder escape.bundle
+compiling ./enc/trans/gb18030.c
+linking transcoder gb18030.bundle
+compiling ./enc/trans/gbk.c
+linking transcoder gbk.bundle
+compiling ./enc/trans/iso2022.c
+linking transcoder iso2022.bundle
+compiling ./enc/trans/japanese.c
+linking transcoder japanese.bundle
+compiling ./enc/trans/japanese_euc.c
+linking transcoder japanese_euc.bundle
+compiling ./enc/trans/japanese_sjis.c
+linking transcoder japanese_sjis.bundle
+compiling ./enc/trans/korean.c
+linking transcoder korean.bundle
+compiling ./enc/trans/single_byte.c
+linking transcoder single_byte.bundle
+compiling ./enc/trans/utf8_mac.c
+linking transcoder utf8_mac.bundle
+compiling ./enc/trans/utf_16_32.c
+linking transcoder utf_16_32.bundle
+making encs
+generating makefile exts.mk
+configuring -test-/array/resize
+configuring -test-/bug-3571
+configuring -test-/bug-3662
+configuring -test-/bug-5832
+configuring -test-/debug
+configuring -test-/exception
+configuring -test-/fatal
+configuring -test-/funcall
+configuring -test-/iter
+configuring -test-/load/dot.dot
+configuring -test-/marshal/compat
+configuring -test-/marshal/usr
+configuring -test-/method
+configuring -test-/num2int
+configuring -test-/old_thread_select
+configuring -test-/path_to_class
+configuring -test-/printf
+configuring -test-/st/numhash
+configuring -test-/st/update
+configuring -test-/string
+configuring -test-/symbol
+configuring -test-/typeddata
+configuring -test-/wait_for_single_fd
+configuring -test-/win32/dln
+Failed to configure -test-/win32/dln. It will not be installed.
+configuring -test-/win32/fd_setsize
+Failed to configure -test-/win32/fd_setsize. It will not be installed.
+configuring bigdecimal
+configuring continuation
+configuring coverage
+configuring curses
+header: ncurses.h
+library: ncurses
+configuring date
+configuring dbm
+header: ndbm.h
+library: libc
+configuring digest
+configuring digest/bubblebabble
+configuring digest/md5
+configuring digest/rmd160
+configuring digest/sha1
+configuring digest/sha2
+configuring dl
+configuring dl/callback
+configuring dl/win32
+Failed to configure dl/win32. It will not be installed.
+configuring etc
+configuring fcntl
+configuring fiber
+configuring fiddle
+configuring fiddle/win32
+Failed to configure fiddle/win32. It will not be installed.
+configuring gdbm
+Failed to configure gdbm. It will not be installed.
+configuring io/console
+configuring io/nonblock
+configuring io/wait
+configuring json
+configuring json/generator
+configuring json/parser
+configuring mathn/complex
+configuring mathn/rational
+configuring nkf
+configuring objspace
+configuring openssl
+Ignore OpenSSL broken by Apple.
+Please use another openssl. (e.g. using `configure --with-openssl-dir=/path/to/openssl')
+Failed to configure openssl. It will not be installed.
+configuring pathname
+configuring psych
+configuring pty
+configuring racc/cparse
+configuring readline
+configuring ripper
+configuring sdbm
+configuring socket
+configuring stringio
+configuring strscan
+configuring syslog
+configuring tk/tkutil
+Failed to configure tk/tkutil. It will not be installed.
+configuring win32ole
+Failed to configure win32ole. It will not be installed.
+configuring zlib
+compiling resize.c
+linking shared-object -test-/array/resize.bundle
+installing default resize libraries
+compiling bug.c
+linking shared-object -test-/bug-3571/bug.bundle
+installing default bug libraries
+compiling bug.c
+linking shared-object -test-/bug-3662/bug.bundle
+installing default bug libraries
+compiling bug.c
+linking shared-object -test-/bug-5832/bug.bundle
+installing default bug libraries
+compiling init.c
+compiling inspector.c
+linking shared-object -test-/debug.bundle
+installing default debug libraries
+compiling enc_raise.c
+compiling ensured.c
+compiling init.c
+linking shared-object -test-/exception.bundle
+installing default exception libraries
+compiling rb_fatal.c
+linking shared-object -test-/fatal/rb_fatal.bundle
+installing default rb_fatal libraries
+compiling passing_block.c
+linking shared-object -test-/funcall/funcall.bundle
+installing default funcall libraries
+compiling break.c
+linking shared-object -test-/iter/break.bundle
+installing default break libraries
+compiling dot.dot.c
+linking shared-object -test-/load/dot.dot/dot.dot.bundle
+installing default dot.dot libraries
+compiling usrcompat.c
+linking shared-object -test-/marshal/compat.bundle
+installing default compat libraries
+compiling usrmarshal.c
+linking shared-object -test-/marshal/usr.bundle
+installing default usr libraries
+compiling arity.c
+compiling init.c
+linking shared-object -test-/method.bundle
+installing default method libraries
+compiling num2int.c
+linking shared-object -test-/num2int/num2int.bundle
+installing default num2int libraries
+compiling old_thread_select.c
+linking shared-object -test-/old_thread_select/old_thread_select.bundle
+installing default old_thread_select libraries
+compiling path_to_class.c
+linking shared-object -test-/path_to_class/path_to_class.bundle
+installing default path_to_class libraries
+compiling printf.c
+linking shared-object -test-/printf.bundle
+installing default printf libraries
+compiling numhash.c
+linking shared-object -test-/st/numhash.bundle
+installing default numhash libraries
+compiling update.c
+linking shared-object -test-/st/update.bundle
+installing default update libraries
+compiling coderange.c
+compiling cstr.c
+compiling ellipsize.c
+compiling enc_associate.c
+compiling enc_str_buf_cat.c
+compiling init.c
+compiling modify.c
+compiling qsort.c
+compiling set_len.c
+linking shared-object -test-/string/string.bundle
+installing default string libraries
+compiling init.c
+compiling intern.c
+compiling type.c
+linking shared-object -test-/symbol/symbol.bundle
+installing default symbol libraries
+compiling typeddata.c
+linking shared-object -test-/typeddata/typeddata.bundle
+installing default typeddata libraries
+compiling wait_for_single_fd.c
+linking shared-object -test-/wait_for_single_fd/wait_for_single_fd.bundle
+installing default wait_for_single_fd libraries
+make[2]: Nothing to be done for `all'.
+make[2]: Nothing to be done for `all'.
+compiling bigdecimal.c
+linking shared-object bigdecimal.bundle
+installing default bigdecimal libraries
+compiling continuation.c
+linking shared-object continuation.bundle
+installing default continuation libraries
+compiling coverage.c
+linking shared-object coverage.bundle
+installing default coverage libraries
+compiling curses.c
+linking shared-object curses.bundle
+installing default curses libraries
+compiling date_core.c
+compiling date_parse.c
+compiling date_strftime.c
+compiling date_strptime.c
+linking shared-object date_core.bundle
+installing default date_core libraries
+compiling dbm.c
+linking shared-object dbm.bundle
+installing default dbm libraries
+compiling digest.c
+linking shared-object digest.bundle
+installing digest libraries
+installing default digest libraries
+compiling bubblebabble.c
+linking shared-object digest/bubblebabble.bundle
+installing default bubblebabble libraries
+compiling md5init.c
+compiling md5.c
+linking shared-object digest/md5.bundle
+installing default md5 libraries
+compiling rmd160init.c
+compiling rmd160.c
+linking shared-object digest/rmd160.bundle
+installing default rmd160 libraries
+compiling sha1init.c
+compiling sha1.c
+linking shared-object digest/sha1.bundle
+installing default sha1 libraries
+compiling sha2init.c
+compiling sha2.c
+linking shared-object digest/sha2.bundle
+installing default sha2 libraries
+compiling cfunc.c
+compiling cptr.c
+compiling dl.c
+compiling handle.c
+linking shared-object dl.bundle
+installing dl libraries
+installing default dl libraries
+compiling callback.c
+compiling callback-0.c
+compiling callback-1.c
+compiling callback-2.c
+compiling callback-3.c
+compiling callback-4.c
+compiling callback-5.c
+compiling callback-6.c
+compiling callback-7.c
+compiling callback-8.c
+linking shared-object dl/callback.bundle
+installing default callback libraries
+make[2]: Nothing to be done for `all'.
+compiling etc.c
+linking shared-object etc.bundle
+installing default etc libraries
+compiling fcntl.c
+linking shared-object fcntl.bundle
+installing default fcntl libraries
+compiling fiber.c
+linking shared-object fiber.bundle
+installing default fiber libraries
+compiling closure.c
+compiling conversions.c
+compiling fiddle.c
+compiling function.c
+compiling handle.c
+compiling pointer.c
+linking shared-object fiddle.bundle
+installing default fiddle libraries
+make[2]: Nothing to be done for `all'.
+make[2]: Nothing to be done for `all'.
+compiling console.c
+linking shared-object io/console.bundle
+installing default console libraries
+compiling nonblock.c
+linking shared-object io/nonblock.bundle
+installing default nonblock libraries
+compiling wait.c
+linking shared-object io/wait.bundle
+installing default wait libraries
+installing default libraries
+compiling generator.c
+linking shared-object json/ext/generator.bundle
+installing default generator libraries
+compiling parser.c
+linking shared-object json/ext/parser.bundle
+installing default parser libraries
+compiling complex.c
+linking shared-object mathn/complex.bundle
+installing default complex libraries
+compiling rational.c
+linking shared-object mathn/rational.bundle
+installing default rational libraries
+compiling nkf.c
+linking shared-object nkf.bundle
+installing default nkf libraries
+compiling objspace.c
+linking shared-object objspace.bundle
+installing default objspace libraries
+make[2]: Nothing to be done for `all'.
+compiling pathname.c
+linking shared-object pathname.bundle
+installing default pathname libraries
+compiling psych.c
+compiling psych_emitter.c
+compiling psych_parser.c
+compiling psych_to_ruby.c
+compiling psych_yaml_tree.c
+compiling ../.././ext/psych/yaml/api.c
+compiling ../.././ext/psych/yaml/dumper.c
+compiling ../.././ext/psych/yaml/emitter.c
+compiling ../.././ext/psych/yaml/loader.c
+compiling ../.././ext/psych/yaml/parser.c
+compiling ../.././ext/psych/yaml/reader.c
+compiling ../.././ext/psych/yaml/scanner.c
+compiling ../.././ext/psych/yaml/writer.c
+linking shared-object psych.bundle
+installing default psych libraries
+compiling pty.c
+linking shared-object pty.bundle
+installing default pty libraries
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+installing default cparse libraries
+compiling readline.c
+linking shared-object readline.bundle
+installing default readline libraries
+compiling ripper.c
+linking shared-object ripper.bundle
+installing default ripper libraries
+checking ../.././parse.y and ../.././ext/ripper/eventids2.c
+compiling _sdbm.c
+compiling init.c
+linking shared-object sdbm.bundle
+installing default sdbm libraries
+generating constant definitions
+compiling init.c
+compiling constants.c
+compiling basicsocket.c
+compiling socket.c
+compiling ipsocket.c
+compiling tcpsocket.c
+compiling tcpserver.c
+compiling sockssocket.c
+compiling udpsocket.c
+compiling unixsocket.c
+compiling unixserver.c
+compiling option.c
+compiling ancdata.c
+compiling raddrinfo.c
+linking shared-object socket.bundle
+installing default socket libraries
+compiling stringio.c
+linking shared-object stringio.bundle
+installing default stringio libraries
+compiling strscan.c
+linking shared-object strscan.bundle
+installing default strscan libraries
+compiling syslog.c
+linking shared-object syslog.bundle
+installing default syslog libraries
+make[2]: Nothing to be done for `all'.
+make[2]: Nothing to be done for `all'.
+compiling zlib.c
+linking shared-object zlib.bundle
+installing default zlib libraries
+linking shared-library libruby.2.0.0.dylib
+linking ruby
+Generating RDoc documentation
+
+Generating RI format into /Users/appurify/.rvm/src/ruby-2.0.0-p451/.ext/rdoc...
+
+Files:        906
+
+Classes:     1413 (   0 undocumented)
+Modules:      313 (   5 undocumented)
+Constants:   2284 ( 724 undocumented)
+Attributes:  1139 ( 340 undocumented)
+Methods:    10878 (2557 undocumented)
+
+Total:      16027 (3626 undocumented)
+ 77.38% documented
+
+Elapsed: 133.1s

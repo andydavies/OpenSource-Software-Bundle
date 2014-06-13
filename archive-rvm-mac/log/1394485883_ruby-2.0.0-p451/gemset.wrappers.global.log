@@ -1,0 +1,19 @@
+[2014-03-10 14:18:14] run_gem_wrappers_regenerate
+run_gem_wrappers_regenerate () 
+{ 
+    gem_install gem-wrappers && gem wrappers regenerate || return $?
+}
+current path: /Users/appurify/.rvm/src/ruby-2.0.0-p451
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.0.0-p451@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.0.0-p451@global/bin:/Users/appurify/.rvm/rubies/ruby-2.0.0-p451/bin:/Users/appurify/.rvm/bin:/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.0.0-p451@global
+command(1): run_gem_wrappers_regenerate
+[2014-03-10 14:18:14] gem
+current path: /Users/appurify/.rvm/src/ruby-2.0.0-p451
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.0.0-p451@global
+PATH=/Users/appurify/.rvm/gems/ruby-2.0.0-p451@global/bin:/Users/appurify/.rvm/rubies/ruby-2.0.0-p451/bin:/Users/appurify/.rvm/bin:/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.0.0-p451@global
+command(5): gem install /Users/appurify/.rvm/gem-cache/gem-wrappers-1.2.4.gem --no-ri --no-rdoc
+installing gem /Users/appurify/.rvm/gem-cache/gem-wrappers-1.2.4.gem --no-ri --no-rdoc
+ERROR:  While executing gem ... (Gem::Exception)
+    Unable to require openssl, install OpenSSL and rebuild ruby (preferred) or use non-HTTPS sources

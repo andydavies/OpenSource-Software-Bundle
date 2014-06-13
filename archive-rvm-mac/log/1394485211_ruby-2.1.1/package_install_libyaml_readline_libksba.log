@@ -1,0 +1,47 @@
+[2014-03-10 14:00:31] requirements_osx_port_libs_install
+requirements_osx_port_libs_install () 
+{ 
+    __rvm_try_sudo port install "$@" || { 
+        typeset ret=$?;
+        rvm_warn "There were package installation errors, make sure to read the log.";
+        return $ret
+    }
+}
+current path: /Users/appurify/.rvm/src/rvm
+PATH=/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+command(4): requirements_osx_port_libs_install libyaml readline libksba
+Warning: configured user/group macports does not exist, will build as root
+--->  Fetching archive for libyaml
+--->  Attempting to fetch libyaml-0.1.4_1.darwin_12.x86_64.tbz2 from http://packages.macports.org/libyaml
+--->  Attempting to fetch libyaml-0.1.4_1.darwin_12.x86_64.tbz2.rmd160 from http://packages.macports.org/libyaml
+--->  Installing libyaml @0.1.4_1
+--->  Activating libyaml @0.1.4_1
+--->  Cleaning libyaml
+Warning: configured user/group macports does not exist, will build as root
+--->  Computing dependencies for readline
+--->  Fetching archive for readline
+--->  Attempting to fetch readline-6.2.000_0.darwin_12.x86_64.tbz2 from http://packages.macports.org/readline
+--->  Attempting to fetch readline-6.2.000_0.darwin_12.x86_64.tbz2.rmd160 from http://packages.macports.org/readline
+--->  Installing readline @6.2.000_0
+--->  Activating readline @6.2.000_0
+--->  Cleaning readline
+Warning: configured user/group macports does not exist, will build as root
+--->  Computing dependencies for libksba
+--->  Dependencies to be installed: libgpg-error
+Warning: configured user/group macports does not exist, will build as root
+--->  Fetching archive for libgpg-error
+--->  Attempting to fetch libgpg-error-1.12_0.darwin_12.x86_64.tbz2 from http://packages.macports.org/libgpg-error
+--->  Attempting to fetch libgpg-error-1.12_0.darwin_12.x86_64.tbz2.rmd160 from http://packages.macports.org/libgpg-error
+--->  Installing libgpg-error @1.12_0
+--->  Activating libgpg-error @1.12_0
+--->  Cleaning libgpg-error
+--->  Fetching archive for libksba
+--->  Attempting to fetch libksba-1.0.8_0.darwin_12.x86_64.tbz2 from http://packages.macports.org/libksba
+--->  Attempting to fetch libksba-1.0.8_0.darwin_12.x86_64.tbz2.rmd160 from http://packages.macports.org/libksba
+--->  Installing libksba @1.0.8_0
+--->  Activating libksba @1.0.8_0
+--->  Cleaning libksba
+--->  Updating database of binaries
+Warning: Error parsing file /Applications/MacPorts/Python 2.7/Python Launcher.app/Contents/MacOS/Python Launcher: Error opening or reading file
+--->  Scanning binaries for linking errors
+--->  No broken files found.

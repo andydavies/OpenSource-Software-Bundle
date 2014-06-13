@@ -1,0 +1,10 @@
+[2014-03-13 14:45:44] __rvm_rm_rf
+__rvm_rm_rf () 
+{ 
+    __rvm_rm_rf_verbose "$@"
+}
+current path: /Users/appurify
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1/bin:/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/salt/homebrew/bin:/android-sdk/platform-tools:/opt/local/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1:/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(2): __rvm_rm_rf /Users/appurify/.rvm/rubies/ruby-2.0.0-p451

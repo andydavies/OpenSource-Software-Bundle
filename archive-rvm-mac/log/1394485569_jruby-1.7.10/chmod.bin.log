@@ -1,0 +1,13 @@
+[2014-03-10 14:09:24] __rvm_set_executable
+__rvm_set_executable () 
+{ 
+    for __file in "$@";
+    do
+        [[ -x "${__file}" ]] || chmod +x "${__file}";
+    done
+}
+current path: /Users/appurify/.rvm/src/jruby-1.7.10
+GEM_HOME=/Users/appurify/.rvm/gems/ruby-2.1.1
+PATH=/Users/appurify/.rvm/gems/ruby-2.1.1/bin:/Users/appurify/.rvm/gems/ruby-2.1.1@global/bin:/Users/appurify/.rvm/rubies/ruby-2.1.1/bin:/salt/homebrew/bin:/opt/local/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+GEM_PATH=/Users/appurify/.rvm/gems/ruby-2.1.1:/Users/appurify/.rvm/gems/ruby-2.1.1@global
+command(31): __rvm_set_executable /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/ast /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/gem /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/gem.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/generate_parser /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/install_doc /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/irb /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/irb.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jgem /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jirb /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jirb.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jirb_swing /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jirb_swing.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby.bash /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby.dll /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby.exe /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jruby.sh /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jrubyc /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jrubyd.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/jrubyw.exe /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/optimize_parser.rb /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/patch_parser.rb /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/rake /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/rdoc /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/rdoc.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/ri /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/ri.bat /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/ruby /Users/appurify/.rvm/rubies/jruby-1.7.10/bin/testrb

@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require 'xamarin-test-cloud/cli'
+require 'xamarin-test-cloud/version'
+
+begin
+  ENV['THOR_DEBUG'] = '1'
+  XamarinTestCloud::CLI.start
+  exit(true)
+rescue XamarinTestCloud::ValidationError, Thor::RequiredArgumentMissingError, Thor::UndefinedCommandError => e
+  puts e.message
+  exit 64
+rescue Thor::Error => e
+  puts e.message
+  if ENV['DEBUG'] == '1'
+    puts e.backtrace.join("\n") if e.backtrace
+    p e.class
+  end
+  exit 70
+end

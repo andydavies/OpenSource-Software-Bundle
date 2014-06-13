@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+if
+  [[ -s "/Users/appurify/.rvm/gems/ruby-2.1.1/environment" ]]
+then
+  source "/Users/appurify/.rvm/gems/ruby-2.1.1/environment"
+  exec rake "$@"
+else
+  echo "ERROR: Missing RVM environment file: '/Users/appurify/.rvm/gems/ruby-2.1.1/environment'" >&2
+  exit 1
+fi

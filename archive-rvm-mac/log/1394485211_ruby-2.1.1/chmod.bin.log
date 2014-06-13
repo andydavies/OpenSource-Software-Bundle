@@ -1,0 +1,11 @@
+[2014-03-10 14:05:51] __rvm_set_executable
+__rvm_set_executable () 
+{ 
+    for __file in "$@";
+    do
+        [[ -x "${__file}" ]] || chmod +x "${__file}";
+    done
+}
+current path: /Users/appurify/.rvm/src/ruby-2.1.1
+PATH=/opt/local/bin:/salt/homebrew/bin:/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/Users/appurify/.rvm/bin
+command(9): __rvm_set_executable /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/erb /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/gem /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/irb /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/rake /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/rdoc /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/ri /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/ruby /Users/appurify/.rvm/rubies/ruby-2.1.1/bin/testrb
